@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 
 const Account = () => (
   <div>
-    <div class="row">
+    <div className="row">
       <h1>Account</h1>
     </div>
-    <div class="row">
-      <div class="six columns">
+    <div className="row">
+      <div className="six columns">
       </div>
-      <div class="six columns">
+      <div className="six columns">
       </div>
     </div>
   </div>

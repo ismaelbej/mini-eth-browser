@@ -22,3 +22,20 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.navbar-list {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.navbar-item {
+  position: relative;
+  float: left;
+  margin-bottom: 0;
+}
+
+.navbar-item a {
+    margin-right: 35px;
+    text-decoration: none;
+    line-height: 6.5rem;
+}

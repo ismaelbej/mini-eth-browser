@@ -2,19 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => (
-  <nav class="navbar">
-    <div class="container">
-      <ul class="navbar-list">
-        <li class="navbar-item" >
+  <nav className="navbar">
+    <div className="container">
+      <ul className="navbar-list">
+        <li className="navbar-item" >
           <Link to="/block">Blocks</Link>
         </li>
-        <li class="navbar-item" >
+        <li className="navbar-item" >
           <Link to="/tx">Transactions</Link>
         </li>
-        <li class="navbar-item" >
+        <li className="navbar-item" >
           <Link to="/account">Accounts</Link>
         </li>
-        <li class="navbar-item" >
+        <li className="navbar-item" >
           <Link to="/contract">Contracts</Link>
         </li>
       </ul>
