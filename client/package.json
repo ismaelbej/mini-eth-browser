@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
     "react-scripts": "1.0.10",
-    "react-skeleton-css": "^1.0.2"
+    "react-skeleton-css": "^1.0.2",
+    "unfetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
