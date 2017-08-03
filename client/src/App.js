@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 import 'react-skeleton-css/styles/skeleton.2.0.4.css';
 import './App.css';
@@ -17,11 +18,13 @@ const App = () => (
     <div>
       <Navbar />
       <div className="container">
-        <Route exact path="/" component={Home} />
-        <Route path="/block" component={Block} />
-        <Route path="/tx" component={Transaction} />
-        <Route path="/account" component={Account} />
-        <Route path="/contract" component={Contract} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/block" component={Block} />
+          <Route path="/tx" component={Transaction} />
+          <Route path="/account" component={Account} />
+          <Route path="/contract" component={Contract} />
+        </Switch>
       </div>
     </div>
   </Router>
