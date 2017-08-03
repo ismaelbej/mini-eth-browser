@@ -6,6 +6,9 @@ const Navbar = () => (
     <div className="container">
       <ul className="navbar-list">
         <li className="navbar-item" >
+          <Link to="/">Home</Link>
+        </li>
+        <li className="navbar-item" >
           <Link to="/block">Blocks</Link>
         </li>
         <li className="navbar-item" >
