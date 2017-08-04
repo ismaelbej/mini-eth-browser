@@ -1,13 +1,20 @@
 const express = require('express');
+const ethereum = require('../lib/ethereum');
 
 const router = express.Router();
 
-router.get('/:hash', function (req, res) {
-  res.json({
-    tx: {
-      hash: req.params.hash,
-    }
-  });
+router.get('/:txid', async function (req, res) {
+  try {
+    const tx = await ethereum.getTransactionInfo(req.params.txid);
+    res.json({
+      tx
+    });
+  } catch (err) {
+    res.status(err.status || 500);
+    res.json({
+      errors: [ err.message ]
+    });
+  }
 });
 
 module.exports = router;
