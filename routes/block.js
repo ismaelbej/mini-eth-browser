@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 
 router.get('/:hash', async function (req, res) {
   try {
-    blockInfo = await ethereum.getBlockInfo(req.params.hash);
+    const blockInfo = await ethereum.getBlockInfo(req.params.hash);
     res.json({
       block: blockInfo,
     });
