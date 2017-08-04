@@ -52,13 +52,8 @@ class BlockListView extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <h1>Block</h1>
-        </div>
-        <div className="row">
-          {this.state.blocks && <BlockList blocks={this.state.blocks} />}
-          {!this.state.blocks && 'Loading...'}
-        </div>
+        {this.state.blocks && <BlockList blocks={this.state.blocks} />}
+        {!this.state.blocks && 'Loading...'}
       </div>
     );
   }
@@ -100,23 +95,25 @@ class BlockInfoView extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <h1>Block</h1>
-        </div>
-        <div className="row">
-          {this.state.block && <BlockInfo block={this.state.block} />}
-          {!this.state.block && 'Loading...'}
-        </div>
+        {this.state.block && <BlockInfo block={this.state.block} />}
+        {!this.state.block && 'Loading...'}
       </div>
     );
   }
 }
 
 const BlockView = () => (
-  <Switch>
-    <Route exact path="/block" component={BlockListView} />
-    <Route path="/block/:hash" component={BlockInfoView} />
-  </Switch>
+  <div>
+    <div className="row">
+      <h1>Block</h1>
+    </div>
+    <div className="row">
+      <Switch>
+        <Route exact path="/block" component={BlockListView} />
+        <Route path="/block/:hash" component={BlockInfoView} />
+      </Switch>
+    </div>
+  </div>
 );
 
 export default BlockView;
