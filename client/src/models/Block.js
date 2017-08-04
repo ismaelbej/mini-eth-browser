@@ -1,15 +1,19 @@
 import fetch from 'unfetch';
 
-class Block {
-  constructor(blockInfo) {
-    this.block = blockInfo;
-  }
-};
-
 export async function getBlockInfo(hash) {
-  const blockInfo = await fetch(`http://localhost:3001/api/v1/block/${hash}`)
+  const { block } = await fetch(`http://localhost:3001/api/v1/block/${hash}`)
     .then(r => r.json());
-  return new Block(blockInfo.block);
+  return { block };
 }
 
-export default Block;
+export async function getBlockList(start, count) {
+  const { blocks } = await fetch(`http://localhost:3001/api/v1/block/?start=${start}&count=${count}`)
+    .then(r => r.json());
+  return { blocks };
+
+}
+
+export default {
+  getBlockInfo,
+  getBlockList,
+};
