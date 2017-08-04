@@ -1,6 +1,6 @@
 import React from 'react';
 import { getBlockInfo } from '../models/Block';
-import BlockView from '../components/BlockView';
+import BlockInfo from '../components/BlockInfo';
 
 class Block extends React.Component {
 
@@ -12,9 +12,9 @@ class Block extends React.Component {
   }
 
   async componentDidMount() {
-    const blockInfo = await getBlockInfo(1);
+    const { block } = await getBlockInfo(1);
     this.setState({
-      block: blockInfo.block,
+      block,
     });
   }
 
@@ -25,7 +25,7 @@ class Block extends React.Component {
           <h1>Block</h1>
         </div>
         <div className="row">
-          {this.state.block && <BlockView block={this.state.block} />}
+          {this.state.block && <BlockInfo block={this.state.block} />}
           {!this.state.block && 'Loading...'}
         </div>
       </div>);
