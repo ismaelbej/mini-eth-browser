@@ -5,7 +5,7 @@ import { formatTimestamp } from '../utils/formatters';
 const BlockInfo = (props) => {
   const { block } = props;
   return (
-    <table>
+    <table className="u-full-width">
       <tbody>
         <tr>
           <td>Hash:</td>
