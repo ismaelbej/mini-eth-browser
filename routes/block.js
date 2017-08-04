@@ -1,17 +1,54 @@
 const express = require('express');
+const _ = require('lodash');
+const Promise = require('bluebird');
 const ethereum = require('../lib/ethereum');
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  res.json({ error: 'Missing block hash' });
+const BLOCK_COUNT = 25;
+
+
+router.get('/', async function (req, res) {
+  try {
+    let start = -1;
+    if (typeof req.query.start === 'string') {
+      start = parseInt(req.query.start);
+    }
+    if (start < 0) {
+      start = await ethereum.getLatestBlock();
+    }
+    let count = BLOCK_COUNT;
+    if (typeof req.query.count === 'string') {
+      count = parseInt(req.query.count);
+    }
+    if (count <= 0) {
+      count = BLOCK_COUNT;
+    }
+
+    if (start >= 0) {
+      const blocks = await Promise.map(_.range(start, _.max([0, start - count]), -1), blk => ethereum.getBlockInfo(blk));
+      res.json({
+        blocks,
+      });
+    } else {
+      res.status(500);
+      res.json({
+        errors: [ 'Invalid parameters' ]
+      });
+    }
+  } catch (err) {
+    res.status(err.status || 500);
+    res.json({
+      errors: [ err.message ]
+    });
+  }
 });
 
 router.get('/:hash', async function (req, res) {
   try {
-    const blockInfo = await ethereum.getBlockInfo(req.params.hash);
+    const block = await ethereum.getBlockInfo(req.params.hash);
     res.json({
-      block: blockInfo,
+      block,
     });
   } catch (err) {
     res.status(err.status || 500);
