@@ -13,17 +13,9 @@ import BlockInfo from '../components/BlockInfo';
 import BlockListView from '../components/BlockListView';
 
 const BlockListQuery = (props) => {
-  let { start, count } = queryString.parse(props.location.search);
-  start = parseInt(start);
-  count = parseInt(count);
-  const next = start - count;
-  const prev = start + count;
+  const { start, count } = queryString.parse(props.location.search);
   return (
     <div>
-      <div className="row">
-        <Link to={`/block/?start=${next}&count=${count}`}><button className="button-primary">Next</button></Link>
-        <Link to={`/block/?start=${prev}&count=${count}`}><button className="button-primary">Prev</button></Link>
-      </div>
       <BlockListView start={start} count={count} />
     </div>
   );
