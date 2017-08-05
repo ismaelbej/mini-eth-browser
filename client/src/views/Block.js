@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   Route,
   Switch
 } from 'react-router-dom';
@@ -9,54 +10,23 @@ import {
   getBlockList
 } from '../models/Block';
 import BlockInfo from '../components/BlockInfo';
-import BlockList from '../components/BlockList';
+import BlockListView from '../components/BlockListView';
 
-class BlockListView extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    const { start, count } = queryString.parse(props.location.search);
-
-    this.state = {
-      start: typeof start !== 'undefined' ? start : -1,
-      count: typeof count !== 'undefined' ? count : 25,
-      blocks: null
-    };
-  }
-
-  async loadBlockList(start, count) {
-    const { blocks } = await getBlockList(start, count);
-    this.setState({
-      blocks
-    });
-  }
-
-  componentDidMount() {
-    this.loadBlockList(this.state.start, this.state.count);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { start, count } = queryString.parse(nextProps.location.search)
-    if (this.state.start !== start ||
-      this.state.count !== count) {
-      this.setState({
-        start: start,
-        count: count,
-        blocks: null
-      });
-      this.loadBlockList(start, count);
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.blocks && <BlockList blocks={this.state.blocks} />}
-        {!this.state.blocks && 'Loading...'}
+const BlockListQuery = (props) => {
+  let { start, count } = queryString.parse(props.location.search);
+  start = parseInt(start);
+  count = parseInt(count);
+  const next = start - count;
+  const prev = start + count;
+  return (
+    <div>
+      <div className="row">
+        <Link to={`/block/?start=${next}&count=${count}`}><button className="button-primary">Next</button></Link>
+        <Link to={`/block/?start=${prev}&count=${count}`}><button className="button-primary">Prev</button></Link>
       </div>
-    );
-  }
+      <BlockListView start={start} count={count} />
+    </div>
+  );
 }
 
 class BlockInfoView extends React.Component {
@@ -109,7 +79,7 @@ const BlockView = () => (
     </div>
     <div className="row">
       <Switch>
-        <Route exact path="/block" component={BlockListView} />
+        <Route exact path="/block" component={BlockListQuery} />
         <Route path="/block/:hash" component={BlockInfoView} />
       </Switch>
     </div>
