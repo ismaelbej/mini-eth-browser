@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BlockListView from '../components/BlockListView';
+
+const HOME_BLOCK_COUNT = 10;
 
 const Home = () => (
   <div>
@@ -8,6 +11,8 @@ const Home = () => (
     </div>
     <div className="row">
       <div className="six columns">
+        <h3>Recent blocks</h3>
+        <BlockListView count={HOME_BLOCK_COUNT}/>
       </div>
       <div className="six columns">
       </div>
