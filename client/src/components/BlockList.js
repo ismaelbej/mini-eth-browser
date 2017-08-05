@@ -6,7 +6,7 @@ import {
   formatTimestamp
 } from '../utils/formatters';
 
-const BlockInfo = (props) => {
+const BlockList = (props) => {
   const { blocks } = props;
   return (
     <table className="u-full-width">
@@ -34,4 +34,4 @@ const BlockInfo = (props) => {
   );
 };
 
-export default BlockInfo;
+export default BlockList;
