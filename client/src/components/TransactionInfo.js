@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatTimestamp } from '../utils/formatters';
 
+const NULL_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
+
 const TransactionInfo = (props) => {
   const { tx } = props;
   return (
@@ -11,18 +13,22 @@ const TransactionInfo = (props) => {
           <td>Txid:</td>
           <td>{tx.hash}</td>
         </tr>
-        <tr>
+        {tx.blockHash !== NULL_HASH && <tr>
           <td>Block Hash:</td>
           <td><Link to={`/block/${tx.blockHash}`}>{tx.blockHash}</Link></td>
-        </tr>
-        <tr>
+        </tr>}
+        {tx.blockHash !== NULL_HASH && <tr>
           <td>Block Number:</td>
           <td><Link to={`/block/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
-        </tr>
-        <tr>
+        </tr>}
+        {tx.blockHash !== NULL_HASH && <tr>
           <td>Transaction Index:</td>
           <td>{tx.transactionIndex}</td>
-        </tr>
+        </tr>}
+        {tx.blockHash === NULL_HASH && <tr>
+          <td>Block:</td>
+          <td>Pending</td>
+        </tr>}
         <tr>
           <td>From:</td>
           <td><Link to={`/account/${tx.from}`}>{tx.from}</Link></td>
