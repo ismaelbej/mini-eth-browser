@@ -1,15 +1,10 @@
 import React from 'react';
 import {
-  Link,
   Route,
   Switch
 } from 'react-router-dom';
 import queryString from 'query-string';
-import {
-  getBlockInfo,
-  getBlockList
-} from '../models/Block';
-import BlockInfo from '../components/BlockInfo';
+import BlockInfoView from '../components/BlockInfoView';
 import BlockListView from '../components/BlockListView';
 
 const BlockListQuery = (props) => {
@@ -21,47 +16,13 @@ const BlockListQuery = (props) => {
   );
 }
 
-class BlockInfoView extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      block: null,
-      hash: props.match.params.hash,
-    };
-  }
-
-  async loadBlockInfo(hash) {
-    const { block } = await getBlockInfo(hash);
-    this.setState({
-      block,
-      hash
-    });
-  }
-
-  componentDidMount() {
-    this.loadBlockInfo(this.state.hash);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.hash !== nextProps.match.params.hash) {
-      this.setState({
-        block: null,
-        hash: nextProps.match.params.hash
-      });
-      this.loadBlockInfo(nextProps.match.params.hash);
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.block && <BlockInfo block={this.state.block} />}
-        {!this.state.block && 'Loading...'}
-      </div>
-    );
-  }
+const BlockInfoQuery = (props) => {
+  const hash = props.match.params.hash;
+  return (
+    <div>
+      <BlockInfoView hash={hash} />
+    </div>
+  );
 }
 
 const BlockView = () => (
@@ -72,7 +33,7 @@ const BlockView = () => (
     <div className="row">
       <Switch>
         <Route exact path="/block" component={BlockListQuery} />
-        <Route path="/block/:hash" component={BlockInfoView} />
+        <Route path="/block/:hash" component={BlockInfoQuery} />
       </Switch>
     </div>
   </div>
