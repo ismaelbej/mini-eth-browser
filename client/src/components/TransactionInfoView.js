@@ -18,7 +18,6 @@ class TransactionInfoView extends React.Component {
 
   async loadTransactionInfo(txid) {
     const { tx } = await getTransactionInfo(txid);
-    console.log(tx);
     this.setState({
       tx,
       txid
