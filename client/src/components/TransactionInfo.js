@@ -25,6 +25,10 @@ const TransactionInfo = (props) => {
           <td>Transaction Index:</td>
           <td>{tx.transactionIndex}</td>
         </tr>}
+        {tx.block && <tr>
+          <td>Date:</td>
+          <td>{formatTimestamp(tx.block.timestamp)}</td>
+        </tr>}
         {tx.blockHash === NULL_HASH && <tr>
           <td>Block:</td>
           <td>Pending</td>
@@ -36,7 +40,8 @@ const TransactionInfo = (props) => {
         <tr>
           <td>To:</td>
           {tx.to && <td><Link to={`/account/${tx.to}`}>{tx.to}</Link></td>}
-          {!tx.to && 'Contract creation'}
+          {!tx.to && tx.receipt.contractAddress && <td>Contract created <Link to={`/contract/${tx.receipt.contractAddress}`}>{tx.receipt.contractAddress}</Link></td>}
+          {!tx.to && !tx.receipt.contractAddress && <td>Contract creation faild</td>}
         </tr>
         <tr>
           <td>Gas:</td>
@@ -46,6 +51,10 @@ const TransactionInfo = (props) => {
           <td>Gas Price:</td>
           <td>{tx.gasPrice}</td>
         </tr>
+        {tx.receipt && <tr>
+          <td>Gas Used:</td>
+          <td>{tx.receipt.gasUsed}</td>
+        </tr>}
         <tr>
           <td>Nonce:</td>
           <td>{tx.nonce}</td>
