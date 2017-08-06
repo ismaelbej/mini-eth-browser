@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import BlockListView from '../components/BlockListView';
 
 const HOME_BLOCK_COUNT = 10;
