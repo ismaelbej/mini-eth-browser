@@ -15,14 +15,17 @@ class BlockListView extends React.Component {
     const { start, count } = props;
 
     this.state = {
-      start: typeof start !== 'undefined' ? start : BLOCK_START,
-      count: typeof count !== 'undefined' ? count : BLOCK_COUNT,
+      start,
+      count,
       blocks: null
     };
   }
 
   async loadBlockList(start, count) {
-    const { blocks } = await getBlockList(start, count);
+    const { blocks } = await getBlockList(
+      typeof start !== 'undefined' ? start : BLOCK_START,
+      typeof count !== 'undefined' ? count : BLOCK_COUNT
+    );
     this.setState({
       blocks
     });
@@ -37,8 +40,8 @@ class BlockListView extends React.Component {
     if (this.state.start !== start ||
       this.state.count !== count) {
       this.setState({
-        start: start,
-        count: count,
+        start,
+        count,
         blocks: null
       });
       this.loadBlockList(start, count);

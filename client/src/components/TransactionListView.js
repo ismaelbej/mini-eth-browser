@@ -15,15 +15,19 @@ class TransactionListView extends React.Component {
     const { block, start, count } = props;
     this.state = {
       txs: null,
-      block: typeof block !== 'undefined' ? block : '',
-      start: typeof start !== 'undefined' ? parseInt(start) : TX_START,
-      count: typeof count !== 'undefined' ? parseInt(count) : TX_COUNT
+      block,
+      start,
+      count
     };
     console.log(this.state);
   }
 
   async loadTransactionList(block, start, count) {
-    const { txs } = await getTransactionList(block, start, count);
+    const { txs } = await getTransactionList(
+      typeof block !== 'undefined' ? block : '',
+      typeof start !== 'undefined' ? parseInt(start) : TX_START,
+      typeof count !== 'undefined' ? parseInt(count) : TX_COUNT
+    );
     console.log(txs);
     this.setState({
       txs,
