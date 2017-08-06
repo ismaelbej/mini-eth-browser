@@ -3,26 +3,17 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import queryString from 'query-string';
 import TransactionInfoView from '../components/TransactionInfoView';
+import TransactionListView from '../components/TransactionListView';
 
-class TransactionListView extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      txs: null,
-      start: -1,
-      count: 25
-    };
-  }
-
-  render() {
-    return (
-      <div>
-      </div>
-    );
-  }
+const TransactionListQuery = (props) => {
+  const { block, start, count } = queryString.parse(props.location.search);
+  return (
+    <div>
+      <TransactionListView block={block} start={start} count={count} />
+    </div>
+  );
 }
 
 const TransactionInfoQuery = (props) => {
@@ -41,7 +32,7 @@ const TransactionView = () => (
     </div>
     <div className="row">
       <Switch>
-        <Route exact path="/tx" component={TransactionListView} />
+        <Route exact path="/tx" component={TransactionListQuery} />
         <Route path="/tx/:txid" component={TransactionInfoQuery} />
       </Switch>
     </div>
