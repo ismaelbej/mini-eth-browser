@@ -10,7 +10,7 @@ const TransactionInfo = (props) => {
     <table className="u-full-width">
       <tbody>
         <tr>
-          <td>Txid:</td>
+          <td>Hash:</td>
           <td>{tx.hash}</td>
         </tr>
         {tx.blockHash !== NULL_HASH && <tr>
