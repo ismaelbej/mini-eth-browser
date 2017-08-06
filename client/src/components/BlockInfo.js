@@ -53,7 +53,12 @@ const BlockInfo = (props) => {
         </tr>
         <tr>
           <td>Num. Transactions:</td>
-          <td>{block.transactions.length}</td>
+          {block.transactions.length === 0 && <td>
+            {block.transactions.length}
+          </td>}
+          {block.transactions.length > 0 && <td>
+            <Link to={`/tx/?block=${block.hash}`}>{block.transactions.length}</Link>
+          </td>}
         </tr>
         <tr>
           <td>Num. Uncles:</td>
