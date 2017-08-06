@@ -7,7 +7,6 @@ const router = express.Router();
 
 const BLOCK_COUNT = 25;
 
-
 router.get('/', async function (req, res) {
   try {
     let start = -1;
@@ -26,7 +25,7 @@ router.get('/', async function (req, res) {
     }
 
     if (start >= 0) {
-      const blocks = await Promise.map(_.range(start, _.max([0, start - count]), -1), blk => ethereum.getBlockInfo(blk));
+      const blocks = await Promise.map(_.range(start, _.max([0, start - count]) - 1, -1), blk => ethereum.getBlockInfo(blk));
       res.json({
         blocks,
       });
