@@ -29,6 +29,9 @@ const BlockList = (props) => {
           <td><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></td>
         </tr>
       ))}
+      {blocks.length === 0 && <tr>
+          <td colSpan="5">No blocks</td>
+        </tr>}
       </tbody>
     </table>
   );
