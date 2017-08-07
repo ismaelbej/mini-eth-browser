@@ -14,14 +14,14 @@ function parseParams(query) {
   }
   let start = 0;
   if (typeof query.start === 'string') {
-    start = parseInt(query.start);
+    start = parseInt(query.start, 10);
   }
   if (start < 0) {
     start = 0;
   }
   let count = TX_COUNT;
   if (typeof query.count === 'string') {
-    count = parseInt(query.count);
+    count = parseInt(query.count, 10);
   }
   if (count <= 0) {
     count = TX_COUNT;
@@ -29,11 +29,11 @@ function parseParams(query) {
   return {
     block,
     start,
-    count
+    count,
   };
 }
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
   try {
     const { block, start, count } = parseParams(req.query);
     if (block) {
@@ -41,32 +41,32 @@ router.get('/', async function (req, res) {
       const txids = blockInfo.transactions.slice(start, start + count);
       const txs = await Promise.all(txids.map(ethereum.getTransactionInfo));
       res.json({
-        txs
+        txs,
       });
     } else {
       const txs = await ethereum.getPendingTransactions();
       res.json({
-        txs
+        txs,
       });
     }
   } catch (err) {
     res.status(err.status || 500);
     res.json({
-      errors: [ err.message ]
+      errors: [err.message],
     });
   }
 });
 
-router.get('/:txid', async function (req, res) {
+router.get('/:txid', async (req, res) => {
   try {
     const tx = await ethereum.getTransactionInfo(req.params.txid);
     res.json({
-      tx
+      tx,
     });
   } catch (err) {
     res.status(err.status || 500);
     res.json({
-      errors: [ err.message ]
+      errors: [err.message],
     });
   }
 });
