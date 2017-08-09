@@ -79,8 +79,8 @@ class BlockListQuery extends React.Component {
   render() {
     return (
       <div>
-        {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}`}><button className="button-primary">Next</button></Link>}
-        {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}`}><button className="button-primary">Previous</button></Link>}
+        {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Next</button></Link>}
+        {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Previous</button></Link>}
         <BlockListView
           start={this.state.start}
           count={this.state.count}
