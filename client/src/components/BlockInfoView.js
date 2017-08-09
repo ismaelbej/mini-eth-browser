@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  getBlockInfo
+  getBlockInfo,
 } from '../models/Block';
 import BlockInfo from './BlockInfo';
 
 class BlockInfoView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -13,16 +12,8 @@ class BlockInfoView extends React.Component {
 
     this.state = {
       block: null,
-      hash: hash,
+      hash,
     };
-  }
-
-  async loadBlockInfo(hash) {
-    const { block } = await getBlockInfo(hash);
-    this.setState({
-      block,
-      hash
-    });
   }
 
   componentDidMount() {
@@ -34,10 +25,18 @@ class BlockInfoView extends React.Component {
     if (this.state.hash !== hash) {
       this.setState({
         block: null,
-        hash
+        hash,
       });
       this.loadBlockInfo(hash);
     }
+  }
+
+  async loadBlockInfo(hash) {
+    const { block } = await getBlockInfo(hash);
+    this.setState({
+      block,
+      hash,
+    });
   }
 
   render() {

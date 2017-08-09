@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  getBlockList
+  getBlockList,
 } from '../models/Block';
 import BlockList from './BlockList';
 
@@ -8,7 +8,6 @@ const BLOCK_START = -1;
 const BLOCK_COUNT = 25;
 
 class BlockListView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -17,18 +16,8 @@ class BlockListView extends React.Component {
     this.state = {
       start,
       count,
-      blocks: null
+      blocks: null,
     };
-  }
-
-  async loadBlockList(start, count) {
-    const { blocks } = await getBlockList(
-      typeof start !== 'undefined' ? start : BLOCK_START,
-      typeof count !== 'undefined' ? count : BLOCK_COUNT
-    );
-    this.setState({
-      blocks
-    });
   }
 
   componentDidMount() {
@@ -42,10 +31,20 @@ class BlockListView extends React.Component {
       this.setState({
         start,
         count,
-        blocks: null
+        blocks: null,
       });
       this.loadBlockList(start, count);
     }
+  }
+
+  async loadBlockList(start, count) {
+    const { blocks } = await getBlockList(
+      typeof start !== 'undefined' ? start : BLOCK_START,
+      typeof count !== 'undefined' ? count : BLOCK_COUNT,
+    );
+    this.setState({
+      blocks,
+    });
   }
 
   render() {

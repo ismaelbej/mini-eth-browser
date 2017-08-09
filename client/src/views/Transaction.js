@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import queryString from 'query-string';
 import TransactionInfoView from '../components/TransactionInfoView';
@@ -14,7 +14,7 @@ const TransactionListQuery = (props) => {
       <TransactionListView block={block} start={start} count={count} />
     </div>
   );
-}
+};
 
 const TransactionInfoQuery = (props) => {
   const { txid } = props.match.params;
@@ -23,7 +23,7 @@ const TransactionInfoQuery = (props) => {
       <TransactionInfoView txid={txid} />
     </div>
   );
-}
+};
 
 const TransactionView = () => (
   <div>

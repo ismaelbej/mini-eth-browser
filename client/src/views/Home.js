@@ -11,10 +11,9 @@ const Home = () => (
     <div className="row">
       <div className="six columns">
         <h3>Recent blocks</h3>
-        <BlockListView count={HOME_BLOCK_COUNT}/>
+        <BlockListView count={HOME_BLOCK_COUNT} />
       </div>
-      <div className="six columns">
-      </div>
+      <div className="six columns" />
     </div>
   </div>
 );

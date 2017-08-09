@@ -7,7 +7,7 @@ export function formatTimestamp(timestamp) {
 }
 
 export function formatHash(hash, length = HASH_LENGTH) {
-  return hash.length > length ? hash.substr(0, length - 2) + '..' : hash;
+  return hash.length > length ? `${hash.substr(0, length - 2)}..` : hash;
 }
 
 export const formatAddress = formatHash;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  getTransactionList
+  getTransactionList,
 } from '../models/Transaction';
 import TransactionList from './TransactionList';
 
@@ -8,7 +8,6 @@ const TX_START = 0;
 const TX_COUNT = 10;
 
 class TransactionListView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -17,22 +16,8 @@ class TransactionListView extends React.Component {
       txs: null,
       block,
       start,
-      count
+      count,
     };
-  }
-
-  async loadTransactionList(block, start, count) {
-    const { txs } = await getTransactionList(
-      typeof block !== 'undefined' ? block : '',
-      typeof start !== 'undefined' ? parseInt(start) : TX_START,
-      typeof count !== 'undefined' ? parseInt(count) : TX_COUNT
-    );
-    this.setState({
-      txs,
-      block,
-      start,
-      count
-    });
   }
 
   componentDidMount() {
@@ -48,10 +33,24 @@ class TransactionListView extends React.Component {
         txs: null,
         block,
         start,
-        count
+        count,
       });
       this.loadTransactionList(block, start, count);
     }
+  }
+
+  async loadTransactionList(block, start, count) {
+    const { txs } = await getTransactionList(
+      typeof block !== 'undefined' ? block : '',
+      typeof start !== 'undefined' ? parseInt(start, 10) : TX_START,
+      typeof count !== 'undefined' ? parseInt(count, 10) : TX_COUNT,
+    );
+    this.setState({
+      txs,
+      block,
+      start,
+      count,
+    });
   }
 
   render() {

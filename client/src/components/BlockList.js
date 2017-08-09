@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   formatAddress,
   formatHash,
-  formatTimestamp
+  formatTimestamp,
 } from '../utils/formatters';
 
 const BlockList = (props) => {
@@ -20,16 +20,16 @@ const BlockList = (props) => {
         </tr>
       </thead>
       <tbody>
-      {blocks.map(block => (
-        <tr key={block.hash}>
-          <td><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></td>
-          <td><Link to={`/block/${block.hash}`}>{block.number}</Link></td>
-          <td>{block.transactions.length}</td>
-          <td>{formatTimestamp(block.timestamp)}</td>
-          <td><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></td>
-        </tr>
-      ))}
-      {blocks.length === 0 && <tr>
+        {blocks.map(block => (
+          <tr key={block.hash}>
+            <td><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></td>
+            <td><Link to={`/block/${block.hash}`}>{block.number}</Link></td>
+            <td>{block.transactions.length}</td>
+            <td>{formatTimestamp(block.timestamp)}</td>
+            <td><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></td>
+          </tr>
+        ))}
+        {blocks.length === 0 && <tr>
           <td colSpan="5">No blocks</td>
         </tr>}
       </tbody>

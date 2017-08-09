@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatTimestamp } from '../utils/formatters';
 
-const NULL_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
+const NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 const TransactionInfo = (props) => {
   const { tx } = props;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import queryString from 'query-string';
 import BlockInfoView from '../components/BlockInfoView';
@@ -14,7 +14,7 @@ const BlockListQuery = (props) => {
       <BlockListView start={start} count={count} />
     </div>
   );
-}
+};
 
 const BlockInfoQuery = (props) => {
   const hash = props.match.params.hash;
@@ -23,7 +23,7 @@ const BlockInfoQuery = (props) => {
       <BlockInfoView hash={hash} />
     </div>
   );
-}
+};
 
 const BlockView = () => (
   <div>

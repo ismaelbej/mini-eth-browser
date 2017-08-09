@@ -1,27 +1,18 @@
 import React from 'react';
 import {
-  getTransactionInfo
+  getTransactionInfo,
 } from '../models/Transaction';
 import TransactionInfo from './TransactionInfo';
 
 class TransactionInfoView extends React.Component {
-
   constructor(props) {
     super(props);
 
     const { txid } = props;
     this.state = {
       tx: null,
-      txid
+      txid,
     };
-  }
-
-  async loadTransactionInfo(txid) {
-    const { tx } = await getTransactionInfo(txid);
-    this.setState({
-      tx,
-      txid
-    });
   }
 
   componentDidMount() {
@@ -33,10 +24,18 @@ class TransactionInfoView extends React.Component {
     if (this.state.txid !== txid) {
       this.setState({
         tx: null,
-        txid
+        txid,
       });
       this.loadTransactionInfo(txid);
     }
+  }
+
+  async loadTransactionInfo(txid) {
+    const { tx } = await getTransactionInfo(txid);
+    this.setState({
+      tx,
+      txid,
+    });
   }
 
   render() {

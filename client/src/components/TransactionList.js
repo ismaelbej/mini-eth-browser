@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   formatAddress,
   formatHash,
-  formatTimestamp
 } from '../utils/formatters';
 
 const TransactionList = (props) => {
@@ -20,16 +19,16 @@ const TransactionList = (props) => {
         </tr>
       </thead>
       <tbody>
-      {txs.map(tx => (
-        <tr key={tx.hash}>
-          <td><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></td>
-          <td><Link to={`/tx/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
-          <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
-          <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
-          <td>{tx.value}</td>
-        </tr>
-      ))}
-      {txs.length === 0 && <tr>
+        {txs.map(tx => (
+          <tr key={tx.hash}>
+            <td><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></td>
+            <td><Link to={`/tx/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
+            <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
+            <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
+            <td>{tx.value}</td>
+          </tr>
+        ))}
+        {txs.length === 0 && <tr>
           <td colSpan="5">No transactions</td>
         </tr>}
       </tbody>

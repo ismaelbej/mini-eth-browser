@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import 'react-skeleton-css/styles/skeleton.2.0.4.css';
 import './App.css';
