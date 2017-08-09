@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 
     if (start >= 0) {
       const blocks = await Promise.map(
-        _.range(start, _.max([0, start - count]) - 1, -1),
+        _.range(start, _.max([-1, start - count]), -1),
         blk => ethereum.getBlockInfo(blk));
       res.json({
         blocks,
