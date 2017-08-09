@@ -19,7 +19,6 @@ class TransactionListView extends React.Component {
       start,
       count
     };
-    console.log(this.state);
   }
 
   async loadTransactionList(block, start, count) {
@@ -28,7 +27,6 @@ class TransactionListView extends React.Component {
       typeof start !== 'undefined' ? parseInt(start) : TX_START,
       typeof count !== 'undefined' ? parseInt(count) : TX_COUNT
     );
-    console.log(txs);
     this.setState({
       txs,
       block,
