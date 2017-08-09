@@ -45,6 +45,9 @@ class BlockListView extends React.Component {
     this.setState({
       blocks,
     });
+    if (this.props.onListLoaded) {
+      this.props.onListLoaded(blocks);
+    }
   }
 
   render() {
