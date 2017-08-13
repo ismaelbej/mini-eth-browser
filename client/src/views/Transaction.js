@@ -32,12 +32,10 @@ const TransactionView = () => (
     </div>
     <div className="row">
       <Switch>
-        <Route exact path="/tx" component={TransactionListQuery} />
         <Route path="/tx/:txid" component={TransactionInfoQuery} />
       </Switch>
     </div>
   </div>
 );
-
 
 export default TransactionView;

@@ -7,6 +7,22 @@ import {
 import queryString from 'query-string';
 import BlockInfoView from '../components/BlockInfoView';
 import BlockListView from '../components/BlockListView';
+import TransactionListView from '../components/TransactionListView';
+
+const TransactionListQuery = (props) => {
+  const hash = props.match.params.hash;
+  const { start, count } = queryString.parse(props.location.search);
+  return (
+    <div>
+      <div className="row">
+        <h1>Transactions</h1>
+      </div>
+      <div className="row">
+        <TransactionListView block={hash} start={start} count={count} />
+      </div>
+    </div>
+  );
+};
 
 class BlockListQuery extends React.Component {
   static parseParams(props) {
@@ -79,13 +95,18 @@ class BlockListQuery extends React.Component {
   render() {
     return (
       <div>
-        {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Next</button></Link>}
-        {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Previous</button></Link>}
-        <BlockListView
-          start={this.state.start}
-          count={this.state.count}
-          onListLoaded={blocks => this.onListLoaded(blocks)}
-        />
+        <div className="row">
+          <h1>Block</h1>
+        </div>
+        <div className="row">
+          {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Next</button></Link>}
+          {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Previous</button></Link>}
+          <BlockListView
+            start={this.state.start}
+            count={this.state.count}
+            onListLoaded={blocks => this.onListLoaded(blocks)}
+          />
+        </div>
       </div>
     );
   }
@@ -95,22 +116,23 @@ const BlockInfoQuery = (props) => {
   const hash = props.match.params.hash;
   return (
     <div>
-      <BlockInfoView hash={hash} />
+      <div className="row">
+        <h1>Block</h1>
+      </div>
+      <div className="row">
+        <BlockInfoView hash={hash} />
+      </div>
     </div>
   );
 };
 
 const BlockView = () => (
   <div>
-    <div className="row">
-      <h1>Block</h1>
-    </div>
-    <div className="row">
-      <Switch>
-        <Route exact path="/block" component={BlockListQuery} />
-        <Route path="/block/:hash" component={BlockInfoQuery} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/block" component={BlockListQuery} />
+      <Route exact path="/block/:hash" component={BlockInfoQuery} />
+      <Route exact path="/block/:hash/txs" component={TransactionListQuery} />
+    </Switch>
   </div>
 );
 

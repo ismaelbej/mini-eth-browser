@@ -4,9 +4,6 @@ import {
 } from '../models/Block';
 import BlockList from './BlockList';
 
-const BLOCK_START = -1;
-const BLOCK_COUNT = 25;
-
 class BlockListView extends React.Component {
   constructor(props) {
     super(props);
@@ -38,10 +35,7 @@ class BlockListView extends React.Component {
   }
 
   async loadBlockList(start, count) {
-    const { blocks } = await getBlockList(
-      typeof start !== 'undefined' ? start : BLOCK_START,
-      typeof count !== 'undefined' ? count : BLOCK_COUNT,
-    );
+    const { blocks } = await getBlockList(start, count);
     this.setState({
       blocks,
     });
