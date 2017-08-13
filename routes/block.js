@@ -94,11 +94,8 @@ router.get('/:hash/txs/', async (req, res) => {
     const { start, count } = await parseTxParams(req.query);
     const max = await ethereum.getBlockTransactionCount(req.params.hash);
     const txrange = _.range(start, _.min([start + count, max]));
-    const txs = await Promise.all(
-      txrange.map(idx =>
-        ethereum.getTransactionFromBlock(req.params.hash, idx)
-      )
-    );
+    const txs = await Promise.all(txrange.map(idx =>
+      ethereum.getTransactionFromBlock(req.params.hash, idx)));
     res.json({
       txs,
     });
