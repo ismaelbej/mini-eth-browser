@@ -1,7 +1,5 @@
 export function writeParams(params = {}) {
   const result = [];
-  console.log(params);
-  console.log(Object.keys(params));
   Object.keys(params).forEach((key) => {
     if (typeof params[key] !== 'undefined') {
       result.push(`${key}=${params[key]}`);
