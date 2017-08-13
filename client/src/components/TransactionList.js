@@ -13,6 +13,7 @@ const TransactionList = (props) => {
         <tr>
           <th>Hash</th>
           <th>Block</th>
+          <th>Index</th>
           <th>From</th>
           <th>To</th>
           <th>Value</th>
@@ -23,6 +24,7 @@ const TransactionList = (props) => {
           <tr key={tx.hash}>
             <td><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></td>
             <td><Link to={`/tx/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
+            <td>{tx.transactionIndex}</td>
             <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
             <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
             <td>{tx.value}</td>
