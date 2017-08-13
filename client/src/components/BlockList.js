@@ -24,7 +24,7 @@ const BlockList = (props) => {
           <tr key={block.hash}>
             <td><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></td>
             <td><Link to={`/block/${block.hash}`}>{block.number}</Link></td>
-            <td>{block.transactions.length}</td>
+            <td><Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link></td>
             <td>{formatTimestamp(block.timestamp)}</td>
             <td><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></td>
           </tr>
