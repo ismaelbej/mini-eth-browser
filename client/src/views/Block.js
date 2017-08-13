@@ -99,8 +99,11 @@ class BlockListQuery extends React.Component {
           <h1>Block</h1>
         </div>
         <div className="row">
-          {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Next</button></Link>}
-          {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`}><button className="button-primary">Previous</button></Link>}
+          {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
+          &nbsp;
+          {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
+        </div>
+        <div className="row">
           <BlockListView
             start={this.state.start}
             count={this.state.count}
