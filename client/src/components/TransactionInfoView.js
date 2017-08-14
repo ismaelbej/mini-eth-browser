@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getTransactionInfo,
-} from '../models/Transaction';
+} from '../lib/api';
 import TransactionInfo from './TransactionInfo';
 
 class TransactionInfoView extends React.Component {

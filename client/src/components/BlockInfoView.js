@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getBlockInfo,
-} from '../models/Block';
+} from '../lib/api';
 import BlockInfo from './BlockInfo';
 
 class BlockInfoView extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getBlockList,
-} from '../models/Block';
+} from '../lib/api';
 import BlockList from './BlockList';
 
 class BlockListView extends React.Component {

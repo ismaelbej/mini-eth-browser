@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getTransactionList,
-} from '../models/Transaction';
+} from '../lib/api';
 import TransactionList from './TransactionList';
 
 const TX_START = 0;
