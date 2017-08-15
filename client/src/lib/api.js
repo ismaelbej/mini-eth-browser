@@ -1,6 +1,12 @@
 import fetch from 'unfetch';
 import { writeUrl } from '../utils/urlParams';
 
+export async function getBlockchainInfo() {
+  const { blockchain } = await fetch('http://localhost:3001/api/v1/blockchain')
+    .then(r => r.json());
+  return { blockchain };
+}
+
 export async function getBlockInfo(hash) {
   const { block } = await fetch(writeUrl(`http://localhost:3001/api/v1/block/${hash}`))
     .then(r => r.json());
@@ -26,6 +32,7 @@ export async function getTransactionList(block, start, count) {
 }
 
 export default {
+  getBlockchainInfo,
   getBlockInfo,
   getBlockList,
   getTransactionInfo,
