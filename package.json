@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=3001 node ./bin/www",
-    "dev": "PORT=3001 nodemon --watch ./lib/ --watch ./routes --watch ./app.js --exec node ./bin/www"
+    "start": "cross-env PORT=3001 node ./bin/www",
+    "dev": "cross-env PORT=3001 nodemon --watch ./lib/ --watch ./routes --watch ./app.js --exec node ./bin/www"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
+    "cross-env": "^5.0.5",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "~1.11.0",
