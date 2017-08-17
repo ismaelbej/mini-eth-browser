@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env PORT=3001 node ./bin/www",
-    "dev": "cross-env PORT=3001 nodemon --watch ./lib/ --watch ./routes --watch ./app.js --exec node ./bin/www"
+    "start": "cross-env PORT=3001 node ./src/bin/www",
+    "dev": "cross-env PORT=3001 nodemon --watch ./src --exec node ./src/bin/www"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
