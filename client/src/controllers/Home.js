@@ -1,18 +1,23 @@
 import { EventEmitter } from 'events';
 import {
   getBlockchainInfo,
+  getBlockList,
 } from '../lib/api';
 
-class HomeController extends EventEmitter {
-  constructor() {
-    super();
-    this.blockchain = undefined;
-  }
+const HOME_BLOCK_COUNT = 10;
 
+class HomeController extends EventEmitter {
   async initialize() {
-    const { blockchain } = await getBlockchainInfo();
-    this.blockchain = blockchain;
-    this.emit('blockchain', blockchain);
+    try {
+      const { blockchain } = await getBlockchainInfo();
+      this.emit('blockchain', blockchain);
+      if (blockchain.blockNumber) {
+        const { blocks } = await getBlockList(blockchain.blockNumber, HOME_BLOCK_COUNT);
+        this.emit('blocks', blocks);
+      }
+    } catch (err) {
+      this.emit('fail', err);
+    }
   }
 }
 

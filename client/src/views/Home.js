@@ -1,20 +1,20 @@
 import React from 'react';
-import BlockListView from '../components/BlockListView';
+import BlockList from '../components/BlockList';
 import HomeController from '../controllers/Home';
-
-const HOME_BLOCK_COUNT = 10;
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       start: undefined,
+      blocks: [],
     };
   }
 
   componentDidMount() {
     this.controller = new HomeController();
     this.controller.on('blockchain', blockchain => this.handleBlockchain(blockchain));
+    this.controller.on('blocks', blocks => this.handleBlocks(blocks));
     this.controller.initialize();
   }
 
@@ -26,6 +26,12 @@ class Home extends React.Component {
     }
   }
 
+  handleBlocks(blocks) {
+    this.setState({
+      blocks,
+    });
+  }
+
   render() {
     return (
       <div>
@@ -35,13 +41,7 @@ class Home extends React.Component {
         <div className="row">
           <div className="six columns">
             <h3>Recent blocks</h3>
-            {
-              this.state.start &&
-                <BlockListView
-                  start={this.state.start}
-                  count={HOME_BLOCK_COUNT}
-                />
-            }
+            {this.state.blocks && <BlockList blocks={this.state.blocks} />}
           </div>
           <div className="six columns" />
         </div>
