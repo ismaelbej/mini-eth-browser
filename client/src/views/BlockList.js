@@ -32,6 +32,8 @@ class BlockList extends React.Component {
       start,
       count,
       blocks: [],
+      nextBlock: undefined,
+      prevBlock: undefined,
     };
   }
 
@@ -48,13 +50,19 @@ class BlockList extends React.Component {
       this.setState({
         start,
         count,
+        blocks: [],
+        nextBlock: undefined,
+        prevBlock: undefined,
       });
+      this.controller.loadBlockList(start, count);
     }
   }
 
-  handleBlocks(blocks) {
+  handleBlocks({ blocks, nextBlock, prevBlock }) {
     this.setState({
       blocks,
+      nextBlock,
+      prevBlock,
     });
   }
 
@@ -65,8 +73,9 @@ class BlockList extends React.Component {
           <h1>Blocks</h1>
         </div>
         <div className="row">
-          <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>
-          <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>
+          {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
+          {this.state.prevBlock && '\u00a0'}
+          {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
         </div>
         <div className="row">
           {this.state.blocks && <BlockListComponent blocks={this.state.blocks} />}
