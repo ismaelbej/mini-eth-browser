@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 import BlockInfoComponent from '../components/BlockInfo';
 import BlockInfoController from '../controllers/BlockInfo';
 
@@ -17,7 +20,7 @@ class BlockInfo extends React.Component {
     this.controller = new BlockInfoController();
     this.controller.on('block', block => this.handleBlock(block));
     this.controller.on('fail', err => this.handleFailure(err));
-    this.controller.loadBlock(this.state.hash);
+    this.controller.initialize(this.state.hash);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,9 +34,11 @@ class BlockInfo extends React.Component {
     }
   }
 
-  handleBlock(block) {
+  handleBlock({ block, nextBlock, prevBlock }) {
     this.setState({
       block,
+      nextBlock,
+      prevBlock,
     });
   }
 
@@ -42,6 +47,11 @@ class BlockInfo extends React.Component {
       <div>
         <div className="row">
           <h1>Block</h1>
+        </div>
+        <div className="row">
+          {this.state.prevBlock && <Link to={`/block/${this.state.prevBlock}`} className="button button-primary">Previous</Link>}
+          {this.state.prevBlock && '\u00a0'}
+          {this.state.nextBlock !== false && <Link to={`/block/${this.state.nextBlock}`} className="button button-primary">Next</Link>}
         </div>
         <div className="row">
           {this.state.block && <BlockInfoComponent block={this.state.block} />}
