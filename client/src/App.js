@@ -11,6 +11,7 @@ import Home from './views/Home';
 import BlockList from './views/BlockList';
 import BlockInfo from './views/BlockInfo';
 import Transaction from './views/Transaction';
+import TxList from './views/TxList';
 import Account from './views/Account';
 import Contract from './views/Contract';
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route exact path="/block" component={BlockList} />
           <Route exact path="/block/:hash" component={BlockInfo} />
+          <Route exact path="/block/:hash/txs" component={TxList} />
           <Route path="/tx" component={Transaction} />
           <Route path="/account" component={Account} />
           <Route path="/contract" component={Contract} />
