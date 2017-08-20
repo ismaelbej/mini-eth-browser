@@ -24,12 +24,9 @@ class BlockListController extends EventEmitter {
     }
   }
 
-  async loadBlockList(start, count) {
+  async loadBlockList(start, paramCount) {
     try {
-      if (!count) {
-        // eslint-disable-next-line no-param-reassign
-        count = BLOCK_COUNT;
-      }
+      const count = paramCount || BLOCK_COUNT;
       const { blocks } = await getBlockList(start, count || this.blockchain.blockNumber);
       let nextBlock;
       if (blocks.length > 0 && blocks[0].number >= count) {
