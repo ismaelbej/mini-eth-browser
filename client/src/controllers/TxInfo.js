@@ -23,8 +23,10 @@ class TxInfoController extends EventEmitter {
       this.hash = hash;
       const { tx } = await getTransactionInfo(hash);
       this.tx = tx;
-      const nextTx = tx.transactionIndex + 1 < this.getBlockTransactions() ? tx.block.transactions[tx.transactionIndex + 1] : false;
-      const prevTx = tx.transactionIndex > 0 ? tx.block.transactions[tx.transactionIndex - 1] :  false;
+      const nextTx = tx.transactionIndex + 1 < this.getBlockTransactions() ?
+        tx.block.transactions[tx.transactionIndex + 1] : false;
+      const prevTx = tx.transactionIndex > 0 ?
+        tx.block.transactions[tx.transactionIndex - 1] : false;
       this.emit('tx', {
         tx,
         nextTx,
