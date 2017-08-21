@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { formatTimestamp } from '../utils/formatters';
+import {
+  formatTimestamp,
+  formatAmount,
+} from '../utils/formatters';
 
 const NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -60,12 +63,8 @@ const TxInfo = (props) => {
           <td>{tx.nonce}</td>
         </tr>
         <tr>
-          <td>Gas Price:</td>
-          <td>{tx.gasPrice}</td>
-        </tr>
-        <tr>
           <td>Value:</td>
-          <td>{tx.value}</td>
+          <td>{formatAmount(tx.value)}</td>
         </tr>
         <tr>
           <td>Input:</td>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatAmount } from '../utils/formatters';
 
 const Account = (props) => {
   const { account } = props;
@@ -11,10 +12,10 @@ const Account = (props) => {
         </tr>
         <tr>
           <td>Balance:</td>
-          <td>{account.balance}</td>
+          <td>{formatAmount(account.balance)}</td>
         </tr>
         <tr>
-          <td># Transactions:</td>
+          <td>Num. Transactions:</td>
           <td>{account.transactionCount}</td>
         </tr>
       </tbody>

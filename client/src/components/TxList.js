@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   formatAddress,
+  formatAmount,
   formatHash,
 } from '../utils/formatters';
 
@@ -27,7 +28,7 @@ const TxList = (props) => {
             <td>{tx.transactionIndex}</td>
             <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
             <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
-            <td>{tx.value}</td>
+            <td>{formatAmount(tx.value)}</td>
           </tr>
         ))}
         {txs.length === 0 && <tr>
