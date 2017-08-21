@@ -3,13 +3,15 @@ const Promise = require('bluebird');
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
-const getBlockNumber = Promise.promisify(web3.eth.getBlockNumber);
+const getBalance = Promise.promisify(web3.eth.getBalance);
 const getBlock = Promise.promisify(web3.eth.getBlock);
-const getTransaction = Promise.promisify(web3.eth.getTransaction);
-const getTransactionReceipt = Promise.promisify(web3.eth.getTransactionReceipt);
-const getTransactionFromBlock = Promise.promisify(web3.eth.getTransactionFromBlock);
+const getBlockNumber = Promise.promisify(web3.eth.getBlockNumber);
 const getBlockTransactionCount = Promise.promisify(web3.eth.getBlockTransactionCount);
 const getGasPrice = Promise.promisify(web3.eth.getGasPrice);
+const getTransaction = Promise.promisify(web3.eth.getTransaction);
+const getTransactionCount = Promise.promisify(web3.eth.getTransactionCount);
+const getTransactionReceipt = Promise.promisify(web3.eth.getTransactionReceipt);
+const getTransactionFromBlock = Promise.promisify(web3.eth.getTransactionFromBlock);
 
 function getLatestBlock() {
   return getBlockNumber();
@@ -43,11 +45,13 @@ async function getTransactionInfo(txid) {
 }
 
 module.exports = {
+  getBalance,
   getBlockInfo,
   getBlockTransactionCount,
   getGasPrice,
   getLatestBlock,
   getPendingTransactions,
+  getTransactionCount,
   getTransactionInfo,
   getTransactionFromBlock,
 };
