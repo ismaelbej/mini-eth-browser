@@ -26,7 +26,7 @@ const App = () => (
           <Route exact path="/block/:hash" component={BlockInfo} />
           <Route exact path="/block/:hash/txs" component={TxList} />
           <Route exact path="/tx/:hash" component={TxInfo} />
-          <Route path="/account" component={Account} />
+          <Route exact path="/account/:address" component={Account} />
           <Route path="/contract" component={Contract} />
         </Switch>
       </div>
