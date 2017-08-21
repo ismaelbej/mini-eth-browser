@@ -11,15 +11,6 @@ const Navbar = () => (
         <li className="navbar-item" >
           <Link to="/block">Blocks</Link>
         </li>
-        <li className="navbar-item" >
-          <Link to="/tx">Transactions</Link>
-        </li>
-        <li className="navbar-item" >
-          <Link to="/account">Accounts</Link>
-        </li>
-        <li className="navbar-item" >
-          <Link to="/contract">Contracts</Link>
-        </li>
       </ul>
     </div>
   </nav>
