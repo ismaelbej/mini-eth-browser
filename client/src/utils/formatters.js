@@ -1,4 +1,5 @@
 import moment from 'moment';
+import BigNumber from 'bignumber.js';
 
 const HASH_LENGTH = 20;
 
@@ -12,8 +13,33 @@ export function formatHash(hash, length = HASH_LENGTH) {
 
 export const formatAddress = formatHash;
 
+export function formatAmount(amountParam) {
+  let amount = new BigNumber(amountParam);
+  const units = [
+    'wei',
+    'Kwei',
+    'Mwei',
+    'Gwei',
+    'szabo',
+    'finney',
+  ];
+  if (amount.isZero()) {
+    return '0';
+  }
+  let i = 0;
+  while (i < units.length) {
+    if (amount.lt(1000)) {
+      return `${amount.toString()} ${units[i]}`;
+    }
+    amount = amount.div(1000);
+    i += 1;
+  }
+  return `${amount.toString()} ether`;
+}
+
 export default {
   formatAddress,
+  formatAmount,
   formatHash,
   formatTimestamp,
 };
