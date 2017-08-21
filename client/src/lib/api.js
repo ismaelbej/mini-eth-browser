@@ -5,6 +5,10 @@ function fetchJson(url, params) {
   return fetch(writeUrl(url, params)).then(r => r.json());
 }
 
+export function getAccountInfo(address) {
+  return fetchJson(`http://localhost:3001/api/v1/account/${address}`);
+}
+
 export function getBlockchainInfo() {
   return fetchJson('http://localhost:3001/api/v1/blockchain');
 }
