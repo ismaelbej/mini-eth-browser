@@ -5,7 +5,7 @@ import {
   formatHash,
 } from '../utils/formatters';
 
-const TransactionList = (props) => {
+const TxList = (props) => {
   const { txs } = props;
   return (
     <table className="u-full-width">
@@ -38,4 +38,4 @@ const TransactionList = (props) => {
   );
 };
 
-export default TransactionList;
+export default TxList;

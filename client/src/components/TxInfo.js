@@ -4,7 +4,7 @@ import { formatTimestamp } from '../utils/formatters';
 
 const NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-const TransactionInfo = (props) => {
+const TxInfo = (props) => {
   const { tx } = props;
   return (
     <table className="u-full-width">
@@ -76,4 +76,4 @@ const TransactionInfo = (props) => {
   );
 };
 
-export default TransactionInfo;
+export default TxInfo;

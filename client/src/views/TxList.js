@@ -3,7 +3,7 @@ import {
   Link,
 } from 'react-router-dom';
 import queryString from 'query-string';
-import TxListComponent from '../components/TransactionList';
+import TxListComponent from '../components/TxList';
 import TxListController from '../controllers/TxList';
 
 function parseParams(props) {

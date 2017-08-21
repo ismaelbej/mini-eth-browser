@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
-import TxInfoComponent from '../components/TransactionInfo';
+import TxInfoComponent from '../components/TxInfo';
 import TxInfoController from '../controllers/TxInfo';
 
 class TxInfo extends React.Component {
