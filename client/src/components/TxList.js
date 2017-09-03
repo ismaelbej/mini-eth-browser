@@ -24,7 +24,7 @@ const TxList = (props) => {
         {txs.map(tx => (
           <tr key={tx.hash}>
             <td><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></td>
-            <td><Link to={`/tx/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
+            <td><Link to={`/block/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
             <td>{tx.transactionIndex}</td>
             <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
             <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
@@ -32,7 +32,7 @@ const TxList = (props) => {
           </tr>
         ))}
         {txs.length === 0 && <tr>
-          <td colSpan="5">No transactions</td>
+          <td colSpan="6">No transactions</td>
         </tr>}
       </tbody>
     </table>
