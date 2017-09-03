@@ -1,9 +1,9 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from 'express';
+import path from 'path';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const api = require('./routes/api');
 
@@ -36,4 +36,4 @@ app.use((err, req, res, next) => {
   res.json({ errors: [err.message] });
 });
 
-module.exports = app;
+export default app;
