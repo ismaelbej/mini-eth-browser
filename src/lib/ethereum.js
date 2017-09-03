@@ -1,17 +1,17 @@
 const Web3 = require('web3');
 const Promise = require('bluebird');
 
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+const web3 = new Web3(Web3.givenProviders || 'http://localhost:8545');
 
-const getBalance = Promise.promisify(web3.eth.getBalance);
-const getBlock = Promise.promisify(web3.eth.getBlock);
-const getBlockNumber = Promise.promisify(web3.eth.getBlockNumber);
-const getBlockTransactionCount = Promise.promisify(web3.eth.getBlockTransactionCount);
-const getGasPrice = Promise.promisify(web3.eth.getGasPrice);
-const getTransaction = Promise.promisify(web3.eth.getTransaction);
-const getTransactionCount = Promise.promisify(web3.eth.getTransactionCount);
-const getTransactionReceipt = Promise.promisify(web3.eth.getTransactionReceipt);
-const getTransactionFromBlock = Promise.promisify(web3.eth.getTransactionFromBlock);
+const getBalance = web3.eth.getBalance;
+const getBlock = web3.eth.getBlock;
+const getBlockNumber = web3.eth.getBlockNumber;
+const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
+const getGasPrice = web3.eth.getGasPrice;
+const getTransaction = web3.eth.getTransaction;
+const getTransactionCount = web3.eth.getTransactionCount;
+const getTransactionReceipt = web3.eth.getTransactionReceipt;
+const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
 
 function getLatestBlock() {
   return getBlockNumber();

@@ -2,7 +2,9 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "cross-env PORT=3001 node ./dist/bin/www",
     "dev": "cross-env PORT=3001 nodemon --watch ./src --exec babel-node ./src/bin/www",
@@ -20,7 +22,7 @@
     "jade": "~1.11.0",
     "lodash": "^4.17.4",
     "morgan": "~1.8.1",
-    "web3": "^0.20.1",
+    "web3": "^1.0.0-beta.18",
     "web3admin": "^0.4.4"
   },
   "devDependencies": {
