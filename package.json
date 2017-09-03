@@ -2,9 +2,12 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
+  "files": ["dist"],
   "scripts": {
-    "start": "cross-env PORT=3001 node ./src/bin/www",
-    "dev": "cross-env PORT=3001 nodemon --watch ./src --exec node ./src/bin/www"
+    "start": "cross-env PORT=3001 node ./dist/bin/www",
+    "dev": "cross-env PORT=3001 nodemon --watch ./src --exec babel-node ./src/bin/www",
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -21,6 +24,9 @@
     "web3admin": "^0.4.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
