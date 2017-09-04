@@ -27,7 +27,8 @@ const TxList = (props) => {
             <td><Link to={`/block/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
             <td>{tx.transactionIndex}</td>
             <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
-            <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>
+            {tx.to && <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>}
+            {!tx.to && <td>Contract creation</td>}
             <td>{formatAmount(tx.value)}</td>
           </tr>
         ))}
