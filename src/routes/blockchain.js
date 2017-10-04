@@ -1,5 +1,5 @@
-const express = require('express');
-const ethereum = require('../lib/ethereum');
+import express from 'express';
+import ethereum from '../lib/ethereum';
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
