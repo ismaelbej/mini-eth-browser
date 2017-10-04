@@ -1,9 +1,9 @@
-const express = require('express');
-const Promise = require('bluebird');
-const {
+import express from 'express';
+import Promise from 'bluebird';
+import {
   getBalance,
   getTransactionCount,
-} = require('../lib/ethereum');
+} from '../lib/ethereum';
 
 const router = express.Router();
 
@@ -29,4 +29,4 @@ router.get('/:address', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
