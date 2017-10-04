@@ -6,10 +6,16 @@
     "dist"
   ],
   "scripts": {
-    "start": "cross-env PORT=3001 node ./dist/bin/www",
-    "dev": "cross-env PORT=3001 nodemon --watch ./src --exec babel-node ./src/bin/www",
+    "start": "run-p start:*",
+    "dev": "run-p dev:*",
     "build": "babel src --out-dir dist",
-    "prepublish": "npm run build"
+    "postinstall": "run-s pi:*",
+    "pi:backend": "npm run build",
+    "pi:client": "cd client && npm install",
+    "start:backend": "cross-env PORT=3001 node ./dist/bin/www",
+    "start:client": "cd client && npm start",
+    "dev:backend": "cross-env PORT=3001 nodemon --watch ./src --exec babel-node ./src/bin/www",
+    "dev:client": "cd client && npm start"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -32,6 +38,7 @@
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.1.1"
   }
 }
