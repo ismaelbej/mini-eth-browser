@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-const api = require('./routes/api');
+import api from './routes/api';
 
 const app = express();
 

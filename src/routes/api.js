@@ -1,9 +1,9 @@
-const express = require('express');
-const block = require('./block');
-const blockchain = require('./blockchain');
-const tx = require('./tx');
-const account = require('./account');
-const contract = require('./contract');
+import express from 'express';
+import block from './block';
+import blockchain from './blockchain';
+import tx from './tx';
+import account from './account';
+import contract from './contract';
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.use('/tx', tx);
 router.use('/account', account);
 router.use('/contract', contract);
 
-module.exports = router;
+export default router;
