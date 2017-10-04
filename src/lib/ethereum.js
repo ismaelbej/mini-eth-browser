@@ -1,24 +1,24 @@
-const Web3 = require('web3');
-const Promise = require('bluebird');
-const config = require('../config');
+import Web3 from 'web3';
+import Promise from 'bluebird';
+import config from '../config';
 
 const web3 = new Web3(Web3.givenProviders || config.node || 'http://localhost:8545');
 
-const getBalance = web3.eth.getBalance;
+export const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;
 const getBlockNumber = web3.eth.getBlockNumber;
 const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
-const getGasPrice = web3.eth.getGasPrice;
+export const getGasPrice = web3.eth.getGasPrice;
 const getTransaction = web3.eth.getTransaction;
-const getTransactionCount = web3.eth.getTransactionCount;
+export const getTransactionCount = web3.eth.getTransactionCount;
 const getTransactionReceipt = web3.eth.getTransactionReceipt;
-const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
+export const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
 
-function getLatestBlock() {
+export function getLatestBlock() {
   return getBlockNumber();
 }
 
-async function getBlockInfo(hash) {
+export async function getBlockInfo(hash) {
   const block = await getBlock(hash);
   if (!block) {
     throw new Error(`Invalid block ${hash}`);
@@ -26,11 +26,11 @@ async function getBlockInfo(hash) {
   return block;
 }
 
-function getPendingTransactions() {
+export function getPendingTransactions() {
   return [];
 }
 
-async function getTransactionInfo(txid) {
+export async function getTransactionInfo(txid) {
   const [tx, receipt] = await Promise.all([
     getTransaction(txid),
     getTransactionReceipt(txid),
@@ -45,7 +45,7 @@ async function getTransactionInfo(txid) {
   return tx;
 }
 
-module.exports = {
+export default {
   getBalance,
   getBlockInfo,
   getBlockTransactionCount,
