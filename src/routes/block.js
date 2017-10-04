@@ -1,7 +1,7 @@
-const express = require('express');
-const _ = require('lodash');
-const Promise = require('bluebird');
-const ethereum = require('../lib/ethereum');
+import express from 'express';
+import _ from 'lodash';
+import Promise from 'bluebird';
+import ethereum from '../lib/ethereum';
 
 const router = express.Router();
 
@@ -107,4 +107,4 @@ router.get('/:hash/txs/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
