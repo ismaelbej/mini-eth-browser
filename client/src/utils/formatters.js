@@ -34,7 +34,7 @@ export function formatAmount(amountParam) {
     amount = amount.div(1000);
     i += 1;
   }
-  return `${amount.toString()} ether`;
+  return `${amount.toFormat()} ether`;
 }
 
 export default {
