@@ -1,7 +1,8 @@
 const Web3 = require('web3');
 const Promise = require('bluebird');
+const config = require('../config');
 
-const web3 = new Web3(Web3.givenProviders || 'http://localhost:8545');
+const web3 = new Web3(Web3.givenProviders || config.node || 'http://localhost:8545');
 
 const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;
