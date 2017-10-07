@@ -4,7 +4,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import 'react-skeleton-css/styles/skeleton.2.0.4.css';
+import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './views/Home';
