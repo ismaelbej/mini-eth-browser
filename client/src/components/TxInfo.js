@@ -55,7 +55,7 @@ const TxInfo = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Gas Price:</Table.Cell>
-          <Table.Cell>{tx.gasPrice}</Table.Cell>
+          <Table.Cell>{formatAmount(tx.gasPrice)}</Table.Cell>
         </Table.Row>
         {tx.receipt && <Table.Row>
           <Table.Cell>Gas Used:</Table.Cell>
