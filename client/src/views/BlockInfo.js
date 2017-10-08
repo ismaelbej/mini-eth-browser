@@ -2,6 +2,10 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import BlockInfoComponent from '../components/BlockInfo';
 import BlockInfoController from '../controllers/BlockInfo';
 
@@ -44,19 +48,25 @@ class BlockInfo extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Block</h1>
-        </div>
-        <div className="row">
-          {this.state.prevBlock && <Link to={`/block/${this.state.prevBlock}`} className="button button-primary">Previous</Link>}
-          {this.state.prevBlock && '\u00a0'}
-          {this.state.nextBlock !== false && <Link to={`/block/${this.state.nextBlock}`} className="button button-primary">Next</Link>}
-        </div>
-        <div className="row">
-          {this.state.block && <BlockInfoComponent block={this.state.block} />}
-        </div>
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Block</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.prevBlock && <Link to={`/block/${this.state.prevBlock}`} className="button button-primary">Previous</Link>}
+            {this.state.prevBlock && '\u00a0'}
+            {this.state.nextBlock !== false && <Link to={`/block/${this.state.nextBlock}`} className="button button-primary">Next</Link>}
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.block && <BlockInfoComponent block={this.state.block} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

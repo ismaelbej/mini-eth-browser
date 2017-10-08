@@ -2,6 +2,10 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import queryString from 'query-string';
 import BlockListComponent from '../components/BlockList';
 import BlockListController from '../controllers/BlockList';
@@ -68,19 +72,25 @@ class BlockList extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Blocks</h1>
-        </div>
-        <div className="row">
-          {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
-          {this.state.prevBlock && '\u00a0'}
-          {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
-        </div>
-        <div className="row">
-          {this.state.blocks && <BlockListComponent blocks={this.state.blocks} />}
-        </div>
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Blocks</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
+            {this.state.prevBlock && '\u00a0'}
+            {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.blocks && <BlockListComponent blocks={this.state.blocks} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

@@ -1,25 +1,28 @@
 import React from 'react';
+import {
+  Table,
+} from 'semantic-ui-react';
 import { formatAmount } from '../utils/formatters';
 
 const Account = (props) => {
   const { account } = props;
   return (
-    <table className="u-full-width">
-      <tbody>
-        <tr>
-          <td>Address:</td>
-          <td>{account.address}</td>
-        </tr>
-        <tr>
-          <td>Balance:</td>
-          <td>{formatAmount(account.balance)}</td>
-        </tr>
-        <tr>
-          <td>Num. Transactions:</td>
-          <td>{account.transactionCount}</td>
-        </tr>
-      </tbody>
-    </table>
+    <Table>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Address:</Table.Cell>
+          <Table.Cell>{account.address}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Balance:</Table.Cell>
+          <Table.Cell>{formatAmount(account.balance)}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Num. Transactions:</Table.Cell>
+          <Table.Cell>{account.transactionCount}</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
   );
 };
 

@@ -2,6 +2,10 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import TxInfoComponent from '../components/TxInfo';
 import TxInfoController from '../controllers/TxInfo';
 
@@ -46,19 +50,25 @@ class TxInfo extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Transaction</h1>
-        </div>
-        <div className="row">
-          {this.state.prevTx !== false && <Link to={`/tx/${this.state.prevTx}`} className="button button-primary">Previous</Link>}
-          {this.state.prevTx !== false && '\u00a0'}
-          {this.state.nextTx && <Link to={`/tx/${this.state.nextTx}`} className="button button-primary">Next</Link>}
-        </div>
-        <div className="row">
-          {this.state.tx && <TxInfoComponent tx={this.state.tx} />}
-        </div>
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Transaction</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.prevTx !== false && <Link to={`/tx/${this.state.prevTx}`} className="button button-primary">Previous</Link>}
+            {this.state.prevTx !== false && '\u00a0'}
+            {this.state.nextTx && <Link to={`/tx/${this.state.nextTx}`} className="button button-primary">Next</Link>}
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.tx && <TxInfoComponent tx={this.state.tx} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Table,
+} from 'semantic-ui-react';
+import {
   formatAddress,
   formatAmount,
   formatHash,
@@ -9,34 +12,34 @@ import {
 const TxList = (props) => {
   const { txs } = props;
   return (
-    <table className="u-full-width">
-      <thead>
-        <tr>
-          <th>Hash</th>
-          <th>Block</th>
-          <th>Index</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Hash</Table.HeaderCell>
+          <Table.HeaderCell>Block</Table.HeaderCell>
+          <Table.HeaderCell>Index</Table.HeaderCell>
+          <Table.HeaderCell>From</Table.HeaderCell>
+          <Table.HeaderCell>To</Table.HeaderCell>
+          <Table.HeaderCell>Value</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {txs.map(tx => (
-          <tr key={tx.hash}>
-            <td><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></td>
-            <td><Link to={`/block/${tx.blockHash}`}>{tx.blockNumber}</Link></td>
-            <td>{tx.transactionIndex}</td>
-            <td><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></td>
-            {tx.to && <td><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></td>}
-            {!tx.to && <td>Contract creation</td>}
-            <td>{formatAmount(tx.value)}</td>
-          </tr>
+          <Table.Row key={tx.hash}>
+            <Table.Cell><Link to={`/tx/${tx.hash}`}>{formatHash(tx.hash)}</Link></Table.Cell>
+            <Table.Cell><Link to={`/block/${tx.blockHash}`}>{tx.blockNumber}</Link></Table.Cell>
+            <Table.Cell>{tx.transactionIndex}</Table.Cell>
+            <Table.Cell><Link to={`/account/${tx.from}`}>{formatAddress(tx.from)}</Link></Table.Cell>
+            {tx.to && <Table.Cell><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></Table.Cell>}
+            {!tx.to && <Table.Cell>Contract creation</Table.Cell>}
+            <Table.Cell>{formatAmount(tx.value)}</Table.Cell>
+          </Table.Row>
         ))}
-        {txs.length === 0 && <tr>
-          <td colSpan="6">No transactions</td>
-        </tr>}
-      </tbody>
-    </table>
+        {txs.length === 0 && <Table.Row>
+          <Table.Cell colSpan="6">No transactions</Table.Cell>
+        </Table.Row>}
+      </Table.Body>
+    </Table>
   );
 };
 

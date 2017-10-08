@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Table,
+} from 'semantic-ui-react';
+import {
   formatAddress,
   formatHash,
   formatTimestamp,
@@ -9,31 +12,31 @@ import {
 const BlockList = (props) => {
   const { blocks } = props;
   return (
-    <table className="u-full-width">
-      <thead>
-        <tr>
-          <th>Hash</th>
-          <th>Block</th>
-          <th>Num. Transactions</th>
-          <th>Date</th>
-          <th>Miner</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Hash</Table.HeaderCell>
+          <Table.HeaderCell>Block</Table.HeaderCell>
+          <Table.HeaderCell># Trans.</Table.HeaderCell>
+          <Table.HeaderCell>Date</Table.HeaderCell>
+          <Table.HeaderCell>Miner</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {blocks.map(block => (
-          <tr key={block.hash}>
-            <td><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></td>
-            <td><Link to={`/block/${block.hash}`}>{block.number}</Link></td>
-            <td><Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link></td>
-            <td>{formatTimestamp(block.timestamp)}</td>
-            <td><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></td>
-          </tr>
+          <Table.Row key={block.hash}>
+            <Table.Cell><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></Table.Cell>
+            <Table.Cell><Link to={`/block/${block.hash}`}>{block.number}</Link></Table.Cell>
+            <Table.Cell><Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link></Table.Cell>
+            <Table.Cell>{formatTimestamp(block.timestamp)}</Table.Cell>
+            <Table.Cell><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></Table.Cell>
+          </Table.Row>
         ))}
-        {blocks.length === 0 && <tr>
-          <td colSpan="5">No blocks</td>
-        </tr>}
-      </tbody>
-    </table>
+        {blocks.length === 0 && <Table.Row>
+          <Table.Cell colSpan="5">No blocks</Table.Cell>
+        </Table.Row>}
+      </Table.Body>
+    </Table>
   );
 };
 

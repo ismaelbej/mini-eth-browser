@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
 import HomeController from '../controllers/Home';
 
@@ -34,18 +38,19 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Home</h1>
-        </div>
-        <div className="row">
-          <div className="six columns">
-            <h3>Recent blocks</h3>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Home</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h3">Recent blocks</Header>
             {this.state.blocks && <BlockList blocks={this.state.blocks} />}
-          </div>
-          <div className="six columns" />
-        </div>
-      </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

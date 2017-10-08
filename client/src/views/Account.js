@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import AccountController from '../controllers/Account';
 import AccountComponent from '../components/Account';
 
@@ -37,14 +41,18 @@ class Account extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Account</h1>
-        </div>
-        <div className="row">
-          {this.state.account && <AccountComponent account={this.state.account} />}
-        </div>
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Account</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.account && <AccountComponent account={this.state.account} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

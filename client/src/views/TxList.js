@@ -2,6 +2,10 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import queryString from 'query-string';
 import TxListComponent from '../components/TxList';
 import TxListController from '../controllers/TxList';
@@ -73,19 +77,25 @@ class TxList extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <h1>Transactions</h1>
-        </div>
-        <div className="row">
-          {this.state.prevTx !== false && <Link to={`/block/${this.state.hash}/txs/?start=${this.state.prevTx}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
-          {this.state.prevTx !== false && '\u00a0'}
-          {this.state.nextTx && <Link to={`/block/${this.state.hash}/txs/?start=${this.state.nextTx}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
-        </div>
-        <div className="row">
-          {this.state.txs && <TxListComponent txs={this.state.txs} />}
-        </div>
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Transactions</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.prevTx !== false && <Link to={`/block/${this.state.hash}/txs/?start=${this.state.prevTx}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
+            {this.state.prevTx !== false && '\u00a0'}
+            {this.state.nextTx && <Link to={`/block/${this.state.hash}/txs/?start=${this.state.nextTx}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            {this.state.txs && <TxListComponent txs={this.state.txs} />}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

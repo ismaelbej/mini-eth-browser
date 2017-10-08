@@ -1,14 +1,22 @@
 import React from 'react';
+import {
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 
 const Contract = () => (
-  <div>
-    <div className="row">
-      <h1>Contract</h1>
-    </div>
-    <div className="row">
-      <div className="six columns" />
-    </div>
-  </div>
+  <Grid>
+    <Grid.Row>
+      <Grid.Column>
+        <Header as="h1">Contract</Header>
+      </Grid.Column>
+    </Grid.Row>
+    <Grid.Row>
+      <Grid.Column>
+        Pending..
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
 );
 
 export default Contract;

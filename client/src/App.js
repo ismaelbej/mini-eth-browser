@@ -4,6 +4,9 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import {
+  Container,
+} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -17,9 +20,9 @@ import Contract from './views/Contract';
 
 const App = () => (
   <Router>
-    <div>
+    <Container>
       <Navbar />
-      <div className="container">
+      <Container>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/block" component={BlockList} />
@@ -29,8 +32,8 @@ const App = () => (
           <Route exact path="/account/:address" component={Account} />
           <Route path="/contract" component={Contract} />
         </Switch>
-      </div>
-    </div>
+      </Container>
+    </Container>
   </Router>
 );
 

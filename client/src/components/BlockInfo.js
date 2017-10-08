@@ -1,75 +1,78 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Table,
+} from 'semantic-ui-react';
 import { formatTimestamp } from '../utils/formatters';
 
 const BlockInfo = (props) => {
   const { block } = props;
   return (
-    <table className="u-full-width">
-      <tbody>
-        <tr>
-          <td>Hash:</td>
-          <td>{block.hash}</td>
-        </tr>
-        <tr>
-          <td>Number:</td>
-          <td>{block.number}</td>
-        </tr>
-        <tr>
-          <td>Parent:</td>
-          <td><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></td>
-        </tr>
-        <tr>
-          <td>Date:</td>
-          <td>{formatTimestamp(block.timestamp)}</td>
-        </tr>
-        <tr>
-          <td>Nonce:</td>
-          <td>{block.nonce}</td>
-        </tr>
-        <tr>
-          <td>Miner:</td>
-          <td><Link to={`/account/${block.miner}`}>{block.miner}</Link></td>
-        </tr>
-        <tr>
-          <td>Difficulty:</td>
-          <td>{block.difficulty}</td>
-        </tr>
-        <tr>
-          <td>Total Difficulty:</td>
-          <td>{block.totalDifficulty}</td>
-        </tr>
-        <tr>
-          <td>Gas Limit:</td>
-          <td>{block.gasLimit}</td>
-        </tr>
-        <tr>
-          <td>Gas Used:</td>
-          <td>{block.gasUsed}</td>
-        </tr>
-        <tr>
-          <td>Size:</td>
-          <td>{block.size}</td>
-        </tr>
-        <tr>
-          <td>Num. Transactions:</td>
-          {block.transactions.length === 0 && <td>
+    <Table>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Hash:</Table.Cell>
+          <Table.Cell>{block.hash}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Number:</Table.Cell>
+          <Table.Cell>{block.number}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Parent:</Table.Cell>
+          <Table.Cell><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Date:</Table.Cell>
+          <Table.Cell>{formatTimestamp(block.timestamp)}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Nonce:</Table.Cell>
+          <Table.Cell>{block.nonce}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Miner:</Table.Cell>
+          <Table.Cell><Link to={`/account/${block.miner}`}>{block.miner}</Link></Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Difficulty:</Table.Cell>
+          <Table.Cell>{block.difficulty}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Total Difficulty:</Table.Cell>
+          <Table.Cell>{block.totalDifficulty}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Gas Limit:</Table.Cell>
+          <Table.Cell>{block.gasLimit}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Gas Used:</Table.Cell>
+          <Table.Cell>{block.gasUsed}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Size:</Table.Cell>
+          <Table.Cell>{block.size}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Num. Transactions:</Table.Cell>
+          {block.transactions.length === 0 && <Table.Cell>
             {block.transactions.length}
-          </td>}
-          {block.transactions.length > 0 && <td>
+          </Table.Cell>}
+          {block.transactions.length > 0 && <Table.Cell>
             <Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link>
-          </td>}
-        </tr>
-        <tr>
-          <td>Num. Uncles:</td>
-          <td>{block.uncles.length}</td>
-        </tr>
-        <tr>
-          <td>Extra data:</td>
-          <td>{block.extraData}</td>
-        </tr>
-      </tbody>
-    </table>
+          </Table.Cell>}
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Num. Uncles:</Table.Cell>
+          <Table.Cell>{block.uncles.length}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Extra data:</Table.Cell>
+          <Table.Cell>{block.extraData}</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
   );
 };
 
