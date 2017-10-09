@@ -44,6 +44,7 @@ class BlockList extends React.Component {
   componentDidMount() {
     this.controller = new BlockListController();
     this.controller.on('blocks', blocks => this.handleBlocks(blocks));
+    this.controller.on('fail', err => this.handleFailure(err));
     this.controller.initialize(this.state.start, this.state.count);
   }
 
@@ -54,9 +55,6 @@ class BlockList extends React.Component {
       this.setState({
         start,
         count,
-        blocks: [],
-        nextBlock: undefined,
-        prevBlock: undefined,
       });
       this.controller.loadBlockList(start, count);
     }
@@ -67,6 +65,14 @@ class BlockList extends React.Component {
       blocks,
       nextBlock,
       prevBlock,
+    });
+  }
+
+  handleFailure(err) {
+    this.setState({
+      blocks: [],
+      nextBlock: undefined,
+      prevBlock: undefined,
     });
   }
 
@@ -87,7 +93,7 @@ class BlockList extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.blocks && <BlockListComponent blocks={this.state.blocks} />}
+            <BlockListComponent blocks={this.state.blocks} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

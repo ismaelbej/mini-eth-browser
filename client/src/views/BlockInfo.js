@@ -16,6 +16,8 @@ class BlockInfo extends React.Component {
     this.state = {
       hash,
       block: undefined,
+      nextBlock: undefined,
+      prevBlock: undefined,
       error: undefined,
     };
   }
@@ -30,11 +32,10 @@ class BlockInfo extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { hash } = nextProps.match.params;
     if (this.state.hash !== hash) {
-      this.setState({
-        hash,
-        block: undefined,
-      });
       this.controller.loadBlock(hash);
+      this.setState({
+        hash
+      });
     }
   }
 
@@ -43,6 +44,14 @@ class BlockInfo extends React.Component {
       block,
       nextBlock,
       prevBlock,
+    });
+  }
+
+  handleFailure(err) {
+    this.setState({
+      block: undefined,
+      nextBlock: undefined,
+      prevBlock: undefined,
     });
   }
 
@@ -63,7 +72,7 @@ class BlockInfo extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.block && <BlockInfoComponent block={this.state.block} />}
+            <BlockInfoComponent block={this.state.block} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

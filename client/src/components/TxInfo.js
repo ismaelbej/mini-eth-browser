@@ -12,6 +12,9 @@ const NULL_HASH = '0x00000000000000000000000000000000000000000000000000000000000
 
 const TxInfo = (props) => {
   const { tx } = props;
+  if (!tx) {
+    return <div />
+  }
   return (
     <Table>
       <Table.Body>

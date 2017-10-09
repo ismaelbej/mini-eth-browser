@@ -47,6 +47,7 @@ class TxList extends React.Component {
   componentDidMount() {
     this.controller = new TxListController();
     this.controller.on('txs', txs => this.handleTxs(txs));
+    this.controller.on('fail', err => this.handleFailure(err));
     this.controller.initialize(this.state.hash, this.state.start, this.state.count);
   }
 
@@ -59,9 +60,6 @@ class TxList extends React.Component {
         hash,
         start,
         count,
-        txs: [],
-        nextTx: undefined,
-        prevTx: undefined,
       });
       this.controller.loadTxList(hash, start, count);
     }
@@ -72,6 +70,14 @@ class TxList extends React.Component {
       txs,
       nextTx,
       prevTx,
+    });
+  }
+
+  handleFailure(err) {
+    this.setState({
+      txs: [],
+      nextTx: undefined,
+      prevTx: undefined,
     });
   }
 
@@ -92,7 +98,7 @@ class TxList extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.txs && <TxListComponent txs={this.state.txs} />}
+            <TxListComponent txs={this.state.txs} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

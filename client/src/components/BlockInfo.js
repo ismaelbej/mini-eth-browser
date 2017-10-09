@@ -7,6 +7,9 @@ import { formatTimestamp } from '../utils/formatters';
 
 const BlockInfo = (props) => {
   const { block } = props;
+  if (!block) {
+    return <div />;
+  }
   return (
     <Table>
       <Table.Body>

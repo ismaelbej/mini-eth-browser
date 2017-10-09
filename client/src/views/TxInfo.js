@@ -24,6 +24,7 @@ class TxInfo extends React.Component {
   componentDidMount() {
     this.controller = new TxInfoController();
     this.controller.on('tx', tx => this.handleTransaction(tx));
+    this.controller.on('fail', err => this.handleFailure(err));
     this.controller.initialize(this.state.hash);
   }
 
@@ -32,9 +33,6 @@ class TxInfo extends React.Component {
     if (hash !== this.state.hash) {
       this.setState({
         hash,
-        tx: undefined,
-        nextTx: undefined,
-        prevTx: undefined,
       });
       this.controller.loadTransaction(hash);
     }
@@ -45,6 +43,14 @@ class TxInfo extends React.Component {
       tx,
       nextTx,
       prevTx,
+    });
+  }
+
+  handleFailure(err) {
+    this.setState({
+      tx: undefined,
+      nextTx: undefined,
+      prevTx: undefined,
     });
   }
 
