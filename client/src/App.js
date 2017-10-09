@@ -22,7 +22,7 @@ const App = () => (
   <Router>
     <Container>
       <Navbar />
-      <Container>
+      <Container style={{ marginTop: '1em' }}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/block" component={BlockList} />
