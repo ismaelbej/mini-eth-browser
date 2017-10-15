@@ -6,6 +6,9 @@ import { formatAmount } from '../utils/formatters';
 
 const Account = (props) => {
   const { account } = props;
+  if (!account) {
+    return <div />;
+  }
   return (
     <Table>
       <Table.Body>

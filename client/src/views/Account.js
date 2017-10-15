@@ -19,6 +19,7 @@ class Account extends React.Component {
   componentDidMount() {
     this.controller = new AccountController();
     this.controller.on('account', account => this.handleAccount(account));
+    this.controller.on('fail', err => this.handleFailure(err));
     this.controller.initialize(this.state.address);
   }
 
@@ -27,7 +28,6 @@ class Account extends React.Component {
     if (address !== this.state.address) {
       this.setState({
         address,
-        account: undefined,
       });
       this.controller.loadAccount(address);
     }
@@ -36,6 +36,12 @@ class Account extends React.Component {
   handleAccount({ account }) {
     this.setState({
       account,
+    });
+  }
+
+  handleFailure(err) {
+    this.setState({
+      account: undefined,
     });
   }
 
@@ -49,7 +55,7 @@ class Account extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.account && <AccountComponent account={this.state.account} />}
+            <AccountComponent account={this.state.account} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
