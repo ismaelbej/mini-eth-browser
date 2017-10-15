@@ -34,7 +34,7 @@ class BlockInfo extends React.Component {
     if (this.state.hash !== hash) {
       this.controller.loadBlock(hash);
       this.setState({
-        hash
+        hash,
       });
     }
   }

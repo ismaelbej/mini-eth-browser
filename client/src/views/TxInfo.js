@@ -71,7 +71,7 @@ class TxInfo extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.tx && <TxInfoComponent tx={this.state.tx} />}
+            <TxInfoComponent tx={this.state.tx} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
