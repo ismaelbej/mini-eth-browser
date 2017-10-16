@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Table,
+  TextArea,
 } from 'semantic-ui-react';
 import {
   formatTimestamp,
@@ -74,7 +75,9 @@ const TxInfo = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Input:</Table.Cell>
-          <Table.Cell>{tx.input}</Table.Cell>
+          <Table.Cell>
+            <TextArea value={tx.input} />
+          </Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
