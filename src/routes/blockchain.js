@@ -1,16 +1,36 @@
 import express from 'express';
-import ethereum from '../lib/ethereum';
+import {
+  getBlockInfo,
+  getGasPrice,
+  getCoinbase,
+  getHashrate,
+  getMining,
+} from '../lib/ethereum';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const blockNumber = await ethereum.getLatestBlock();
-    const gasPrice = await ethereum.getGasPrice();
+    const [block,
+      coinbase,
+      gasPrice,
+      hashrate,
+      mining,
+    ] = await Promise.all([
+      getBlockInfo('latest'),
+      getCoinbase(),
+      getGasPrice(),
+      getHashrate(),
+      getMining(),
+    ]);
     res.json({
       blockchain: {
-        blockNumber,
+        blockNumber: block.number,
+        block,
+        coinbase,
         gasPrice,
+        hashrate,
+        mining,
       },
     });
   } catch (err) {

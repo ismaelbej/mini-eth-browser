@@ -8,7 +8,10 @@ export const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;
 const getBlockNumber = web3.eth.getBlockNumber;
 const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
+export const getCoinbase = web3.eth.getCoinbase;
 export const getGasPrice = web3.eth.getGasPrice;
+export const getHashrate = web3.eth.getHashrate;
+export const getMining = web3.eth.isMining;
 const getTransaction = web3.eth.getTransaction;
 export const getTransactionCount = web3.eth.getTransactionCount;
 const getTransactionReceipt = web3.eth.getTransactionReceipt;
@@ -49,8 +52,11 @@ export default {
   getBalance,
   getBlockInfo,
   getBlockTransactionCount,
+  getCoinbase,
   getGasPrice,
+  getHashrate,
   getLatestBlock,
+  getMining,
   getPendingTransactions,
   getTransactionCount,
   getTransactionInfo,
