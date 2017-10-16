@@ -3,12 +3,21 @@ import {
   Link,
 } from 'react-router-dom';
 import {
+  Button,
   Grid,
   Header,
+  Loader,
 } from 'semantic-ui-react';
 import queryString from 'query-string';
 import BlockListComponent from '../components/BlockList';
-import BlockListController from '../controllers/BlockList';
+import {
+  getBlockchainInfo,
+  getBlockList,
+} from '../lib/api';
+
+
+const BLOCK_COUNT = 20;
+
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -31,52 +40,55 @@ function parseParams(props) {
 class BlockList extends React.Component {
   constructor(props) {
     super(props);
-    const { start, count } = parseParams(props);
-    this.state = {
-      start,
-      count,
-      blocks: [],
-      nextBlock: undefined,
-      prevBlock: undefined,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.controller = new BlockListController();
-    this.controller.on('blocks', blocks => this.handleBlocks(blocks));
-    this.controller.on('fail', err => this.handleFailure(err));
-    this.controller.initialize(this.state.start, this.state.count);
+    const { start, count } = parseParams(this.props);
+    this.loadData(start, count);
   }
 
   componentWillReceiveProps(nextProps) {
     const { start, count } = parseParams(nextProps);
-    if (this.state.start !== start ||
-      this.state.count !== count) {
-      this.setState({
-        start,
-        count,
-      });
-      this.controller.loadBlockList(start, count);
+    if (this.state.data.start !== start ||
+        this.state.data.count !== count) {
+      this.loadData(start, count);
     }
   }
 
-  handleBlocks({ blocks, nextBlock, prevBlock }) {
-    this.setState({
-      blocks,
-      nextBlock,
-      prevBlock,
-    });
-  }
-
-  handleFailure(err) {
-    this.setState({
-      blocks: [],
-      nextBlock: undefined,
-      prevBlock: undefined,
-    });
+  async loadData(start, count = BLOCK_COUNT) {
+    try {
+      this.setState({ loading: true, error: false });
+      const [{ blocks }, { blockchain }] = await Promise.all([
+        getBlockList(start, count),
+        getBlockchainInfo(),
+      ]);
+      const data = {
+        blocks,
+        start: blocks.length > 0 ? blocks[0].number : start,
+        count,
+        nextBlock: blocks.length > 0 && blocks[0].number >= BLOCK_COUNT ?
+          blocks[0].number - BLOCK_COUNT : -1,
+        prevBlock: blocks.length > 0 && blocks[0].number + BLOCK_COUNT <= blockchain.blockNumber ?
+          blocks[0].number + BLOCK_COUNT : -1,
+      };
+      this.setState({ loading: false, error: false, data });
+    } catch (ex) {
+      this.setState({ loading: false, error: true });
+    }
   }
 
   render() {
+    const {
+      loading,
+      data: {
+        count = BLOCK_COUNT,
+        blocks = [],
+        nextBlock = -1,
+        prevBlock = -1,
+      } = {},
+    } = this.state;
+
     return (
       <Grid>
         <Grid.Row>
@@ -86,14 +98,26 @@ class BlockList extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.prevBlock && <Link to={`/block/?start=${this.state.prevBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Previous</Link>}
-            {this.state.prevBlock && '\u00a0'}
-            {this.state.nextBlock && <Link to={`/block/?start=${this.state.nextBlock}${this.state.count ? `&count=${this.state.count}` : ''}`} className="button button-primary">Next</Link>}
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <BlockListComponent blocks={this.state.blocks} />
+            {loading && <Loader active inline size="tiny" />}
+            <Button.Group floated="right">
+              <Button
+                {...{ disabled: prevBlock < 0 }}
+                labelPosition="left"
+                content="Previous"
+                icon="left chevron"
+                as={Link}
+                to={`/block/?start=${prevBlock}&count=${count}`}
+              />
+              <Button
+                {...{ disabled: nextBlock < 0 }}
+                labelPosition="right"
+                content="Next"
+                icon="right chevron"
+                as={Link}
+                to={`/block/?start=${nextBlock}&count=${count}`}
+              />
+            </Button.Group>
+            <BlockListComponent blocks={blocks} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
