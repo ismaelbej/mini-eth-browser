@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Table,
 } from 'semantic-ui-react';
@@ -16,6 +17,10 @@ const Account = (props) => {
           <Table.Cell>Address:</Table.Cell>
           <Table.Cell>{account.address}</Table.Cell>
         </Table.Row>
+        {account.code && <Table.Row>
+          <Table.Cell>Contract:</Table.Cell>
+          <Table.Cell><Link to={`/contract/${account.address}`}>{account.address}</Link></Table.Cell>
+        </Table.Row>}
         <Table.Row>
           <Table.Cell>Balance:</Table.Cell>
           <Table.Cell>{formatAmount(account.balance)}</Table.Cell>
