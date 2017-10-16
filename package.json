@@ -28,7 +28,7 @@
     "jade": "~1.11.0",
     "lodash": "^4.17.4",
     "morgan": "~1.8.1",
-    "web3": "^1.0.0-beta.18",
+    "web3": "^1.0.0-beta.23",
     "web3admin": "^0.4.4"
   },
   "devDependencies": {
