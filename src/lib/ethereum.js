@@ -8,6 +8,7 @@ export const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;
 const getBlockNumber = web3.eth.getBlockNumber;
 const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
+export const getCode = web3.eth.getCode;
 export const getCoinbase = web3.eth.getCoinbase;
 export const getGasPrice = web3.eth.getGasPrice;
 export const getHashrate = web3.eth.getHashrate;
@@ -45,13 +46,38 @@ export async function getTransactionInfo(txid) {
   if (receipt) {
     tx.receipt = receipt;
   }
+  if (tx.to) {
+    const code = await getCode(tx.to);
+    if (code && code != '0x0') {
+      tx.code = code;
+    }
+  }
   return tx;
 }
 
+export async function getAccountInfo(address) {
+  const [balance, transactionCount, code] = await Promise.all([
+    getBalance(address),
+    getTransactionCount(address),
+    getCode(address),
+  ]);
+  const account = {
+    address,
+    balance,
+    transactionCount,
+  };
+  if (code && code != '0x0') {
+    account.code = code;
+  }
+  return account;
+}
+
 export default {
+  getAccountInfo,
   getBalance,
   getBlockInfo,
   getBlockTransactionCount,
+  getCode,
   getCoinbase,
   getGasPrice,
   getHashrate,

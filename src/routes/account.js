@@ -1,8 +1,7 @@
 import express from 'express';
 import Promise from 'bluebird';
 import {
-  getBalance,
-  getTransactionCount,
+  getAccountInfo,
 } from '../lib/ethereum';
 
 const router = express.Router();
@@ -10,16 +9,9 @@ const router = express.Router();
 router.get('/:address', async (req, res) => {
   try {
     const { address } = req.params;
-    const [balance, transactionCount] = await Promise.all([
-      getBalance(address),
-      getTransactionCount(address),
-    ]);
+    const account = await getAccountInfo(address);
     res.json({
-      account: {
-        address,
-        balance,
-        transactionCount,
-      },
+      account,
     });
   } catch (err) {
     res.status(err.status || 500);
