@@ -31,7 +31,7 @@ class Home extends React.Component {
     try {
       this.setState({ loading: true, error: false });
       const { blockchain } = await getBlockchainInfo();
-      const { blocks } = (blockchain.blockNumber) ?
+      const { blocks } = (blockchain.blockNumber >= 0) ?
         await getBlockList(blockchain.blockNumber, HOME_BLOCK_COUNT) : {};
       const data = {
         blockchain,
