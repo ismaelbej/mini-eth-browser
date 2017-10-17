@@ -38,7 +38,13 @@ export function formatAmount(amountParam) {
 }
 
 export function formatText(data, enc = 'utf8') {
-  return Buffer.from(data.slice(2), 'hex').toString(enc);
+  if (data === '0x0' || data === '0x') {
+    return '';
+  }
+  if (data.startsWith('0x')) {
+    return Buffer.from(data.slice(2), 'hex').toString(enc);
+  }
+  return Buffer.from(data).toString(enc);
 }
 
 export default {

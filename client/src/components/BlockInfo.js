@@ -75,7 +75,7 @@ const BlockInfo = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Extra data:</Table.Cell>
-          <Table.Cell>{`${block.extraData} (${formatText(block.extraData)})`}</Table.Cell>
+          <Table.Cell>{`${block.extraData}${block.extraData !== '0x0' ? ` (${formatText(block.extraData)})` : ''}`}</Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
