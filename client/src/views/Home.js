@@ -5,17 +5,13 @@ import {
   Grid,
   Header,
   Loader,
-  Table,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
+import BlockchainInfo from '../components/BlockchainInfo';
 import {
   getBlockchainInfo,
   getBlockList,
 } from '../lib/api';
-import {
-  formatTimestamp,
-  formatAmount,
-} from '../utils/formatters';
 
 
 const HOME_BLOCK_COUNT = 10;
@@ -62,38 +58,12 @@ class Home extends React.Component {
             <Header as="h1">Home</Header>
           </Grid.Column>
         </Grid.Row>
-        {blockchain && <Grid.Row>
+        <Grid.Row>
           <Grid.Column>
-            <Table>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Latest block:</Table.Cell>
-                  <Table.Cell>{blockchain.block.number}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Date:</Table.Cell>
-                  <Table.Cell>{formatTimestamp(blockchain.block.timestamp)}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Gas price:</Table.Cell>
-                  <Table.Cell>{formatAmount(blockchain.gasPrice)}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Mining:</Table.Cell>
-                  <Table.Cell>{blockchain.mining ? 'yes' : 'no'}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Hashrate:</Table.Cell>
-                  <Table.Cell>{blockchain.hashrate}</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Coinbase:</Table.Cell>
-                  <Table.Cell>{blockchain.coinbase}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
+            <Header as="h3">Blockchain</Header>
+            <BlockchainInfo blockchain={blockchain} />
           </Grid.Column>
-        </Grid.Row>}
+        </Grid.Row>
         <Grid.Row>
           <Grid.Column>
             <Header as="h3">Recent blocks</Header>
