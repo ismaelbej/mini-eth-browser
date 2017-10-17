@@ -37,9 +37,14 @@ export function formatAmount(amountParam) {
   return `${amount.toFormat()} ether`;
 }
 
+export function formatText(data, enc = 'utf8') {
+  return Buffer.from(data.slice(2), 'hex').toString(enc);
+}
+
 export default {
   formatAddress,
   formatAmount,
   formatHash,
+  formatText,
   formatTimestamp,
 };

@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import {
   Table,
 } from 'semantic-ui-react';
-import { formatTimestamp } from '../utils/formatters';
+import {
+  formatText,
+  formatTimestamp,
+} from '../utils/formatters';
 
 const BlockInfo = (props) => {
   const { block } = props;
@@ -72,7 +75,7 @@ const BlockInfo = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Extra data:</Table.Cell>
-          <Table.Cell>{block.extraData}</Table.Cell>
+          <Table.Cell>{`${block.extraData} (${formatText(block.extraData)})`}</Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
