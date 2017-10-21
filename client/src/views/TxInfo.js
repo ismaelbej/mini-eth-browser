@@ -3,58 +3,64 @@ import {
   Link,
 } from 'react-router-dom';
 import {
+  Button,
+  Divider,
   Grid,
   Header,
+  Loader,
 } from 'semantic-ui-react';
+import {
+  getTransactionInfo,
+} from '../lib/api';
 import TxInfoComponent from '../components/TxInfo';
-import TxInfoController from '../controllers/TxInfo';
 
 class TxInfo extends React.Component {
   constructor(props) {
     super(props);
-    const { hash } = props.match.params;
-    this.state = {
-      hash,
-      tx: undefined,
-      nextTx: undefined,
-      prevTx: undefined,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.controller = new TxInfoController();
-    this.controller.on('tx', tx => this.handleTransaction(tx));
-    this.controller.on('fail', err => this.handleFailure(err));
-    this.controller.initialize(this.state.hash);
+    const { hash } = this.props.match.params;
+    this.loadData(hash);
   }
 
   componentWillReceiveProps(nextProps) {
     const { hash } = nextProps.match.params;
     if (hash !== this.state.hash) {
-      this.setState({
-        hash,
-      });
-      this.controller.loadTransaction(hash);
+      this.loadData(hash);
     }
   }
 
-  handleTransaction({ tx, nextTx, prevTx }) {
-    this.setState({
-      tx,
-      nextTx,
-      prevTx,
-    });
-  }
-
-  handleFailure(err) {
-    this.setState({
-      tx: undefined,
-      nextTx: undefined,
-      prevTx: undefined,
-    });
+  async loadData(hash) {
+    try {
+      this.setState({ loading: true, error: false });
+      const { tx } = await getTransactionInfo(hash);
+      const nextTx = tx.transactionIndex + 1 < tx.block.transactions.length ?
+        tx.block.transactions[tx.transactionIndex + 1] : null;
+      const prevTx = tx.transactionIndex > 0 ?
+        tx.block.transactions[tx.transactionIndex - 1] : null;
+      const data = {
+        hash,
+        tx,
+        nextTx,
+        prevTx,
+      };
+      this.setState({ loading: false, error: false, data });
+    } catch (err) {
+      this.setState({ loading: false, error: true });
+    }
   }
 
   render() {
+    const {
+      loading,
+      data: {
+        tx,
+        nextTx = null,
+        prevTx = null,
+      } = {},
+    } = this.state;
     return (
       <Grid>
         <Grid.Row>
@@ -64,14 +70,27 @@ class TxInfo extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {this.state.prevTx !== false && <Link to={`/tx/${this.state.prevTx}`} className="button button-primary">Previous</Link>}
-            {this.state.prevTx !== false && '\u00a0'}
-            {this.state.nextTx && <Link to={`/tx/${this.state.nextTx}`} className="button button-primary">Next</Link>}
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <TxInfoComponent tx={this.state.tx} />
+            {loading && <Loader active inline size="tiny" />}
+            <Button.Group floated="right">
+              <Button
+                disabled={prevTx === null}
+                labelPosition="left"
+                content="Previous"
+                icon="left chevron"
+                as={Link}
+                to={`/tx/${prevTx}`}
+              />
+              <Button
+                disabled={nextTx === null}
+                labelPosition="right"
+                content="Next"
+                icon="right chevron"
+                as={Link}
+                to={`/tx/${nextTx}`}
+              />
+            </Button.Group>
+            <Divider clearing hidden />
+            <TxInfoComponent tx={tx} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
