@@ -12,9 +12,9 @@
     "postinstall": "run-s pi:*",
     "pi:backend": "npm run build",
     "pi:client": "cd client && npm install",
-    "start:backend": "cross-env PORT=3001 node ./dist/bin/www",
+    "start:backend": "cross-env PORT=5000 node ./dist/bin/www",
     "start:client": "cd client && npm start",
-    "dev:backend": "cross-env PORT=3001 nodemon --watch ./src --exec babel-node ./src/bin/www",
+    "dev:backend": "cross-env PORT=5000 nodemon --watch ./src --exec babel-node ./src/bin/www",
     "dev:client": "cd client && npm start"
   },
   "dependencies": {
