@@ -51,8 +51,10 @@ const InfoTab = (props) => {
         <Table.Row>
           <Table.Cell>To:</Table.Cell>
           {tx.to && <Table.Cell><Link to={`/account/${tx.to}`}>{tx.to}</Link></Table.Cell>}
-          {!tx.to && tx.receipt.contractAddress && <Table.Cell>Contract created <Link to={`/account/${tx.receipt.contractAddress}`}>{tx.receipt.contractAddress}</Link></Table.Cell>}
-          {!tx.to && !tx.receipt.contractAddress && <Table.Cell>Contract creation failed</Table.Cell>}
+          {!tx.to && tx.receipt.contractAddress &&
+            <Table.Cell>Contract created <Link to={`/account/${tx.receipt.contractAddress}`}>{tx.receipt.contractAddress}</Link></Table.Cell>}
+          {!tx.to && !tx.receipt.contractAddress &&
+            <Table.Cell>Contract creation failed</Table.Cell>}
         </Table.Row>
         <Table.Row>
           <Table.Cell>Gas:</Table.Cell>
