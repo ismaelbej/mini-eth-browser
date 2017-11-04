@@ -3,49 +3,46 @@ import {
   Grid,
   Header,
 } from 'semantic-ui-react';
-import AccountController from '../controllers/Account';
 import AccountComponent from '../components/Account';
+import {
+  getAccountInfo,
+} from '../lib/api';
 
 class Account extends React.Component {
   constructor(props) {
     super(props);
-    const { address } = props.match.params;
-    this.state = {
-      address,
-      account: undefined,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.controller = new AccountController();
-    this.controller.on('account', account => this.handleAccount(account));
-    this.controller.on('fail', err => this.handleFailure(err));
-    this.controller.initialize(this.state.address);
+    const { address } = this.props.match.params;
+    this.loadData(address);
   }
 
   componentWillReceiveProps(nextProps) {
     const { address } = nextProps.match.params;
     if (address !== this.state.address) {
-      this.setState({
-        address,
-      });
-      this.controller.loadAccount(address);
+      this.loadData(address);
     }
   }
 
-  handleAccount({ account }) {
-    this.setState({
-      account,
-    });
-  }
-
-  handleFailure(err) {
-    this.setState({
-      account: undefined,
-    });
+  async loadData(address) {
+    try {
+      this.setState({ loading: true, error: false });
+      const { account } = await getAccountInfo(address);
+      const data = { account };
+      this.setState({ loading: false, error: false, data });
+    } catch (err) {
+      this.setState({ loading: false, error: true });
+    }
   }
 
   render() {
+    const {
+      data: {
+        account,
+      } = {},
+    } = this.state;
     return (
       <Grid>
         <Grid.Row>
@@ -55,7 +52,7 @@ class Account extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <AccountComponent account={this.state.account} />
+            <AccountComponent account={account} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
