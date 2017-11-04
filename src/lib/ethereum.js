@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import Promise from 'bluebird';
 import config from '../config';
 
-const web3 = new Web3(Web3.givenProviders || config.node || 'http://localhost:8545');
+const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
 
 export const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;

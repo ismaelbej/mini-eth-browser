@@ -1,3 +1,4 @@
 export default {
-  node: 'http://localhost:8545',
+  port: 5000,
+  rpcnode: 'http://localhost:8545',
 };
