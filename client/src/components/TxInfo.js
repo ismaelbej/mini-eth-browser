@@ -123,7 +123,7 @@ const ReceiptTab = (props) => {
         <Table.Row>
           <Table.Cell>Contract Address:</Table.Cell>
           {receipt.contractAddress && <Table.Cell><Link to={`/contract/${receipt.contractAddress}`}>{receipt.contractAddress}</Link></Table.Cell>}
-          {!receipt.contractAddress && <Table.Cell>null</Table.Cell>}
+          {!receipt.contractAddress && <Table.Cell>(None)</Table.Cell>}
         </Table.Row>
         {receipt.status && <Table.Row>
           <Table.Cell>Status:</Table.Cell>
