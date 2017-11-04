@@ -1,5 +1,4 @@
 import express from 'express';
-import Promise from 'bluebird';
 import {
   getAccountInfo,
 } from '../lib/ethereum';

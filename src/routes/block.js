@@ -1,7 +1,12 @@
 import express from 'express';
 import _ from 'lodash';
 import Promise from 'bluebird';
-import ethereum from '../lib/ethereum';
+import {
+  getBlockInfo,
+  getBlockTransactionCount,
+  getLatestBlock,
+  getTransactionFromBlock,
+} from '../lib/ethereum';
 
 const router = express.Router();
 
@@ -14,7 +19,7 @@ async function parseBlockParams(query) {
   if (typeof query.start === 'string') {
     start = parseInt(query.start, 10);
   } else if (typeof query.start === 'undefined') {
-    start = await ethereum.getLatestBlock();
+    start = await getLatestBlock();
   }
   let count = BLOCK_COUNT;
   if (typeof query.count === 'string') {
@@ -36,7 +41,7 @@ router.get('/', async (req, res) => {
     if (start >= 0) {
       const blocks = await Promise.map(
         _.range(start, _.max([-1, start - count]), -1),
-        blk => ethereum.getBlockInfo(blk));
+        blk => getBlockInfo(blk));
       res.json({
         blocks,
       });
@@ -56,7 +61,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:hash', async (req, res) => {
   try {
-    const block = await ethereum.getBlockInfo(req.params.hash);
+    const block = await getBlockInfo(req.params.hash);
     res.json({
       block,
     });
@@ -74,7 +79,7 @@ async function parseTxParams(query) {
     start = parseInt(query.start, 10);
   }
   if (start < 0) {
-    start = await ethereum.getLatestBlock();
+    start = await getLatestBlock();
   }
   let count = TX_COUNT;
   if (typeof query.count === 'string') {
@@ -92,10 +97,10 @@ async function parseTxParams(query) {
 router.get('/:hash/txs/', async (req, res) => {
   try {
     const { start, count } = await parseTxParams(req.query);
-    const max = await ethereum.getBlockTransactionCount(req.params.hash);
+    const max = await getBlockTransactionCount(req.params.hash);
     const txrange = _.range(start, _.min([start + count, max]));
     const txs = await Promise.all(txrange.map(idx =>
-      ethereum.getTransactionFromBlock(req.params.hash, idx)));
+      getTransactionFromBlock(req.params.hash, idx)));
     res.json({
       txs,
     });

@@ -7,7 +7,7 @@ const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost
 export const getBalance = web3.eth.getBalance;
 const getBlock = web3.eth.getBlock;
 const getBlockNumber = web3.eth.getBlockNumber;
-const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
+export const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
 export const getCode = web3.eth.getCode;
 export const getCoinbase = web3.eth.getCoinbase;
 export const getGasPrice = web3.eth.getGasPrice;
@@ -48,7 +48,7 @@ export async function getTransactionInfo(txid) {
   }
   if (tx.to) {
     const code = await getCode(tx.to);
-    if (code && code != '0x0') {
+    if (code && code !== '0x0') {
       tx.code = code;
     }
   }
@@ -66,7 +66,7 @@ export async function getAccountInfo(address) {
     balance,
     transactionCount,
   };
-  if (code && code != '0x0') {
+  if (code && code !== '0x0') {
     account.code = code;
   }
   return account;
