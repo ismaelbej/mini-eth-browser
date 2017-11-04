@@ -1,13 +1,11 @@
 import express from 'express';
-import {
-  getTransactionInfo,
-} from '../lib/ethereum';
+import Transactions from '../controllers/Transactions';
 
 const router = express.Router();
 
 router.get('/:txid', async (req, res) => {
   try {
-    const tx = await getTransactionInfo(req.params.txid);
+    const tx = await Transactions.get(req.params.txid);
     res.json({
       tx,
     });
