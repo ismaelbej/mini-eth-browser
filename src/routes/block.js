@@ -1,11 +1,11 @@
 import express from 'express';
-import _ from 'lodash';
-import Promise from 'bluebird';
 import {
   getBlockInfo,
-  getBlockTransactionCount,
+  listBlocks,
+  listBlockTransactions,
+} from '../controllers/Blocks';
+import {
   getLatestBlock,
-  getTransactionFromBlock,
 } from '../lib/ethereum';
 
 const router = express.Router();
@@ -37,11 +37,8 @@ async function parseBlockParams(query) {
 router.get('/', async (req, res) => {
   try {
     const { start, count } = await parseBlockParams(req.query);
-
     if (start >= 0) {
-      const blocks = await Promise.map(
-        _.range(start, _.max([-1, start - count]), -1),
-        blk => getBlockInfo(blk));
+      const blocks = await listBlocks(start, count);
       res.json({
         blocks,
       });
@@ -97,10 +94,7 @@ async function parseTxParams(query) {
 router.get('/:hash/txs/', async (req, res) => {
   try {
     const { start, count } = await parseTxParams(req.query);
-    const max = await getBlockTransactionCount(req.params.hash);
-    const txrange = _.range(start, _.min([start + count, max]));
-    const txs = await Promise.all(txrange.map(idx =>
-      getTransactionFromBlock(req.params.hash, idx)));
+    const txs = await listBlockTransactions(req.params.hash, start, count);
     res.json({
       txs,
     });
