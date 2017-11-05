@@ -1,15 +1,12 @@
 import React from 'react';
 import {
-  Link,
-} from 'react-router-dom';
-import {
-  Button,
   Grid,
   Header,
   Loader,
 } from 'semantic-ui-react';
 import queryString from 'query-string';
 import BlockListComponent from '../components/BlockList';
+import PrevNext from '../components/PrevNext';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -50,7 +47,7 @@ class BlockList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { start, count } = parseParams(nextProps);
-    if (this.state.data.start !== start ||
+    if (!this.state.data || this.state.data.start !== start ||
         this.state.data.count !== count) {
       this.loadData(start, count);
     }
@@ -99,24 +96,12 @@ class BlockList extends React.Component {
         <Grid.Row>
           <Grid.Column>
             {loading && <Loader active inline size="tiny" />}
-            <Button.Group floated="right">
-              <Button
-                {...{ disabled: prevBlock < 0 }}
-                labelPosition="left"
-                content="Previous"
-                icon="left chevron"
-                as={Link}
-                to={`/block/?start=${prevBlock}&count=${count}`}
-              />
-              <Button
-                {...{ disabled: nextBlock < 0 }}
-                labelPosition="right"
-                content="Next"
-                icon="right chevron"
-                as={Link}
-                to={`/block/?start=${nextBlock}&count=${count}`}
-              />
-            </Button.Group>
+            <PrevNext
+              hasPrev={prevBlock >= 0}
+              prev={`/block/?start=${prevBlock}&count=${count}`}
+              hasNext={nextBlock >= 0}
+              next={`/block/?start=${nextBlock}&count=${count}`}
+            />
             <BlockListComponent blocks={blocks} />
           </Grid.Column>
         </Grid.Row>

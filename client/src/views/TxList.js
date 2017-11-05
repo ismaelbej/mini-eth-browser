@@ -1,9 +1,5 @@
 import React from 'react';
 import {
-  Link,
-} from 'react-router-dom';
-import {
-  Button,
   Grid,
   Header,
   Loader,
@@ -11,6 +7,7 @@ import {
 } from 'semantic-ui-react';
 import queryString from 'query-string';
 import TxListComponent from '../components/TxList';
+import PrevNext from '../components/PrevNext';
 import {
   getBlockInfo,
   getTransactionList,
@@ -107,7 +104,7 @@ class TxList extends React.Component {
             <Table>
               <Table.Body>
                 <Table.Row>
-                  <Table.Cell>Hash:</Table.Cell>
+                  <Table.Cell>Block hash:</Table.Cell>
                   <Table.Cell>{block.hash}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
@@ -129,24 +126,12 @@ class TxList extends React.Component {
         <Grid.Row>
           <Grid.Column>
             {loading && <Loader active inline size="tiny" />}
-            <Button.Group floated="right">
-              <Button
-                {...{ disabled: prevTx < 0 }}
-                labelPosition="left"
-                content="Previous"
-                icon="left chevron"
-                as={Link}
-                to={`/block/${hash}/txs/?start=${prevTx}&count=${count}`}
-              />
-              <Button
-                {...{ disabled: nextTx < 0 }}
-                labelPosition="right"
-                content="Next"
-                icon="right chevron"
-                as={Link}
-                to={`/block/${hash}/txs/?start=${nextTx}&count=${count}`}
-              />
-            </Button.Group>
+            <PrevNext
+              hasPrev={prevTx >= 0}
+              prev={`/block/${hash}/txs/?start=${prevTx}&count=${count}`}
+              hasNext={nextTx >= 0}
+              next={`/block/${hash}/txs/?start=${nextTx}&count=${count}`}
+            />
             <TxListComponent txs={txs} />
           </Grid.Column>
         </Grid.Row>

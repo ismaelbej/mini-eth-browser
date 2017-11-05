@@ -1,14 +1,11 @@
 import React from 'react';
 import {
-  Link,
-} from 'react-router-dom';
-import {
-  Button,
   Grid,
   Header,
   Loader,
 } from 'semantic-ui-react';
 import BlockInfoComponent from '../components/BlockInfo';
+import PrevNext from '../components/PrevNext';
 import {
   getBlockchainInfo,
   getBlockInfo,
@@ -72,24 +69,12 @@ class BlockInfo extends React.Component {
         <Grid.Row>
           <Grid.Column>
             {loading && <Loader active inline size="tiny" />}
-            <Button.Group floated="right">
-              <Button
-                {...{ disabled: prevBlock < 0 }}
-                labelPosition="left"
-                content="Previous"
-                icon="left chevron"
-                as={Link}
-                to={`/block/${prevBlock}`}
-              />
-              <Button
-                {...{ disabled: nextBlock < 0 }}
-                labelPosition="right"
-                content="Next"
-                icon="right chevron"
-                as={Link}
-                to={`/block/${nextBlock}`}
-              />
-            </Button.Group>
+            <PrevNext
+              hasPrev={prevBlock >= 0}
+              prev={`/block/${prevBlock}`}
+              hasNext={nextBlock >= 0}
+              next={`/block/${nextBlock}`}
+            />
             <BlockInfoComponent block={block} />
           </Grid.Column>
         </Grid.Row>

@@ -1,9 +1,5 @@
 import React from 'react';
 import {
-  Link,
-} from 'react-router-dom';
-import {
-  Button,
   Divider,
   Grid,
   Header,
@@ -13,6 +9,7 @@ import {
   getTransactionInfo,
 } from '../lib/api';
 import TxInfoComponent from '../components/TxInfo';
+import PrevNext from '../components/PrevNext';
 
 class TxInfo extends React.Component {
   constructor(props) {
@@ -71,24 +68,12 @@ class TxInfo extends React.Component {
         <Grid.Row>
           <Grid.Column>
             {loading && <Loader active inline size="tiny" />}
-            <Button.Group floated="right">
-              <Button
-                disabled={prevTx === null}
-                labelPosition="left"
-                content="Previous"
-                icon="left chevron"
-                as={Link}
-                to={`/tx/${prevTx}`}
-              />
-              <Button
-                disabled={nextTx === null}
-                labelPosition="right"
-                content="Next"
-                icon="right chevron"
-                as={Link}
-                to={`/tx/${nextTx}`}
-              />
-            </Button.Group>
+            <PrevNext
+              hasPrev={!!prevTx}
+              prev={`/tx/${prevTx}`}
+              hasNext={!!nextTx}
+              next={`/tx/${nextTx}`}
+            />
             <Divider clearing hidden />
             <TxInfoComponent tx={tx} />
           </Grid.Column>
