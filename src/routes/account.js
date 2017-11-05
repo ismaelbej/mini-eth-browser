@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getAccountInfo,
-} from '../lib/ethereum';
+} from '../controllers/Accounts';
 
 const router = express.Router();
 
