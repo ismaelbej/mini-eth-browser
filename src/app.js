@@ -2,8 +2,11 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
+import Promise from 'bluebird';
 import config from './config';
 import api from './routes/api';
+
+global.Promise = Promise;
 
 function createApp() {
   const app = express();
