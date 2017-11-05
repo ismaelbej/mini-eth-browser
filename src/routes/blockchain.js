@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  getBlockInfo,
+  getBlock,
   getGasPrice,
   getCoinbase,
   getHashrate,
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
       hashrate,
       mining,
     ] = await Promise.all([
-      getBlockInfo('latest'),
+      getBlock('latest'),
       getCoinbase(),
       getGasPrice(),
       getHashrate(),

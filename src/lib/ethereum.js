@@ -1,5 +1,4 @@
 import Web3 from 'web3';
-import Promise from 'bluebird';
 import config from '../config';
 
 const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
@@ -20,14 +19,6 @@ export const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
 
 export function getLatestBlock() {
   return getBlockNumber();
-}
-
-export async function getBlockInfo(hash) {
-  const block = await getBlock(hash);
-  if (!block) {
-    throw new Error(`Invalid block ${hash}`);
-  }
-  return block;
 }
 
 export function getPendingTransactions() {
@@ -54,7 +45,6 @@ export async function getAccountInfo(address) {
 export default {
   getAccountInfo,
   getBalance,
-  getBlockInfo,
   getBlockTransactionCount,
   getCode,
   getCoinbase,
