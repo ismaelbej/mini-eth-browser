@@ -10,6 +10,7 @@ const Navbar = () => (
     <Menu>
       <Menu.Item as={Link} to="/">Home</Menu.Item>
       <Menu.Item as={Link} to="/block">Blocks</Menu.Item>
+      <Menu.Item as={Link} to="/tx">Transactions</Menu.Item>
     </Menu>
   </Container>
 );

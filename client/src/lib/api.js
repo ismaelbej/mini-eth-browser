@@ -23,12 +23,16 @@ export function getBlockList(start, count) {
   return fetchJson(`${config.rpcpath}/api/v1/block/`, { start, count });
 }
 
+export function getBlockTransactionList(block, start, count) {
+  return fetchJson(`${config.rpcpath}/api/v1/block/${block}/txs/`, { start, count });
+}
+
 export function getTransactionInfo(txid) {
   return fetchJson(`${config.rpcpath}/api/v1/tx/${txid}`);
 }
 
-export function getTransactionList(block, start, count) {
-  return fetchJson(`${config.rpcpath}/api/v1/block/${block}/txs/`, { start, count });
+export function getTransactionList(start, count) {
+  return fetchJson(`${config.rpcpath}/api/v1/tx/`, { start, count });
 }
 
 export default {

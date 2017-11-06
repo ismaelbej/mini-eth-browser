@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 import Home from './views/Home';
 import BlockList from './views/BlockList';
 import BlockInfo from './views/BlockInfo';
+import BlockTxList from './views/BlockTxList';
 import TxInfo from './views/TxInfo';
 import TxList from './views/TxList';
 import Account from './views/Account';
@@ -26,7 +27,8 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route exact path="/block" component={BlockList} />
           <Route exact path="/block/:hash" component={BlockInfo} />
-          <Route exact path="/block/:hash/txs" component={TxList} />
+          <Route exact path="/block/:hash/txs" component={BlockTxList} />
+          <Route exact path="/tx/" component={TxList} />
           <Route exact path="/tx/:hash" component={TxInfo} />
           <Route exact path="/account/:address" component={Account} />
           <Route path="/contract" component={Contract} />
