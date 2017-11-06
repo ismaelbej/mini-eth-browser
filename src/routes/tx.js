@@ -3,14 +3,31 @@ import {
   getTransactionInfo,
   listTransactions,
 } from '../controllers/Transactions';
+import {
+  getLatestBlock,
+} from '../lib/ethereum';
+import {
+  parseQueryParams,
+} from '../lib/utils';
+
+const TX_COUNT = 10;
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const txs = await listTransactions();
+    let { start, count } = parseQueryParams(req.query);
+    if (typeof start === 'undefined') {
+      start = await getLatestBlock();
+    }
+    if (typeof count === 'undefined') {
+      count = TX_COUNT;
+    }
+    const txs = await listTransactions(start, count);
     res.json({
       txs,
+      start,
+      count,
     });
   } catch (err) {
     res.status(err.status || 500);

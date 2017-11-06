@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   getBlock,
   getCode,
@@ -26,8 +27,12 @@ export async function getTransactionInfo(txid) {
   return tx;
 }
 
-export function listTransactions() {
-  return [];
+export async function listTransactions(start, count) {
+  const blockTransactions = await Promise.map(
+    _.range(start, _.max([-1, start - count]), -1),
+    blockNum => getBlock(blockNum).then(block => block.transactions));
+  const transactions = _.flatten(blockTransactions);
+  return Promise.map(transactions, getTransactionInfo);
 }
 
 export default {
