@@ -21,6 +21,7 @@ const TxList = (props) => {
           <Table.HeaderCell>From</Table.HeaderCell>
           <Table.HeaderCell>To</Table.HeaderCell>
           <Table.HeaderCell>Value</Table.HeaderCell>
+          <Table.HeaderCell>Gas</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -33,6 +34,7 @@ const TxList = (props) => {
             {tx.to && <Table.Cell><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></Table.Cell>}
             {!tx.to && <Table.Cell>Contract creation</Table.Cell>}
             <Table.Cell>{formatAmount(tx.value)}</Table.Cell>
+            <Table.Cell>{tx.receipt.gasUsed}</Table.Cell>
           </Table.Row>
         ))}
         {txs.length === 0 && <Table.Row>
