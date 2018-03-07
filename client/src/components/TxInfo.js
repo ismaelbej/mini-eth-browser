@@ -111,7 +111,7 @@ const ReceiptTab = (props) => {
           <Table.Cell>Transaction Index:</Table.Cell>
           <Table.Cell>{receipt.transactionIndex}</Table.Cell>
         </Table.Row>
-        <Table.Row>
+        {/* <Table.Row>
           <Table.Cell>From:</Table.Cell>
           <Table.Cell><Link to={`/account/${receipt.from}`}>{receipt.from}</Link></Table.Cell>
         </Table.Row>
@@ -119,15 +119,15 @@ const ReceiptTab = (props) => {
           <Table.Cell>To:</Table.Cell>
           {receipt.to && <Table.Cell><Link to={`/account/${receipt.to}`}>{receipt.to}</Link></Table.Cell>}
           {!receipt.to && <Table.Cell>Contract creation</Table.Cell>}
-        </Table.Row>
+        </Table.Row> */}
         {receipt.contractAddress && <Table.Row>
           <Table.Cell>Contract Address:</Table.Cell>
           <Table.Cell><Link to={`/contract/${receipt.contractAddress}`}>{receipt.contractAddress}</Link></Table.Cell>
         </Table.Row>}
         {receipt.status && <Table.Row>
           <Table.Cell>Status:</Table.Cell>
-          {receipt.status === '0x1' && <Table.Cell>Succeeded</Table.Cell>}
-          {receipt.status === '0x0' && <Table.Cell>Failed</Table.Cell>}
+          {receipt.status === 1 && <Table.Cell>Succeeded</Table.Cell>}
+          {receipt.status === 0 && <Table.Cell>Failed</Table.Cell>}
         </Table.Row>}
         <Table.Row>
           <Table.Cell>Cumulative Gas Used:</Table.Cell>
@@ -137,6 +137,12 @@ const ReceiptTab = (props) => {
           <Table.Cell>Gas Used:</Table.Cell>
           <Table.Cell>{receipt.gasUsed}</Table.Cell>
         </Table.Row>
+        {receipt.logs.map((log, idx) => (
+          <Table.Row key={log.id}>
+            {idx === 0 && <Table.Cell rowSpan={`${receipt.logs.length}`}>Logs:</Table.Cell>}
+            <Table.Cell>{log.data}</Table.Cell>
+          </Table.Row>
+        ))}
       </Table.Body>
     </Table>
   );
