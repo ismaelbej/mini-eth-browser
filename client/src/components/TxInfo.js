@@ -79,7 +79,7 @@ const InfoTab = (props) => {
         <Table.Row>
           <Table.Cell>Input:</Table.Cell>
           <Table.Cell>
-            <TextArea value={tx.input} />
+            <TextArea rows={6} value={tx.input} style={{ minWidth: '450px' }} />
           </Table.Cell>
         </Table.Row>
       </Table.Body>
@@ -140,7 +140,14 @@ const ReceiptTab = (props) => {
         {receipt.logs.map((log, idx) => (
           <Table.Row key={log.id}>
             {idx === 0 && <Table.Cell rowSpan={`${receipt.logs.length}`}>Logs:</Table.Cell>}
-            <Table.Cell>{log.data}</Table.Cell>
+            <Table.Cell>
+              <p>Topics:</p>
+              {log.topics.map(topic => (
+                <p>{topic}</p>
+              ))}
+              <p>Data:</p>
+              <TextArea autoHeight value={log.data} style={{ minWidth: '450px' }} />
+            </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
