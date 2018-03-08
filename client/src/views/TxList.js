@@ -12,7 +12,7 @@ import {
   getTransactionList,
 } from '../lib/api';
 
-const BLOCK_COUNT = 10;
+const BLOCK_COUNT = 20;
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
