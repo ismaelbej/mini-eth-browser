@@ -34,7 +34,7 @@ const TxList = (props) => {
             {tx.to && <Table.Cell><Link to={`/account/${tx.to}`}>{formatAddress(tx.to)}</Link></Table.Cell>}
             {!tx.to && <Table.Cell>Contract creation</Table.Cell>}
             <Table.Cell>{formatAmount(tx.value)}</Table.Cell>
-            <Table.Cell>{tx.receipt.gasUsed}</Table.Cell>
+            <Table.Cell textAlign="right" >{tx.receipt.gasUsed}</Table.Cell>
           </Table.Row>
         ))}
         {txs.length === 0 && <Table.Row>
