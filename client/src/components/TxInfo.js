@@ -126,8 +126,8 @@ const ReceiptTab = (props) => {
         </Table.Row>}
         {receipt.status && <Table.Row>
           <Table.Cell>Status:</Table.Cell>
-          {receipt.status === 1 && <Table.Cell>Succeeded</Table.Cell>}
-          {receipt.status === 0 && <Table.Cell>Failed</Table.Cell>}
+          {receipt.status === '0x01' && <Table.Cell>Succeeded</Table.Cell>}
+          {receipt.status === '0x00' && <Table.Cell>Failed</Table.Cell>}
         </Table.Row>}
         <Table.Row>
           <Table.Cell>Cumulative Gas Used:</Table.Cell>
