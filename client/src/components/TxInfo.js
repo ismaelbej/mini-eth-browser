@@ -24,7 +24,8 @@ const InfoTab = (props) => {
           <Table.Cell>Hash:</Table.Cell>
           <Table.Cell>{tx.hash}</Table.Cell>
         </Table.Row>
-        {tx.blockHash !== NULL_HASH && <Table.Row>
+        {tx.blockHash !== NULL_HASH &&
+        <Table.Row>
           <Table.Cell>Block Hash:</Table.Cell>
           <Table.Cell><Link to={`/block/${tx.blockHash}`}>{tx.blockHash}</Link></Table.Cell>
         </Table.Row>}
@@ -120,11 +121,13 @@ const ReceiptTab = (props) => {
           {receipt.to && <Table.Cell><Link to={`/account/${receipt.to}`}>{receipt.to}</Link></Table.Cell>}
           {!receipt.to && <Table.Cell>Contract creation</Table.Cell>}
         </Table.Row> */}
-        {receipt.contractAddress && <Table.Row>
+        {receipt.contractAddress &&
+        <Table.Row>
           <Table.Cell>Contract Address:</Table.Cell>
           <Table.Cell><Link to={`/contract/${receipt.contractAddress}`}>{receipt.contractAddress}</Link></Table.Cell>
         </Table.Row>}
-        {receipt.status && <Table.Row>
+        {receipt.status &&
+        <Table.Row>
           <Table.Cell>Status:</Table.Cell>
           {receipt.status === '0x01' && <Table.Cell>Succeeded</Table.Cell>}
           {receipt.status === '0x00' && <Table.Cell>Failed</Table.Cell>}
