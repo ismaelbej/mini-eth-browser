@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import {
   Container,
   Menu,
+  Icon,
 } from 'semantic-ui-react';
 
 const Navbar = () => (
   <Container>
-    <Menu>
-      <Menu.Item as={Link} to="/">Home</Menu.Item>
-      <Menu.Item as={Link} to="/block">Blocks</Menu.Item>
-      <Menu.Item as={Link} to="/tx">Transactions</Menu.Item>
+    <Menu icon="labeled">
+      <Menu.Item as={Link} to="/"><Icon name="home" />Home</Menu.Item>
+      <Menu.Item as={Link} to="/block"><Icon name="cubes" />Blocks</Menu.Item>
+      <Menu.Item as={Link} to="/tx"><Icon name="content" />Transactions</Menu.Item>
     </Menu>
   </Container>
 );
