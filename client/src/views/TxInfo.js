@@ -4,6 +4,7 @@ import {
   Grid,
   Header,
   Loader,
+  Message,
 } from 'semantic-ui-react';
 import {
   getTransactionInfo,
@@ -51,6 +52,7 @@ class TxInfo extends React.Component {
 
   render() {
     const {
+      error,
       loading,
       data: {
         tx,
@@ -65,6 +67,14 @@ class TxInfo extends React.Component {
             <Header as="h1">Transaction</Header>
           </Grid.Column>
         </Grid.Row>
+        { /* <Grid.Row>
+          <Grid.Column>
+            {error && <Message error>
+              <Message.Header>There was an error</Message.Header>
+              <p>{`I don't know the error yet`}</p>
+            </Message>}
+          </Grid.Column>
+        </Grid.Row> */ }
         <Grid.Row>
           <Grid.Column>
             {loading && <Loader active inline size="tiny" />}
