@@ -7,7 +7,7 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
-import BlockchainInfo from '../components/BlockchainInfo';
+// import BlockchainInfo from '../components/BlockchainInfo';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -34,7 +34,7 @@ class Home extends React.Component {
       const { blocks } = (blockchain.blockNumber >= 0) ?
         await getBlockList(blockchain.blockNumber, HOME_BLOCK_COUNT) : {};
       const data = {
-        blockchain,
+        // blockchain,
         blocks,
       };
       this.setState({ loading: false, error: false, data });
@@ -47,7 +47,7 @@ class Home extends React.Component {
     const {
       loading,
       data: {
-        blockchain,
+        // blockchain,
         blocks = [],
       } = {},
     } = this.state;
@@ -58,12 +58,12 @@ class Home extends React.Component {
             <Header as="h1">Home</Header>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+        { /* <Grid.Row>
           <Grid.Column>
             <Header as="h3">Blockchain</Header>
             <BlockchainInfo blockchain={blockchain} />
           </Grid.Column>
-        </Grid.Row>
+        </Grid.Row> */ }
         <Grid.Row>
           <Grid.Column>
             <Header as="h3">Recent blocks</Header>
@@ -72,7 +72,7 @@ class Home extends React.Component {
               <Button
                 content="More blocks.."
                 as={Link}
-                to={'/block'}
+                to="/block"
               />
             </Button.Group>
             <BlockList blocks={blocks} />

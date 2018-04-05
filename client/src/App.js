@@ -5,10 +5,13 @@ import {
   Switch,
 } from 'react-router-dom';
 import {
+  Button,
   Container,
+  Label,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import Navbar from './components/Navbar';
+import BlockchainInfo from './views/BlockchainInfo';
 import Home from './views/Home';
 import BlockList from './views/BlockList';
 import BlockInfo from './views/BlockInfo';
@@ -22,6 +25,7 @@ const App = () => (
   <Router>
     <Container>
       <Navbar />
+      <BlockchainInfo />
       <Container style={{ marginTop: '1em' }}>
         <Switch>
           <Route exact path="/" component={Home} />
