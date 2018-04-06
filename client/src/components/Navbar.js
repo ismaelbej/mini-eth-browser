@@ -12,6 +12,7 @@ const Navbar = () => (
       <Menu.Item as={Link} to="/"><Icon name="home" />Home</Menu.Item>
       <Menu.Item as={Link} to="/block"><Icon name="cubes" />Blocks</Menu.Item>
       <Menu.Item as={Link} to="/tx"><Icon name="content" />Transactions</Menu.Item>
+      <Menu.Item as={Link} to="/contract"><Icon name="signup" />Contracts</Menu.Item>
     </Menu>
   </Container>
 );
