@@ -1,47 +1,41 @@
 import React from 'react';
 import {
-  Table,
+  Button,
+  Container,
+  Label,
 } from 'semantic-ui-react';
 import {
-  formatTimestamp,
+  formatElapsed,
   formatAmount,
 } from '../utils/formatters';
 
-const BlockInfo = (props) => {
+const BlockchainInfo = (props) => {
   const { blockchain } = props;
   if (!blockchain) {
     return <div />;
   }
   return (
-    <Table>
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell>Latest block:</Table.Cell>
-          <Table.Cell>{blockchain.block.number}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Date:</Table.Cell>
-          <Table.Cell>{formatTimestamp(blockchain.block.timestamp)}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Gas price:</Table.Cell>
-          <Table.Cell>{formatAmount(blockchain.gasPrice)}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Mining:</Table.Cell>
-          <Table.Cell>{blockchain.mining ? 'yes' : 'no'}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Hashrate:</Table.Cell>
-          <Table.Cell>{blockchain.hashrate}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Coinbase:</Table.Cell>
-          <Table.Cell>{blockchain.coinbase}</Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
+    <Container style={{ marginTop: '1em' }}>
+      <Button as="div" labelPosition="right">
+        <Button>
+          Blocks
+        </Button>
+        <Label as="a" basic pointing="left">{blockchain.block.number}</Label>
+      </Button>
+      <Button as="div" labelPosition="right">
+        <Button>
+          Gas Price
+        </Button>
+        <Label as="a" basic pointing="left">{formatAmount(blockchain.gasPrice)}</Label>
+      </Button>
+      <Button as="div" labelPosition="right">
+        <Button>
+          Last block
+        </Button>
+        <Label as="a" basic pointing="left">{formatElapsed(blockchain.block.timestamp)}</Label>
+      </Button>
+    </Container>
   );
 };
 
-export default BlockInfo;
+export default BlockchainInfo;

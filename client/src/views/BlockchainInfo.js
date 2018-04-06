@@ -4,6 +4,7 @@ import {
   Container,
   Label,
 } from 'semantic-ui-react';
+import Blockchain from '../components/BlockchainInfo';
 import {
   getBlockchainInfo,
 } from '../lib/api';
@@ -51,26 +52,7 @@ class BlockchainInfo extends React.Component {
       },
     } = this.state;
     return (
-      <Container>
-        <Button as="div" labelPosition="right">
-          <Button>
-            Blocks
-          </Button>
-          <Label as="a" basic pointing="left">{blockchain.block.number}</Label>
-        </Button>
-        <Button as="div" labelPosition="right">
-          <Button>
-            Gas Price
-          </Button>
-          <Label as="a" basic pointing="left">{formatAmount(blockchain.gasPrice)}</Label>
-        </Button>
-        <Button as="div" labelPosition="right">
-          <Button>
-            Date
-          </Button>
-          <Label as="a" basic pointing="left">{formatTimestamp(blockchain.block.timestamp)}</Label>
-        </Button>
-      </Container>
+      <Blockchain blockchain={blockchain} />
     );
   }
 }
