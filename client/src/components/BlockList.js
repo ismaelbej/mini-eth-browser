@@ -6,7 +6,7 @@ import {
 import {
   formatAddress,
   formatHash,
-  formatTimestamp,
+  formatElapsed,
 } from '../utils/formatters';
 
 const BlockList = (props) => {
@@ -28,7 +28,7 @@ const BlockList = (props) => {
             <Table.Cell><Link to={`/block/${block.hash}`}>{formatHash(block.hash)}</Link></Table.Cell>
             <Table.Cell><Link to={`/block/${block.hash}`}>{block.number}</Link></Table.Cell>
             <Table.Cell><Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link></Table.Cell>
-            <Table.Cell>{formatTimestamp(block.timestamp)}</Table.Cell>
+            <Table.Cell>{formatElapsed(block.timestamp)}</Table.Cell>
             <Table.Cell><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></Table.Cell>
           </Table.Row>
         ))}
