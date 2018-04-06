@@ -7,6 +7,10 @@ export function formatTimestamp(timestamp) {
   return moment(new Date(timestamp * 1000)).format();
 }
 
+export function formatElapsed(timestamp) {
+  return moment(new Date(timestamp * 1000)).fromNow();
+}
+
 export function formatHash(hash, length = HASH_LENGTH) {
   return hash.length > length ? `${hash.substr(0, length - 2)}..` : hash;
 }
