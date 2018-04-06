@@ -97,7 +97,8 @@ class BlockTxList extends React.Component {
             <Header as="h1">Transactions</Header>
           </Grid.Column>
         </Grid.Row>
-        {block && <Grid.Row>
+        {block &&
+        <Grid.Row>
           <Grid.Column>
             <Table>
               <Table.Body>

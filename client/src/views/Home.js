@@ -7,7 +7,6 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
-// import BlockchainInfo from '../components/BlockchainInfo';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -58,12 +57,6 @@ class Home extends React.Component {
             <Header as="h1">Home</Header>
           </Grid.Column>
         </Grid.Row>
-        { /* <Grid.Row>
-          <Grid.Column>
-            <Header as="h3">Blockchain</Header>
-            <BlockchainInfo blockchain={blockchain} />
-          </Grid.Column>
-        </Grid.Row> */ }
         <Grid.Row>
           <Grid.Column>
             <Header as="h3">Recent blocks</Header>
