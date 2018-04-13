@@ -20,10 +20,12 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.refreshEvents = this.refreshEvents.bind(this);
   }
 
   componentDidMount() {
     this.loadData();
+    setTimeout(this.refreshEvents, 10 * 1000);
   }
 
   async loadData() {
@@ -40,6 +42,11 @@ class Home extends React.Component {
     } catch (ex) {
       this.setState({ loading: false, error: true });
     }
+  }
+
+  async refreshEvents() {
+    this.loadData();
+    setTimeout(this.refreshEvents, 10 * 1000);
   }
 
   render() {
