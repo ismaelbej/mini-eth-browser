@@ -14,6 +14,7 @@ import {
 
 
 const BLOCK_COUNT = 20;
+const HOME_REFRESH_TIMEOUT = 10;
 
 
 function parseParams(props) {
@@ -38,11 +39,13 @@ class BlockList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.refreshEvents = this.refreshEvents.bind(this);
   }
 
   componentDidMount() {
     const { start, count } = parseParams(this.props);
     this.loadData(start, count);
+    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,6 +76,15 @@ class BlockList extends React.Component {
     } catch (ex) {
       this.setState({ loading: false, error: true });
     }
+  }
+
+  async refreshEvents() {
+    const { start, count } = parseParams(this.props);
+    if (!this.state.data || this.state.data.start !== start ||
+        this.state.data.count !== count) {
+      this.loadData(start, count);
+    }
+    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
