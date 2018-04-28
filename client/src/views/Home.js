@@ -12,9 +12,8 @@ import {
   getBlockList,
 } from '../lib/api';
 
-
-const HOME_BLOCK_COUNT = 10;
-
+const HOME_BLOCK_COUNT = 15;
+const HOME_REFRESH_TIMEOUT = 10;
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,7 +24,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.loadData();
-    setTimeout(this.refreshEvents, 10 * 1000);
+    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   async loadData() {
@@ -46,7 +45,7 @@ class Home extends React.Component {
 
   async refreshEvents() {
     this.loadData();
-    setTimeout(this.refreshEvents, 10 * 1000);
+    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
