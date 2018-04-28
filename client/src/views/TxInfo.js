@@ -4,7 +4,6 @@ import {
   Grid,
   Header,
   Loader,
-  Message,
 } from 'semantic-ui-react';
 import {
   getTransactionInfo,

@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  Button,
-  Container,
-  Label,
-} from 'semantic-ui-react';
 import Blockchain from '../components/BlockchainInfo';
 import {
   getBlockchainInfo,
 } from '../lib/api';
-import {
-  formatTimestamp,
-  formatAmount,
-} from '../utils/formatters';
+
+const BLOCKCHAININFO_TIMEOUT = 10;
 
 class BlockchainInfo extends React.Component {
   constructor(props) {
@@ -22,7 +15,7 @@ class BlockchainInfo extends React.Component {
 
   componentDidMount() {
     this.loadData();
-    setTimeout(this.refreshEvents, 10 * 1000);
+    setTimeout(this.refreshEvents, BLOCKCHAININFO_TIMEOUT * 1000);
   }
 
   async loadData() {
@@ -40,7 +33,7 @@ class BlockchainInfo extends React.Component {
 
   async refreshEvents() {
     this.loadData();
-    setTimeout(this.refreshEvents, 10 * 1000);
+    setTimeout(this.refreshEvents, BLOCKCHAININFO_TIMEOUT * 1000);
   }
 
   render() {
