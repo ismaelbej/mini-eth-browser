@@ -13,6 +13,7 @@ import {
 } from '../lib/api';
 
 const BLOCK_COUNT = 20;
+const TXLIST_REFRESH_TIMEOUT = 10;
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -36,17 +37,19 @@ class TxList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.refreshEvents = this.refreshEvents.bind(this);
   }
 
   componentDidMount() {
     const { start, count } = parseParams(this.props);
     this.loadData(start, count);
+    setTimeout(this.refreshEvents, TXLIST_REFRESH_TIMEOUT * 1000);
   }
 
   componentWillReceiveProps(nextProps) {
     const { start, count } = parseParams(nextProps);
-    if (this.state.start !== start ||
-        this.state.count !== count) {
+    if (!this.state.data || this.state.data.start !== start ||
+        this.state.data.count !== count) {
       this.loadData(start, count);
     }
   }
@@ -69,6 +72,15 @@ class TxList extends React.Component {
     } catch (err) {
       this.setState({ loading: false, error: true });
     }
+  }
+
+  async refreshEvents() {
+    const { start, count } = parseParams(this.props);
+    if (!this.state.data || this.state.data.start !== start ||
+        this.state.data.count !== count) {
+      this.loadData(start, count);
+    }
+    setTimeout(this.refreshEvents, TXLIST_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
