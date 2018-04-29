@@ -12,10 +12,8 @@ import {
   getBlockList,
 } from '../lib/api';
 
-
 const BLOCK_COUNT = 20;
-const HOME_REFRESH_TIMEOUT = 10;
-
+const BLOCKLIST_REFRESH_TIMEOUT = 10;
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -45,7 +43,7 @@ class BlockList extends React.Component {
   componentDidMount() {
     const { start, count } = parseParams(this.props);
     this.loadData(start, count);
-    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
+    setTimeout(this.refreshEvents, BLOCKLIST_REFRESH_TIMEOUT * 1000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,7 +82,7 @@ class BlockList extends React.Component {
         this.state.data.count !== count) {
       this.loadData(start, count);
     }
-    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
+    setTimeout(this.refreshEvents, BLOCKLIST_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
