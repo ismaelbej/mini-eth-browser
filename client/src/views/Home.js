@@ -7,6 +7,7 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
+import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -15,16 +16,41 @@ import {
 const HOME_BLOCK_COUNT = 15;
 const HOME_REFRESH_TIMEOUT = 10;
 
+const HomeView = ({ loading, data: { blocks = [] } = {} }) => (
+  <Grid>
+    <Grid.Row>
+      <Grid.Column>
+        <Header as="h1">Home</Header>
+      </Grid.Column>
+    </Grid.Row>
+    <Grid.Row>
+      <Grid.Column>
+        <Header as="h3">Recent blocks</Header>
+        {loading && <Loader active inline size="tiny" />}
+        <Button.Group floated="right">
+          <Button
+            content="More blocks.."
+            as={Link}
+            to="/block"
+          />
+        </Button.Group>
+        <BlockList blocks={blocks} />
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
+);
+
+const HomeViewRefresh = AutoRefresh(HomeView, HOME_REFRESH_TIMEOUT * 1000);
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.refreshEvents = this.refreshEvents.bind(this);
+    this.refreshView = this.refreshView.bind(this);
   }
 
   componentDidMount() {
     this.loadData();
-    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   async loadData() {
@@ -43,43 +69,14 @@ class Home extends React.Component {
     }
   }
 
-  async refreshEvents() {
+  refreshView() {
     this.loadData();
-    setTimeout(this.refreshEvents, HOME_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
-    const {
-      loading,
-      data: {
-        // blockchain,
-        blocks = [],
-      } = {},
-    } = this.state;
-    return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h1">Home</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h3">Recent blocks</Header>
-            {loading && <Loader active inline size="tiny" />}
-            <Button.Group floated="right">
-              <Button
-                content="More blocks.."
-                as={Link}
-                to="/block"
-              />
-            </Button.Group>
-            <BlockList blocks={blocks} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
+    return <HomeViewRefresh refreshView={this.refreshView} {...this.state} />;
   }
 }
+
 
 export default Home;
