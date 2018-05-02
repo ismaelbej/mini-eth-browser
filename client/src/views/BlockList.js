@@ -7,6 +7,7 @@ import {
 import queryString from 'query-string';
 import BlockListComponent from '../components/BlockList';
 import PrevNext from '../components/PrevNext';
+import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -14,6 +15,30 @@ import {
 
 const BLOCK_COUNT = 20;
 const BLOCKLIST_REFRESH_TIMEOUT = 10;
+
+const BlockListView = ({ loading, data: { prevBlock = -1, nextBlock = -1, count, blocks = [] } = {} }) => (
+  <Grid>
+    <Grid.Row>
+      <Grid.Column>
+        <Header as="h1">Blocks</Header>
+      </Grid.Column>
+    </Grid.Row>
+    <Grid.Row>
+      <Grid.Column>
+        {loading && <Loader active inline size="tiny" />}
+        <PrevNext
+          hasPrev={prevBlock >= 0}
+          prev={`/block/?start=${prevBlock}&count=${count}`}
+          hasNext={nextBlock >= 0}
+          next={`/block/?start=${nextBlock}&count=${count}`}
+        />
+        <BlockListComponent blocks={blocks} />
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
+);
+
+const BlockListViewRefresh = AutoRefresh(BlockListView, BLOCKLIST_REFRESH_TIMEOUT * 1000);
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -37,7 +62,7 @@ class BlockList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.refreshEvents = this.refreshEvents.bind(this);
+    this.refreshView = this.refreshView.bind(this);
   }
 
   componentDidMount() {
@@ -76,47 +101,16 @@ class BlockList extends React.Component {
     }
   }
 
-  async refreshEvents() {
+  refreshView() {
     const { start, count } = parseParams(this.props);
     if (!this.state.data || this.state.data.start !== start ||
         this.state.data.count !== count) {
       this.loadData(start, count);
     }
-    setTimeout(this.refreshEvents, BLOCKLIST_REFRESH_TIMEOUT * 1000);
   }
 
   render() {
-    const {
-      loading,
-      data: {
-        count = BLOCK_COUNT,
-        blocks = [],
-        nextBlock = -1,
-        prevBlock = -1,
-      } = {},
-    } = this.state;
-
-    return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h1">Blocks</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            {loading && <Loader active inline size="tiny" />}
-            <PrevNext
-              hasPrev={prevBlock >= 0}
-              prev={`/block/?start=${prevBlock}&count=${count}`}
-              hasNext={nextBlock >= 0}
-              next={`/block/?start=${nextBlock}&count=${count}`}
-            />
-            <BlockListComponent blocks={blocks} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
+    return <BlockListViewRefresh {...this.state} refreshView={this.refreshView} />;
   }
 }
 
