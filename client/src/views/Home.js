@@ -74,7 +74,7 @@ class Home extends React.Component {
   }
 
   render() {
-    return <HomeViewRefresh refreshView={this.refreshView} {...this.state} />;
+    return <HomeViewRefresh {...this.state} refreshView={this.refreshView} />;
   }
 }
 

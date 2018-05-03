@@ -16,7 +16,15 @@ import {
 const BLOCK_COUNT = 20;
 const TXLIST_REFRESH_TIMEOUT = 10;
 
-const TxListView = ({ loading, data: { prevBlock = -1, nextBlock = -1, count, txs = [] } = {} }) => (
+const TxListView = ({
+  loading,
+  data: {
+    prevBlock = -1,
+    nextBlock = -1,
+    count,
+    txs = [],
+  } = {},
+}) => (
   <Grid>
     <Grid.Row>
       <Grid.Column>

@@ -16,7 +16,15 @@ import {
 const BLOCK_COUNT = 20;
 const BLOCKLIST_REFRESH_TIMEOUT = 10;
 
-const BlockListView = ({ loading, data: { prevBlock = -1, nextBlock = -1, count, blocks = [] } = {} }) => (
+const BlockListView = ({
+  loading,
+  data: {
+    prevBlock = -1,
+    nextBlock = -1,
+    count,
+    blocks = [],
+  } = {},
+}) => (
   <Grid>
     <Grid.Row>
       <Grid.Column>
