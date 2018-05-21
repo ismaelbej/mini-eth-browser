@@ -1,8 +1,10 @@
-# Ethereum Browser
+# Mini Eth Browser
 
 A simple ethereum block and transaction explorer.
 Since it doesn't use a database some operations
 are slow.
+
+![Mini Eth Browser](./mini-eth-browser.png)
 
 ## Setup
 
