@@ -1,4 +1,6 @@
 import express from 'express';
+//FIXME: Initializaton of contracts is not properly done
+import Contracts from '../controllers/Contracts';
 
 const router = express.Router();
 

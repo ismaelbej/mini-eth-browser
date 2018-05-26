@@ -18,9 +18,11 @@
     "dev:client": "cd client && npm start"
   },
   "dependencies": {
+    "abi-decoder": "^1.1.0",
     "bluebird": "^3.5.0",
     "cors": "^2.8.4",
     "cross-env": "^5.0.5",
+    "ethereumjs-abi": "^0.6.5",
     "express": "~4.15.2",
     "lodash": "^4.17.4",
     "morgan": "~1.8.1",
