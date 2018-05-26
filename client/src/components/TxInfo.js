@@ -77,12 +77,24 @@ const InfoTab = (props) => {
           <Table.Cell>Value:</Table.Cell>
           <Table.Cell>{formatAmount(tx.value)}</Table.Cell>
         </Table.Row>
-        <Table.Row>
+        {tx.inputDecoded && <Table.Row>
+          <Table.Cell rowSpan={`${tx.inputDecoded.params.length + 1}`}>Input:</Table.Cell>
+          <Table.Cell>Name: {tx.inputDecoded.name}</Table.Cell>
+        </Table.Row>}
+        {tx.inputDecoded && tx.inputDecoded.params.map(param => (
+          <Table.Row>
+            <Table.Cell key={param.name}>
+              <p>Param: {param.name}</p>
+              <p>Type: {param.type}</p>
+              <TextArea rows={6} value={param.value} style={{ minWidth: '450px' }} />
+            </Table.Cell>
+          </Table.Row>))}
+        {!tx.inputDecoded && <Table.Row>
           <Table.Cell>Input:</Table.Cell>
           <Table.Cell>
             <TextArea rows={6} value={tx.input} style={{ minWidth: '450px' }} />
           </Table.Cell>
-        </Table.Row>
+        </Table.Row>}
       </Table.Body>
     </Table>
   );
@@ -146,7 +158,7 @@ const ReceiptTab = (props) => {
             <Table.Cell>
               <p>Topics:</p>
               {log.topics.map(topic => (
-                <p>{topic}</p>
+                <p key={topic} >{topic}</p>
               ))}
               <p>Data:</p>
               <TextArea autoHeight value={log.data} style={{ minWidth: '450px' }} />
