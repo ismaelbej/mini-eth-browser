@@ -152,7 +152,25 @@ const ReceiptTab = (props) => {
           <Table.Cell>Gas Used:</Table.Cell>
           <Table.Cell>{receipt.gasUsed}</Table.Cell>
         </Table.Row>
-        {receipt.logs.map((log, idx) => (
+        {receipt.logsDecoded && <Table.Row>
+          <Table.Cell rowSpan={`${receipt.logsDecoded.length + 1}`}>Logs:</Table.Cell>
+        </Table.Row>}
+        {receipt.logsDecoded && receipt.logsDecoded.map(log => (
+          <Table.Row>
+            <Table.Cell>
+              <p>Name: {log.name}</p>
+              <p>Address: {log.address}</p>
+              <p>Params</p>
+              {log.events.map(ev => (
+                <div key={ev.name}>
+                  <p>Name: {ev.name}</p>
+                  <p>Type: {ev.type}</p>
+                  <TextArea autoHeight value={ev.value} style={{ minWidth: '450px' }} />
+                </div>
+              ))}
+            </Table.Cell>
+          </Table.Row>))}
+        {!receipt.logsDecoded && receipt.logs.map((log, idx) => (
           <Table.Row key={log.id}>
             {idx === 0 && <Table.Cell rowSpan={`${receipt.logs.length}`}>Logs:</Table.Cell>}
             <Table.Cell>
