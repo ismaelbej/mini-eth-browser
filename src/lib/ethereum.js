@@ -1,29 +1,49 @@
 import Web3 from 'web3';
+import LRU from 'lru-cache';
 import config from '../config';
 
 const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
 
 export const getBalance = web3.eth.getBalance;
-export const getBlock = web3.eth.getBlock;
+const web3getBlock = web3.eth.getBlock;
 const getBlockNumber = web3.eth.getBlockNumber;
 export const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
-export const getCode = web3.eth.getCode;
+const web3getCode = web3.eth.getCode;
 export const getCoinbase = web3.eth.getCoinbase;
 export const getGasPrice = web3.eth.getGasPrice;
 export const getHashrate = web3.eth.getHashrate;
 export const getMining = web3.eth.isMining;
-export const getTransaction = web3.eth.getTransaction;
+const web3getTransaction = web3.eth.getTransaction;
 export const getTransactionCount = web3.eth.getTransactionCount;
-export const getTransactionReceipt = web3.eth.getTransactionReceipt;
+const web3getTransactionReceipt = web3.eth.getTransactionReceipt;
 export const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
 
-export function getLatestBlock() {
-  return getBlockNumber();
-}
+export const getLatestBlock = getBlockNumber;
 
 export function getPendingTransactions() {
   return [];
 }
+
+function makeCachedQuery(query, numItems = 50, getKey = k => k) {
+  const cache = LRU(numItems);
+  return async (key) => {
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    const value = await query(key);
+    cache.set(getKey(key, value), value);
+    return value;
+  };
+}
+
+// Can query by number or hash, but only cache by hash
+export const getBlock = makeCachedQuery(web3getBlock, 50, (hashOrNumber, block) => block.hash);
+
+export const getCode = makeCachedQuery(web3getCode, 20);
+
+export const getTransaction = makeCachedQuery(web3getTransaction, 50);
+
+export const getTransactionReceipt = makeCachedQuery(web3getTransactionReceipt, 50);
 
 export default {
   getBalance,
