@@ -152,36 +152,36 @@ const ReceiptTab = (props) => {
           <Table.Cell>Gas Used:</Table.Cell>
           <Table.Cell>{receipt.gasUsed}</Table.Cell>
         </Table.Row>
-        {receipt.logsDecoded && <Table.Row>
-          <Table.Cell rowSpan={`${receipt.logsDecoded.length + 1}`}>Logs:</Table.Cell>
+        {receipt.logs && receipt.logs.length > 0 && <Table.Row>
+          <Table.Cell rowSpan={`${receipt.logs.length + 1}`}>Logs:</Table.Cell>
         </Table.Row>}
-        {receipt.logsDecoded && receipt.logsDecoded.map(log => (
-          <Table.Row>
-            <Table.Cell>
-              <p>Name: {log.name}</p>
-              <p>Address: {log.address}</p>
-              <p>Params</p>
-              {log.events.map(ev => (
-                <div key={ev.name}>
-                  <p>Name: {ev.name}</p>
-                  <p>Type: {ev.type}</p>
-                  <TextArea autoHeight value={ev.value} style={{ minWidth: '450px' }} />
-                </div>
-              ))}
-            </Table.Cell>
-          </Table.Row>))}
-        {!receipt.logsDecoded && receipt.logs.map((log, idx) => (
-          <Table.Row key={log.id}>
-            {idx === 0 && <Table.Cell rowSpan={`${receipt.logs.length}`}>Logs:</Table.Cell>}
-            <Table.Cell>
-              <p>Topics:</p>
-              {log.topics.map(topic => (
-                <p key={topic} >{topic}</p>
-              ))}
-              <p>Data:</p>
-              <TextArea autoHeight value={log.data} style={{ minWidth: '450px' }} />
-            </Table.Cell>
-          </Table.Row>
+        {receipt.logs.map((log, idx) => (
+          (receipt.logsDecoded && receipt.logsDecoded[idx]) ?
+            <Table.Row key={log.id}>
+              <Table.Cell>
+                <p>Name: {receipt.logsDecoded[idx].name || '(unamed)'}</p>
+                <p>Address: {receipt.logsDecoded[idx].address}</p>
+                <p>Params</p>
+                {receipt.logsDecoded[idx].events.map(ev => (
+                  <div key={ev.name}>
+                    <p>Name: {ev.name}</p>
+                    <p>Type: {ev.type}</p>
+                    <TextArea autoHeight value={ev.value} style={{ minWidth: '450px' }} />
+                  </div>
+                ))}
+              </Table.Cell>
+            </Table.Row>
+            :
+            <Table.Row key={log.id}>
+              <Table.Cell>
+                <p>Topics:</p>
+                {log.topics.map(topic => (
+                  <p key={topic} >{topic}</p>
+                ))}
+                <p>Data:</p>
+                <TextArea autoHeight value={log.data} style={{ minWidth: '450px' }} />
+              </Table.Cell>
+            </Table.Row>
         ))}
       </Table.Body>
     </Table>
