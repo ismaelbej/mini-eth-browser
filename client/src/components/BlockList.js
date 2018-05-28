@@ -12,7 +12,7 @@ import {
 const BlockList = (props) => {
   const { blocks } = props;
   return (
-    <Table>
+    <Table striped fixed singleLine color="orange">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Hash</Table.HeaderCell>

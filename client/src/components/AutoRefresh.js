@@ -8,18 +8,19 @@ function AutoRefresh(WrappedComponent, timeout) {
     }
 
     componentDidMount() {
-      this.timer = setInterval(this.forceRefresh, timeout);
+      this.timer = setTimeout(this.forceRefresh, timeout);
     }
 
     componentWillUnmount() {
       if (this.timer) {
-        clearInterval(this.timer);
+        clearTimeout(this.timer);
         this.timer = null;
       }
     }
 
     forceRefresh() {
       this.props.refreshView();
+      this.timer = setTimeout(this.forceRefresh, timeout);
     }
 
     render() {
