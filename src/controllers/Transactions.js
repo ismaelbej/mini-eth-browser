@@ -20,17 +20,15 @@ export async function getTransactionInfo(txid) {
     tx.receipt = receipt;
     tx.receipt.logsDecoded = Contracts.decodeLogs(tx.receipt.logs);
   }
-  if (tx.to) {
+  if (tx && tx.to) {
     const code = await getCode(tx.to);
     if (code && code !== '0x0') {
       tx.code = code;
     }
   }
-  if (tx.input !== '0x') {
+  if (tx && tx.input !== '0x') {
     tx.inputDecoded = Contracts.decodeFunction(tx.input);
-    // console.log(JSON.stringify(Contracts.decodeFunction(tx.input), null, '  '));
   }
-  // Contracts.decodeFunction(tx);
   return tx;
 }
 

@@ -194,7 +194,7 @@ const TxInfo = (props) => {
     { menuItem: 'Receipt', render: () => <ReceiptTab {...props} /> },
   ];
   return (
-    <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+    <Tab panes={panes} />
   );
 };
 

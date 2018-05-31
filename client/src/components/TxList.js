@@ -13,7 +13,7 @@ import {
 const TxList = (props) => {
   const { txs } = props;
   return (
-    <Table striped fixed singleLine color="orange">
+    <Table striped singleLine color="orange">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Hash</Table.HeaderCell>
