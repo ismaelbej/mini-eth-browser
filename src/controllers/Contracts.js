@@ -12,7 +12,9 @@ class Contracts {
   constructor() {
     this.contracts = {};
     this.functions = {};
-    this.loadContracts(config.contracts);
+    if (config.contracts) {
+      this.loadContracts(config.contracts);
+    }
   }
 
   loadContracts(path) {
