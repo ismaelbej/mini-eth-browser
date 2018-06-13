@@ -5,6 +5,7 @@ import http from 'http';
 import Promise from 'bluebird';
 import config from './config';
 import api from './routes/api';
+import Contracts from './controllers/Contracts';
 
 global.Promise = Promise;
 
@@ -37,7 +38,8 @@ function createApp() {
   return app;
 }
 
-function createServer(app) {
+async function createServer(app) {
+  await Contracts.initialize(config.contracts);
   const server = http.createServer(app);
   server.listen(config.port || 3000);
 }
