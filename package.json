@@ -20,6 +20,7 @@
   "dependencies": {
     "abi-decoder": "^1.1.0",
     "bluebird": "^3.5.1",
+    "bn.js": "^4.11.8",
     "cors": "^2.8.4",
     "cross-env": "^5.2.0",
     "ethereumjs-abi": "^0.6.5",

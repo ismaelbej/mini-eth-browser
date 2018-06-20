@@ -5,12 +5,14 @@ import {
 import {
   join,
 } from 'path';
-import * as abiDecoder from 'abi-decoder';
+import * as abiParser from 'ethereumjs-abi';
+import { BN } from 'bn.js';
 
 class Contracts {
   constructor() {
     this.contracts = {};
-    this.functions = {};
+    this.events = {};
+    this.methods = {};
   }
 
   initialize(contractsPath) {
@@ -48,7 +50,7 @@ class Contracts {
   }
 
   addContract(contractName, abi, networks) {
-    abiDecoder.addABI(abi);
+    this.addABI(abi);
     this.contracts[contractName] = {
       contractName,
       abi,
@@ -56,12 +58,59 @@ class Contracts {
     };
   }
 
+  addABI(abiArray) {
+    abiArray.forEach((abiEntry) => {
+      if (abiEntry.name) {
+        if (abiEntry.type === 'event') {
+          this.addEvent(abiEntry);
+        } else {
+          this.addFunction(abiEntry);
+        }
+      }
+    });
+  }
+
+  addEvent(abiEntry) {
+    const eventId = abiParser.eventID(abiEntry.name, abiEntry.inputs.map(input => input.type)).toString('hex');
+    this.events[eventId] = abiEntry;
+  }
+
+  addFunction(abiEntry) {
+    const methodId = abiParser.methodID(abiEntry.name, abiEntry.inputs.map(input => input.type)).toString('hex');
+    this.methods[methodId] = abiEntry;
+  }
+
   decodeFunction(data) {
-    return abiDecoder.decodeMethod(data);
+    const methodID = data.slice(2, 10);
+    const abiEntry = this.methods[methodID];
+    if (abiEntry) {
+      const types = abiEntry.inputs.map(input => input.type);
+      const params = abiParser.rawDecode(types, Buffer.from(data.slice(10), 'hex'));
+      return {
+        name: abiEntry.name,
+        params: params.map((param, idx) => {
+          let value = param;
+          if (abiEntry.inputs[idx].type.startsWith('bytes') ||
+              abiEntry.inputs[idx].type.startsWith('address') ||
+              abiEntry.inputs[idx].type.startsWith('string')) {
+            value = `0x${param.toString('hex')}`;
+          } else if (abiEntry.inputs[idx].type.startsWith('uint') ||
+              abiEntry.inputs[idx].type.startsWith('int')) {
+            value = new BN(param).toString(10);
+          }
+          return {
+            name: abiEntry.inputs[idx].name,
+            value,
+            type: abiEntry.inputs[idx].type,
+          };
+        }),
+      };
+    }
+    return {};
   }
 
   decodeLogs(data) {
-    return abiDecoder.decodeLogs(data);
+    return {};
   }
 }
 
