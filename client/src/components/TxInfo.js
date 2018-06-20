@@ -105,6 +105,14 @@ const ReceiptTab = (props) => {
   if (!receipt) {
     return <div />;
   }
+  let txStatus = 0;
+  if (receipt.status) {
+    if (receipt.status === true || receipt.status === '0x01' || receipt.status === '0x1') {
+      txStatus = 1;
+    } else {
+      txStatus = 2;
+    }
+  }
   return (
     <Table>
       <Table.Body>
@@ -141,8 +149,9 @@ const ReceiptTab = (props) => {
         {receipt.status &&
         <Table.Row>
           <Table.Cell>Status:</Table.Cell>
-          {receipt.status === '0x01' && <Table.Cell>Succeeded</Table.Cell>}
-          {receipt.status === '0x00' && <Table.Cell>Failed</Table.Cell>}
+          {txStatus === 0 && <Table.Cell>None</Table.Cell>}
+          {txStatus === 1 && <Table.Cell>Succeeded</Table.Cell>}
+          {txStatus === 2 && <Table.Cell>Failed</Table.Cell>}
         </Table.Row>}
         <Table.Row>
           <Table.Cell>Cumulative Gas Used:</Table.Cell>
