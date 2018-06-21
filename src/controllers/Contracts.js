@@ -110,7 +110,52 @@ class Contracts {
   }
 
   decodeLogs(data) {
-    return {};
+    return data.map((logEntry) => {
+      const eventID = logEntry.topics[0].slice(2);
+      const abiEntry = this.events[eventID];
+      if (abiEntry) {
+        const types = abiEntry.inputs.reduce((result, input) => {
+          if (!input.indexed) {
+            return [...result, input.type];
+          }
+          return result;
+        }, []);
+        const decodedInput = abiParser.rawDecode(types, Buffer.from(logEntry.data.slice(2), 'hex'));
+        let topicIndex = 1;
+        let dataIndex = 0;
+        const events = abiEntry.inputs.map((input) => {
+          let rawValue;
+          if (input.indexed) {
+            rawValue = logEntry.topics[topicIndex];
+            topicIndex += 1;
+          } else {
+            rawValue = decodedInput[dataIndex];
+            dataIndex += 1;
+          }
+          let value = rawValue;
+          if (input.type.startsWith('bytes') ||
+              input.type.startsWith('address') ||
+              input.type.startsWith('string')) {
+            value = `0x${rawValue.toString('hex')}`;
+          } else if (input.type.startsWith('uint') ||
+              input.type.startsWith('int')) {
+            value = new BN(rawValue).toString(10);
+          }
+
+          return {
+            name: input.name,
+            type: input.type,
+            value,
+          };
+        });
+        return {
+          name: abiEntry.name,
+          events,
+          address: logEntry.address,
+        };
+      }
+      return {};
+    });
   }
 }
 
