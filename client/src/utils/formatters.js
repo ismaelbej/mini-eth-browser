@@ -38,7 +38,7 @@ export function formatAmount(amountParam) {
     amount.idivn(1000);
     i += 1;
   }
-  return `${amount.toFormat()} ether`;
+  return `${amount.toString(10)} ether`;
 }
 
 export function formatText(data, enc = 'utf8') {
