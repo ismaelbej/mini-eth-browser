@@ -33,12 +33,25 @@ export async function getTransactionInfo(txid) {
   return formatTransaction(tx, receipt, block, code);
 }
 
+async function listBlockTransactions(blockId) {
+  const block = await getBlock(blockId);
+  return Promise.map(block.transactions, async (txid) => {
+    const transaction = await getTransaction(txid);
+    if (transaction) {
+      const receipt = await getTransactionReceipt(transaction.hash);
+      const code = (transaction.to) ? await getCode(transaction.to) : undefined;
+      return formatTransaction(transaction, receipt, block, code);
+    }
+    return undefined;
+  });
+}
+
 export async function listTransactions(start, count) {
+  const range = _.range(start, _.max([-1, start - count]), -1);
   const blockTransactions = await Promise.map(
-    _.range(start, _.max([-1, start - count]), -1),
-    blockNum => getBlock(blockNum).then(block => block.transactions));
-  const transactions = _.flatten(blockTransactions);
-  return Promise.map(transactions, getTransactionInfo);
+    range,
+    listBlockTransactions);
+  return _.filter(_.flatten(blockTransactions), tx => typeof tx !== 'undefined');
 }
 
 export default {
