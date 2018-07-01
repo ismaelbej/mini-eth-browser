@@ -106,7 +106,7 @@ class Contracts {
         }),
       };
     }
-    return {};
+    return undefined;
   }
 
   decodeLogs(data) {
@@ -154,7 +154,7 @@ class Contracts {
           address: logEntry.address,
         };
       }
-      return {};
+      return undefined;
     });
   }
 }

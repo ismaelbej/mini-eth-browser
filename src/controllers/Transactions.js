@@ -7,29 +7,30 @@ import {
 } from '../lib/ethereum';
 import Contracts from './Contracts';
 
+function formatTransaction(transaction, receipt, block, code) {
+  return {
+    ...transaction,
+    block,
+    receipt: receipt ? {
+      ...receipt,
+      logsDecoded: Contracts.decodeLogs(receipt.logs),
+    } : undefined,
+    code,
+    inputDecoded: Contracts.decodeFunction(transaction.input),
+  };
+}
+
 export async function getTransactionInfo(txid) {
   const [tx, receipt] = await Promise.all([
     getTransaction(txid),
     getTransactionReceipt(txid),
   ]);
-  const block = receipt ? await getBlock(tx.blockHash) : null;
+  const block = receipt ? await getBlock(tx.blockHash) : undefined;
   if (block) {
     tx.block = block;
   }
-  if (receipt) {
-    tx.receipt = receipt;
-    tx.receipt.logsDecoded = Contracts.decodeLogs(tx.receipt.logs);
-  }
-  if (tx && tx.to) {
-    const code = await getCode(tx.to);
-    if (code && code !== '0x0') {
-      tx.code = code;
-    }
-  }
-  if (tx && tx.input !== '0x') {
-    tx.inputDecoded = Contracts.decodeFunction(tx.input);
-  }
-  return tx;
+  const code = (tx && tx.to) ? await getCode(tx.to) : undefined;
+  return formatTransaction(tx, receipt, block, code);
 }
 
 export async function listTransactions(start, count) {
