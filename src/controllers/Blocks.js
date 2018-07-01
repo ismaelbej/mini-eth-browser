@@ -1,15 +1,13 @@
 import Promise from 'bluebird';
 import _ from 'lodash';
-import {
-  getBlock,
-} from '../lib/ethereum';
+import Ethereum from '../lib/ethereum';
 import {
   getTransactionInfo,
 } from './Transactions';
 
 
 export async function getBlockInfo(hash) {
-  const block = await getBlock(hash);
+  const block = await Ethereum.getBlock(hash);
   if (!block) {
     throw new Error(`Invalid block ${hash}`);
   }

@@ -3,9 +3,7 @@ import {
   getTransactionInfo,
   listTransactions,
 } from '../controllers/Transactions';
-import {
-  getLatestBlock,
-} from '../lib/ethereum';
+import Ethereum from '../lib/ethereum';
 import {
   parseQueryParams,
 } from '../lib/utils';
@@ -18,7 +16,7 @@ router.get('/', async (req, res) => {
   try {
     let { start, count } = parseQueryParams(req.query);
     if (typeof start === 'undefined') {
-      start = await getLatestBlock();
+      start = (await Ethereum.getBlock('latest')).number;
     }
     if (typeof count === 'undefined') {
       count = TX_COUNT;

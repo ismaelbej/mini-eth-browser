@@ -1,14 +1,10 @@
-import {
-  getBalance,
-  getCode,
-  getTransactionCount,
-} from '../lib/ethereum';
+import Ethereum from '../lib/ethereum';
 
 export async function getAccountInfo(address) {
   const [balance, transactionCount, code] = await Promise.all([
-    getBalance(address),
-    getTransactionCount(address),
-    getCode(address),
+    Ethereum.getBalance(address),
+    Ethereum.getTransactionCount(address),
+    Ethereum.getCode(address),
   ]);
   const account = {
     address,

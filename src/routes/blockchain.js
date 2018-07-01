@@ -1,11 +1,5 @@
 import express from 'express';
-import {
-  getBlock,
-  getGasPrice,
-  getCoinbase,
-  getHashrate,
-  getMining,
-} from '../lib/ethereum';
+import Ethereum from '../lib/ethereum';
 
 const router = express.Router();
 
@@ -17,11 +11,11 @@ router.get('/', async (req, res) => {
       hashrate,
       mining,
     ] = await Promise.all([
-      getBlock('latest'),
-      getCoinbase(),
-      getGasPrice(),
-      getHashrate(),
-      getMining(),
+      Ethereum.getBlock('latest'),
+      Ethereum.getCoinbase(),
+      Ethereum.getGasPrice(),
+      Ethereum.getHashrate(),
+      Ethereum.isMining(),
     ]);
     res.json({
       blockchain: {

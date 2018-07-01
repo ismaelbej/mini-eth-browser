@@ -1,28 +1,5 @@
 import Web3 from 'web3';
 import LRU from 'lru-cache';
-import config from '../config';
-
-const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
-
-export const getBalance = web3.eth.getBalance;
-const web3getBlock = web3.eth.getBlock;
-const getBlockNumber = web3.eth.getBlockNumber;
-export const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
-const web3getCode = web3.eth.getCode;
-export const getCoinbase = web3.eth.getCoinbase;
-export const getGasPrice = web3.eth.getGasPrice;
-export const getHashrate = web3.eth.getHashrate;
-export const getMining = web3.eth.isMining;
-const web3getTransaction = web3.eth.getTransaction;
-export const getTransactionCount = web3.eth.getTransactionCount;
-const web3getTransactionReceipt = web3.eth.getTransactionReceipt;
-export const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
-
-export const getLatestBlock = getBlockNumber;
-
-export function getPendingTransactions() {
-  return [];
-}
 
 function makeCachedQuery(query, numItems = 50, getKey = k => k) {
   const cache = LRU(numItems);
@@ -36,25 +13,41 @@ function makeCachedQuery(query, numItems = 50, getKey = k => k) {
   };
 }
 
-// Can query by number or hash, but only cache by hash
-export const getBlock = makeCachedQuery(web3getBlock, 50, (hashOrNumber, block) => block.hash);
+class Ethereum {
+  constructor() {
+    const methods = [
+      'getBalance',
+      'getBlockNumber',
+      'getBlockTransactionCount',
+      'getCoinbase',
+      'getGasPrice',
+      'getHashrate',
+      'isMining',
+      'getTransactionCount',
+      'getTransactionFromBlock',
+    ];
+    methods.forEach((name) => {
+      this[name] = async (...params) => this.web3.eth[name].apply(this.web3.eth, params);
+      this[name].bind(this);
+    });
 
-export const getCode = makeCachedQuery(web3getCode, 20);
+    this.getBlock = makeCachedQuery(
+      (...params) => this.web3.eth.getBlock(...params),
+      50,
+      (hashOrNumber, block) => block.hash).bind(this);
+    this.getCode = makeCachedQuery(
+      (...params) => this.web3.eth.getCode(...params),
+      20).bind(this);
+    this.getTransaction = makeCachedQuery(
+      (...params) => this.web3.eth.getTransaction(...params),
+      50).bind(this);
+    this.getTransactionReceipt = makeCachedQuery(
+      (...params) => this.web3.eth.getTransactionReceipt(...params),
+      50).bind(this);
+  }
+  initialize(config) {
+    this.web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
+  }
+}
 
-export const getTransaction = makeCachedQuery(web3getTransaction, 50);
-
-export const getTransactionReceipt = makeCachedQuery(web3getTransactionReceipt, 50);
-
-export default {
-  getBalance,
-  getBlockTransactionCount,
-  getCode,
-  getCoinbase,
-  getGasPrice,
-  getHashrate,
-  getLatestBlock,
-  getMining,
-  getPendingTransactions,
-  getTransactionCount,
-  getTransactionFromBlock,
-};
+export default new Ethereum();

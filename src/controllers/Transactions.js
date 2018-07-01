@@ -1,10 +1,5 @@
 import _ from 'lodash';
-import {
-  getBlock,
-  getCode,
-  getTransaction,
-  getTransactionReceipt,
-} from '../lib/ethereum';
+import Ethereum from '../lib/ethereum';
 import Contracts from './Contracts';
 
 function formatTransaction(transaction, receipt, block, code) {
@@ -22,24 +17,24 @@ function formatTransaction(transaction, receipt, block, code) {
 
 export async function getTransactionInfo(txid) {
   const [tx, receipt] = await Promise.all([
-    getTransaction(txid),
-    getTransactionReceipt(txid),
+    Ethereum.getTransaction(txid),
+    Ethereum.getTransactionReceipt(txid),
   ]);
-  const block = receipt ? await getBlock(tx.blockHash) : undefined;
+  const block = receipt ? await Ethereum.getBlock(tx.blockHash) : undefined;
   if (block) {
     tx.block = block;
   }
-  const code = (tx && tx.to) ? await getCode(tx.to) : undefined;
+  const code = (tx && tx.to) ? await Ethereum.getCode(tx.to) : undefined;
   return formatTransaction(tx, receipt, block, code);
 }
 
 async function listBlockTransactions(blockId) {
-  const block = await getBlock(blockId);
+  const block = await Ethereum.getBlock(blockId);
   return Promise.map(block.transactions, async (txid) => {
-    const transaction = await getTransaction(txid);
+    const transaction = await Ethereum.getTransaction(txid);
     if (transaction) {
-      const receipt = await getTransactionReceipt(transaction.hash);
-      const code = (transaction.to) ? await getCode(transaction.to) : undefined;
+      const receipt = await Ethereum.getTransactionReceipt(transaction.hash);
+      const code = (transaction.to) ? await Ethereum.getCode(transaction.to) : undefined;
       return formatTransaction(transaction, receipt, block, code);
     }
     return undefined;

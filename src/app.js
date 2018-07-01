@@ -3,13 +3,13 @@ import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
 import Promise from 'bluebird';
-import config from './config';
 import api from './routes/api';
 import Contracts from './controllers/Contracts';
+import Ethereum from './lib/ethereum';
 
 global.Promise = Promise;
 
-function createApp() {
+export function createApp() {
   const app = express();
 
   app.use(logger('dev'));
@@ -38,10 +38,9 @@ function createApp() {
   return app;
 }
 
-async function createServer(app) {
-  await Contracts.initialize(config.contracts);
+export async function createServer(app, config) {
+  await Contracts.initialize(config);
+  await Ethereum.initialize(config);
   const server = http.createServer(app);
   server.listen(config.port || 3000);
 }
-
-createServer(createApp());
