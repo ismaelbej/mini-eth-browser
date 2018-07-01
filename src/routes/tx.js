@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
   try {
     let { start, count } = parseQueryParams(req.query);
     if (typeof start === 'undefined') {
-      start = (await Ethereum.getBlock('latest')).number;
+      start = await Ethereum.getBlockNumber();
     }
     if (typeof count === 'undefined') {
       count = TX_COUNT;

@@ -17,7 +17,7 @@ async function parseBlockParams(query) {
   if (typeof query.start === 'string') {
     start = parseInt(query.start, 10);
   } else if (typeof query.start === 'undefined') {
-    start = (await Ethereum.getBlock('latest')).number;
+    start = await Ethereum.getBlockNumber();
   }
   let count = BLOCK_COUNT;
   if (typeof query.count === 'string') {
@@ -74,7 +74,7 @@ async function parseTxParams(query) {
     start = parseInt(query.start, 10);
   }
   if (start < 0) {
-    start = (await Ethereum.getBlock('latest')).number;
+    start = await Ethereum.getBlockNumber();
   }
   let count = TX_COUNT;
   if (typeof query.count === 'string') {
