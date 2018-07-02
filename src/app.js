@@ -3,13 +3,12 @@ import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
 import Promise from 'bluebird';
-import config from './config';
 import api from './routes/api';
 import Contracts from './controllers/Contracts';
 
 global.Promise = Promise;
 
-function createApp() {
+export function createApp() {
   const app = express();
 
   app.use(logger('dev'));
@@ -38,10 +37,8 @@ function createApp() {
   return app;
 }
 
-async function createServer(app) {
+export async function createServer(app, config) {
   await Contracts.initialize(config.contracts);
   const server = http.createServer(app);
-  server.listen(config.port || 3000);
+  server.listen(config.port || 5000);
 }
-
-createServer(createApp());

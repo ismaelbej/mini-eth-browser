@@ -12,9 +12,9 @@
     "postinstall": "run-s pi:*",
     "pi:backend": "npm run build",
     "pi:client": "cd client && npm install",
-    "start:backend": "cross-env node ./dist/app",
+    "start:backend": "cross-env node ./dist",
     "start:client": "cd client && npm start",
-    "dev:backend": "cross-env nodemon --watch ./src --exec babel-node ./src/app",
+    "dev:backend": "cross-env nodemon --watch ./src --exec babel-node ./src",
     "dev:client": "cd client && npm start"
   },
   "dependencies": {
