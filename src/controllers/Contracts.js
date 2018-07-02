@@ -15,9 +15,9 @@ class Contracts {
     this.methods = {};
   }
 
-  initialize(contractsPath) {
-    if (contractsPath) {
-      return this.loadContracts(contractsPath);
+  initialize(config) {
+    if (config.contracts) {
+      return this.loadContracts(config.contracts);
     }
     return Promise.resolve();
   }

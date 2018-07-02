@@ -5,6 +5,7 @@ import http from 'http';
 import Promise from 'bluebird';
 import api from './routes/api';
 import Contracts from './controllers/Contracts';
+import Ethereum from './lib/ethereum';
 
 global.Promise = Promise;
 
@@ -38,7 +39,8 @@ export function createApp() {
 }
 
 export async function createServer(app, config) {
-  await Contracts.initialize(config.contracts);
+  await Contracts.initialize(config);
+  await Ethereum.initialize(config);
   const server = http.createServer(app);
   server.listen(config.port || 5000);
 }

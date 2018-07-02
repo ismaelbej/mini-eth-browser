@@ -1,12 +1,11 @@
 import Web3 from 'web3';
 import LRU from 'lru-cache';
-import config from '../config';
 
-const web3 = new Web3(Web3.givenProviders || config.rpcnode || 'http://localhost:8545');
+const web3 = new Web3();
 
 export const getBalance = web3.eth.getBalance;
 const web3getBlock = web3.eth.getBlock;
-const getBlockNumber = web3.eth.getBlockNumber;
+export const getBlockNumber = web3.eth.getBlockNumber;
 export const getBlockTransactionCount = web3.eth.getBlockTransactionCount;
 const web3getCode = web3.eth.getCode;
 export const getCoinbase = web3.eth.getCoinbase;
@@ -17,8 +16,6 @@ const web3getTransaction = web3.eth.getTransaction;
 export const getTransactionCount = web3.eth.getTransactionCount;
 const web3getTransactionReceipt = web3.eth.getTransactionReceipt;
 export const getTransactionFromBlock = web3.eth.getTransactionFromBlock;
-
-export const getLatestBlock = getBlockNumber;
 
 export function getPendingTransactions() {
   return [];
@@ -36,6 +33,9 @@ function makeCachedQuery(query, numItems = 50, getKey = k => k) {
   };
 }
 
+export function initialize(config) {
+  web3.setProvider(new Web3.providers.HttpProvider(config.rpcnode || 'http://localhost:8545'));
+}
 // Can query by number or hash, but only cache by hash
 export const getBlock = makeCachedQuery(web3getBlock, 50, (hashOrNumber, block) => block.hash);
 
@@ -47,14 +47,15 @@ export const getTransactionReceipt = makeCachedQuery(web3getTransactionReceipt, 
 
 export default {
   getBalance,
+  getBlockNumber,
   getBlockTransactionCount,
   getCode,
   getCoinbase,
   getGasPrice,
   getHashrate,
-  getLatestBlock,
   getMining,
   getPendingTransactions,
   getTransactionCount,
   getTransactionFromBlock,
+  initialize,
 };

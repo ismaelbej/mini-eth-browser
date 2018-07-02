@@ -4,7 +4,7 @@ import {
   listTransactions,
 } from '../controllers/Transactions';
 import {
-  getLatestBlock,
+  getBlockNumber,
 } from '../lib/ethereum';
 import {
   parseQueryParams,
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
   try {
     let { start, count } = parseQueryParams(req.query);
     if (typeof start === 'undefined') {
-      start = await getLatestBlock();
+      start = await getBlockNumber();
     }
     if (typeof count === 'undefined') {
       count = TX_COUNT;
