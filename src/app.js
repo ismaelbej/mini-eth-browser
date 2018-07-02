@@ -43,4 +43,5 @@ export async function createServer(app, config) {
   await Ethereum.initialize(config);
   const server = http.createServer(app);
   server.listen(config.port || 5000);
+  return server;
 }
