@@ -4,6 +4,9 @@ A simple ethereum block and transaction explorer.
 Since it doesn't use a database some operations
 are slow.
 
+
+[![Build Status](https://travis-ci.org/ismaelbej/mini-eth-browser.svg?branch=master)](https://travis-ci.org/ismaelbej/mini-eth-browser)
+
 ![Mini Eth Browser](./mini-eth-browser.png)
 
 ## Setup
