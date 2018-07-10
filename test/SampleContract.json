@@ -1,0 +1,187 @@
+{
+  "contractName": "SampleContract",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "string"
+        }
+      ],
+      "name": "genLogString",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "string"
+        }
+      ],
+      "name": "genLogStringIndexed",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "genLogUint256",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "genLogUint256Indexed",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogUint256",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "a",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogInt256",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogUint256Indexed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "a",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogInt256Indexed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "a",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogString",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "a",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "name": "LogStringIndexed",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "608060405234801561001057600080fd5b50610443806100206000396000f300608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806346cc6922146100675780635b58aa25146100a05780638b4bbeb6146100d9578063bcdd48801461014c575b600080fd5b34801561007357600080fd5b5061009e600480360381019080803590602001909291908035151590602001909291905050506101bf565b005b3480156100ac57600080fd5b506100d7600480360381019080803590602001909291908035151590602001909291905050506101ff565b005b3480156100e557600080fd5b5061014a60048036038101908080359060200190929190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290505050610246565b005b34801561015857600080fd5b506101bd60048036038101908080359060200190929190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290505050610326565b005b817f5ed40200c3152dd517abb71d0049158623e55867d4f35b6e5776a9b985befedf82604051808215151515815260200191505060405180910390a25050565b7fb68b9db83ca7f2d11daa1154296cfa0dcd13144d17fd5127a7f397cd8b0af9dc828260405180838152602001821515151581526020019250505060405180910390a15050565b817f5ed40200c3152dd517abb71d0049158623e55867d4f35b6e5776a9b985befedf6001604051808215151515815260200191505060405180910390a2806040518082805190602001908083835b6020831015156102b95780518252602082019150602081019050602083039250610294565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390207f9643f35e05c5741d702b63163548aba4c7066f2bb5d216b6cc63f8077c4240006000604051808215151515815260200191505060405180910390a25050565b7fb68b9db83ca7f2d11daa1154296cfa0dcd13144d17fd5127a7f397cd8b0af9dc82600160405180838152602001821515151581526020019250505060405180910390a17fa2c2041c15a580c7aadc028a392664bad503fb79993c926417b8b6cbc0cad125816000604051808060200183151515158152602001828103825284818151815260200191508051906020019080838360005b838110156103d85780820151818401526020810190506103bd565b50505050905090810190601f1680156104055780820380516001836020036101000a031916815260200191505b50935050505060405180910390a150505600a165627a7a72305820b65863627a1efd8858785e1929bbb95668ef11e36b589d11bf9fdcfec3bfba1e0029",
+  "source" : "pragma solidity ^0.4.21;\n\ncontract A {\n\n      event LogUint256(uint256 a, bool b);\n      event LogInt256(int256 a, bool b);\n      event LogUint256Indexed(uint256 indexed a, bool b);\n      event LogInt256Indexed(int256 indexed a, bool b);\n      event LogString(string a, bool b);\n      event LogStringIndexed(string indexed a, bool b);\n\n      constructor() public {\n      }\n\n      function genLogUint256(uint256 a, bool b) public {\n          emit LogUint256(a, b);\n      }\n\n      function genLogUint256Indexed(uint256 a, bool b) public {\n          emit LogUint256Indexed(a, b);\n      }\n\n      function genLogString(uint256 a, string b) public {\n          emit LogUint256(a, true);\n          emit LogString(b, false);\n      }\n\n      function genLogStringIndexed(uint256 a, string b) public {\n          emit LogUint256Indexed(a, true);\n          emit LogStringIndexed(b, false);\n      }\n  }\n"
+}
