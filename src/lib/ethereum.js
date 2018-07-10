@@ -34,7 +34,11 @@ function makeCachedQuery(query, numItems = 50, getKey = k => k) {
 }
 
 export function initialize(config) {
-  web3.setProvider(new Web3.providers.HttpProvider(config.rpcnode || 'http://localhost:8545'));
+  if (typeof config.web3provider !== 'undefined') {
+    web3.setProvider(config.web3provider);
+  } else {
+    web3.setProvider(new Web3.providers.HttpProvider(config.rpcnode || 'http://localhost:8545'));
+  }
 }
 // Can query by number or hash, but only cache by hash
 export const getBlock = makeCachedQuery(web3getBlock, 50, (hashOrNumber, block) => block.hash);

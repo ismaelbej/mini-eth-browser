@@ -3,22 +3,19 @@ import fetch from 'node-fetch';
 import Ganache from 'ganache-core';
 import { createApp, createServer } from '../src/app';
 
-const GANACHE_PORT = 9633;
 const API_PORT = 9637;
 const API_BASE_URI = `http://localhost:${API_PORT}`;
 
-
-let ganache;
 let app;
 let server;
+let provider;
 
 test('Start', async (t) => {
-  ganache = Ganache.server();
-  t.ok(ganache, 'Ethereum node started');
-  ganache.listen(GANACHE_PORT);
+  provider = Ganache.provider();
+  t.ok(provider, 'Ethereum provider started');
 
   const config = {
-    rpcnode: `http://localhost:${GANACHE_PORT}`,
+    web3provider: provider,
     port: API_PORT,
   };
   app = createApp();
@@ -42,7 +39,6 @@ test('Blockchain', async (t) => {
 test('Close', async (t) => {
   t.ok(server, 'Stop listening API server');
   server.close();
-  t.ok(ganache, 'Stop ethereum node');
-  ganache.close();
+  t.ok(provider, 'Stop ethereum node');
   t.end();
 });
