@@ -57,8 +57,7 @@ test('Contracts', async (t) => {
     from: accounts[0],
     gas: 1000000,
   });
-  await sampleContract.methods.genLogString(1234, "hola")
-    .send({ from: accounts[0], gas: 1000000 });
+  await sampleContract.methods.genLogString(1234, 'hola').send({ from: accounts[0], gas: 1000000 });
   const { txs } = await fetch(`${API_BASE_URI}/api/v1/tx`).then(r => r.json());
   t.notEqual(typeof txs, 'undefined', 'Return valid data');
   t.equal(txs.length, 2, 'Single contract present');

@@ -1,12 +1,6 @@
 import express from 'express';
-import {
-  getBlockInfo,
-  listBlocks,
-  listBlockTransactions,
-} from '../controllers/Blocks';
-import {
-  getBlockNumber,
-} from '../lib/ethereum';
+import { getBlockInfo, listBlocks, listBlockTransactions } from '../controllers/Blocks';
+import { getBlockNumber } from '../lib/ethereum';
 
 const router = express.Router();
 

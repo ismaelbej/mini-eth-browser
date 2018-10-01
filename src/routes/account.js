@@ -1,7 +1,5 @@
 import express from 'express';
-import {
-  getAccountInfo,
-} from '../controllers/Accounts';
+import { getAccountInfo } from '../controllers/Accounts';
 
 const router = express.Router();
 

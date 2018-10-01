@@ -1,14 +1,7 @@
 import express from 'express';
-import {
-  getTransactionInfo,
-  listTransactions,
-} from '../controllers/Transactions';
-import {
-  getBlockNumber,
-} from '../lib/ethereum';
-import {
-  parseQueryParams,
-} from '../lib/utils';
+import { getTransactionInfo, listTransactions } from '../controllers/Transactions';
+import { getBlockNumber } from '../lib/ethereum';
+import { parseQueryParams } from '../lib/utils';
 
 const TX_COUNT = 10;
 

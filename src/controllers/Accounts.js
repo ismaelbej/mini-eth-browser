@@ -1,8 +1,4 @@
-import {
-  getBalance,
-  getCode,
-  getTransactionCount,
-} from '../lib/ethereum';
+import { getBalance, getCode, getTransactionCount } from '../lib/ethereum';
 
 export async function getAccountInfo(address) {
   const [balance, transactionCount, code] = await Promise.all([
@@ -10,15 +6,12 @@ export async function getAccountInfo(address) {
     getTransactionCount(address),
     getCode(address),
   ]);
-  const account = {
+  return {
     address,
     balance,
     transactionCount,
+    code,
   };
-  if (code && code !== '0x' && code !== '0x0') {
-    account.code = code;
-  }
-  return account;
 }
 
 export default {

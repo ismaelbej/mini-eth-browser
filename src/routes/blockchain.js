@@ -1,22 +1,11 @@
 import express from 'express';
-import {
-  getBlock,
-  getGasPrice,
-  getCoinbase,
-  getHashrate,
-  getMining,
-} from '../lib/ethereum';
+import { getBlock, getGasPrice, getCoinbase, getHashrate, getMining } from '../lib/ethereum';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const [block,
-      coinbase,
-      gasPrice,
-      hashrate,
-      mining,
-    ] = await Promise.all([
+    const [block, coinbase, gasPrice, hashrate, mining] = await Promise.all([
       getBlock('latest'),
       getCoinbase(),
       getGasPrice(),

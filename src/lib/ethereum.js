@@ -40,10 +40,13 @@ export function initialize(config) {
     web3.setProvider(new Web3.providers.HttpProvider(config.rpcnode || 'http://localhost:8545'));
   }
 }
+
 // Can query by number or hash, but only cache by hash
 export const getBlock = makeCachedQuery(web3getBlock, 50, (hashOrNumber, block) => block.hash);
 
-export const getCode = makeCachedQuery(web3getCode, 20);
+const web3getCodeFixed = address => web3getCode(address).then(c => (c && c !== '0x' && c !== '0x0' ? c : undefined));
+
+export const getCode = makeCachedQuery(web3getCodeFixed, 20);
 
 export const getTransaction = makeCachedQuery(web3getTransaction, 50);
 

@@ -1,35 +1,29 @@
 import _ from 'lodash';
-import {
-  getBlock,
-  getCode,
-  getTransaction,
-  getTransactionReceipt,
-} from '../lib/ethereum';
-import Contracts from './Contracts';
+import { getBlock, getCode, getTransaction, getTransactionReceipt } from '../lib/ethereum';
+import { decodeLogs, decodeFunction } from './Contracts';
 
 function formatTransaction(transaction, receipt, block, code) {
   return {
     ...transaction,
     block,
-    receipt: receipt ? {
-      ...receipt,
-      logsDecoded: Contracts.decodeLogs(receipt.logs),
-    } : undefined,
+    receipt: receipt
+      ? {
+        ...receipt,
+        logsDecoded: decodeLogs(receipt.logs),
+      }
+      : undefined,
     code,
-    inputDecoded: Contracts.decodeFunction(transaction.input),
+    inputDecoded: decodeFunction(transaction.input),
   };
 }
 
 export async function getTransactionInfo(txid) {
-  const [tx, receipt] = await Promise.all([
-    getTransaction(txid),
-    getTransactionReceipt(txid),
-  ]);
+  const [tx, receipt] = await Promise.all([getTransaction(txid), getTransactionReceipt(txid)]);
   const block = receipt ? await getBlock(tx.blockHash) : undefined;
   if (block) {
     tx.block = block;
   }
-  const code = (tx && tx.to) ? await getCode(tx.to) : undefined;
+  const code = tx && tx.to ? await getCode(tx.to) : undefined;
   return formatTransaction(tx, receipt, block, code);
 }
 
@@ -39,7 +33,7 @@ async function listBlockTransactions(blockId) {
     const transaction = await getTransaction(txid);
     if (transaction) {
       const receipt = await getTransactionReceipt(transaction.hash);
-      const code = (transaction.to) ? await getCode(transaction.to) : undefined;
+      const code = transaction.to ? await getCode(transaction.to) : undefined;
       return formatTransaction(transaction, receipt, block, code);
     }
     return undefined;
@@ -48,9 +42,7 @@ async function listBlockTransactions(blockId) {
 
 export async function listTransactions(start, count) {
   const range = _.range(start, _.max([-1, start - count]), -1);
-  const blockTransactions = await Promise.map(
-    range,
-    listBlockTransactions);
+  const blockTransactions = await Promise.map(range, listBlockTransactions);
   return _.filter(_.flatten(blockTransactions), tx => typeof tx !== 'undefined');
 }
 

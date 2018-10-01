@@ -4,8 +4,8 @@ import cors from 'cors';
 import http from 'http';
 import Promise from 'bluebird';
 import api from './routes/api';
-import Contracts from './controllers/Contracts';
-import Ethereum from './lib/ethereum';
+import { initialize as initializeContracts } from './controllers/Contracts';
+import { initialize as initializeEthereum } from './lib/ethereum';
 
 global.Promise = Promise;
 
@@ -25,7 +25,8 @@ export function createApp() {
   });
 
   // error handler
-  app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -39,8 +40,8 @@ export function createApp() {
 }
 
 export async function createServer(app, config) {
-  await Contracts.initialize(config);
-  await Ethereum.initialize(config);
+  await initializeContracts(config);
+  await initializeEthereum(config);
   const server = http.createServer(app);
   server.listen(config.port || 5000);
   return server;

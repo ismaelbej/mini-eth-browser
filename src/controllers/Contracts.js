@@ -1,10 +1,5 @@
-import {
-  readdir,
-  readFile,
-} from 'fs';
-import {
-  join,
-} from 'path';
+import { readdir, readFile } from 'fs';
+import { join } from 'path';
 import * as abiParser from 'ethereumjs-abi';
 import { BN } from 'bn.js';
 
@@ -13,12 +8,16 @@ const events = {};
 const methods = {};
 
 function addEvent(abiEntry) {
-  const eventId = abiParser.eventID(abiEntry.name, abiEntry.inputs.map(input => input.type)).toString('hex');
+  const eventId = abiParser
+    .eventID(abiEntry.name, abiEntry.inputs.map(input => input.type))
+    .toString('hex');
   events[eventId] = abiEntry;
 }
 
 function addFunction(abiEntry) {
-  const methodId = abiParser.methodID(abiEntry.name, abiEntry.inputs.map(input => input.type)).toString('hex');
+  const methodId = abiParser
+    .methodID(abiEntry.name, abiEntry.inputs.map(input => input.type))
+    .toString('hex');
   methods[methodId] = abiEntry;
 }
 
@@ -51,14 +50,9 @@ function parseFile(file) {
       } else {
         try {
           const contract = JSON.parse(data);
-          addContract(
-            contract.contractName,
-            contract.abi,
-            contract.networks,
-          );
+          addContract(contract.contractName, contract.abi, contract.networks);
         } catch (ex) {
-          //FIXME: Ignore files with errors
-          ex;
+          // FIXME: Ignore files with errors
         }
         resolve();
       }
@@ -68,11 +62,7 @@ function parseFile(file) {
 
 function parseFromArray(abiArray) {
   abiArray.forEach((abiEntry) => {
-    addContract(
-      abiEntry.contractName,
-      abiEntry.abi,
-      abiEntry.networks,
-    );
+    addContract(abiEntry.contractName, abiEntry.abi, abiEntry.networks);
   });
 }
 
@@ -82,24 +72,19 @@ function parseFromDirectory(path) {
       if (err) {
         reject(err);
       } else {
-        await Promise.all(
-          Promise.map(
-            files,
-            file => parseFile(join(path, file)),
-          ),
-        );
+        await Promise.all(Promise.map(files, file => parseFile(join(path, file))));
         resolve();
       }
     });
   });
 }
 
-function loadContracts(contracts) {
-  if (Array.isArray(contracts)) {
-    return parseFromArray(contracts);
+function loadContracts(contractList) {
+  if (Array.isArray(contractList)) {
+    return parseFromArray(contractList);
   }
-  if (typeof contracts === 'string') {
-    return parseFromDirectory(contracts);
+  if (typeof contractList === 'string') {
+    return parseFromDirectory(contractList);
   }
   return undefined;
 }
@@ -120,12 +105,16 @@ export function decodeFunction(data) {
       name: abiEntry.name,
       params: params.map((param, idx) => {
         let value = param;
-        if (abiEntry.inputs[idx].type.startsWith('bytes') ||
-            abiEntry.inputs[idx].type.startsWith('address') ||
-            abiEntry.inputs[idx].type.startsWith('string')) {
+        if (
+          abiEntry.inputs[idx].type.startsWith('bytes') ||
+          abiEntry.inputs[idx].type.startsWith('address') ||
+          abiEntry.inputs[idx].type.startsWith('string')
+        ) {
           value = `0x${param.toString('hex')}`;
-        } else if (abiEntry.inputs[idx].type.startsWith('uint') ||
-            abiEntry.inputs[idx].type.startsWith('int')) {
+        } else if (
+          abiEntry.inputs[idx].type.startsWith('uint') ||
+          abiEntry.inputs[idx].type.startsWith('int')
+        ) {
           value = new BN(param).toString(10);
         }
         return {
@@ -163,12 +152,13 @@ export function decodeLogs(data) {
           dataIndex += 1;
         }
         let value = rawValue;
-        if (input.type.startsWith('bytes') ||
-            input.type.startsWith('address') ||
-            input.type.startsWith('string')) {
+        if (
+          input.type.startsWith('bytes') ||
+          input.type.startsWith('address') ||
+          input.type.startsWith('string')
+        ) {
           value = `0x${rawValue.toString('hex')}`;
-        } else if (input.type.startsWith('uint') ||
-            input.type.startsWith('int')) {
+        } else if (input.type.startsWith('uint') || input.type.startsWith('int')) {
           value = new BN(rawValue).toString(10);
         }
 
