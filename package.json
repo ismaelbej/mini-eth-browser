@@ -19,7 +19,6 @@
     "dev:client": "cd client && npm start"
   },
   "dependencies": {
-    "abi-decoder": "^1.1.0",
     "bluebird": "^3.5.1",
     "bn.js": "^4.11.8",
     "cors": "^2.8.4",
