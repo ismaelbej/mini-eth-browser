@@ -12,8 +12,9 @@ export async function getBlockInfo(hash) {
 }
 
 export async function listBlocks(start, count) {
-  const blocks = await Promise.map(_.range(start, _.max([-1, start - count]), -1), blk =>
-    getBlockInfo(blk),
+  const blocks = await Promise.map(
+    _.range(start, _.max([-1, start - count]), -1),
+    blk => getBlockInfo(blk),
   );
   return blocks;
 }
