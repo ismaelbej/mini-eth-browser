@@ -20,9 +20,6 @@ function formatTransaction(transaction, receipt, block, code) {
 export async function getTransactionInfo(txid) {
   const [tx, receipt] = await Promise.all([getTransaction(txid), getTransactionReceipt(txid)]);
   const block = receipt ? await getBlock(tx.blockHash) : undefined;
-  if (block) {
-    tx.block = block;
-  }
   const code = tx && tx.to ? await getCode(tx.to) : undefined;
   return formatTransaction(tx, receipt, block, code);
 }
