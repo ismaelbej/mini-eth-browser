@@ -1,4 +1,4 @@
-import test from 'tap';
+import test from 'tape';
 import fetch from 'node-fetch';
 import Ganache from 'ganache-core';
 import Web3 from 'web3';
