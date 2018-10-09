@@ -21,6 +21,9 @@ test('Start', async (t) => {
   t.ok(web3, 'Web3 initialized correctly');
   accounts = await web3.eth.personal.getAccounts();
 
+  // Fix MaxListenersExceededWarning about too many listeners
+  provider.setMaxListeners(100);
+
   const config = {
     web3provider: provider,
     port: API_PORT,
