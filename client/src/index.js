@@ -1,21 +1,44 @@
 import { app, h } from 'hyperapp';
+import { getBlockchainInfo } from './lib/api';
 
 const actions = {
-  updateBlockchain: () => async ({ block, gasPrice }, { refreshStatus }) => {
-    setTimeout(refreshStatus, 5000, { block, gasPrice: gasPrice + 1 });
+  updateBlockchain: () => async (_, { refreshStatus }) => {
+    const { blockchain } = await getBlockchainInfo();
+    refreshStatus({ blockchain });
   },
-  refreshStatus: ({ block, gasPrice }) => () => ({
-    block,
-    gasPrice,
+  refreshStatus: ({ blockchain }) => () => ({
+    blockchain,
   }),
 };
 
 const state = {
-  block: {},
-  gasPrice: 0,
+  blockchain: {
+    block: {
+      hash: '0x',
+      timestamp: 0,
+      transactions: [],
+    },
+    blockNumber: 0,
+    coinbase: '0x',
+    gasPrice: 0,
+    hashrate: 0,
+    mining: false,
+  },
 };
 
-const view = ({ block, gasPrice }, { updateBlockchain }) => (
+const view = ({
+  blockchain: {
+    block: {
+      hash,
+      timestamp,
+      transactions,
+    },
+    blockNumber,
+    gasPrice,
+    hashrate,
+    mining,
+  },
+}, { updateBlockchain }) => (
   <div
     oncreate={() => updateBlockchain()}
   >
@@ -23,11 +46,31 @@ const view = ({ block, gasPrice }, { updateBlockchain }) => (
       <ul>
         <li>
           Block:
-          {block.timestamp}
+          {blockNumber}
+        </li>
+        <li>
+          Block Hash:
+          {hash}
+        </li>
+        <li>
+          Transactions:
+          {transactions.length}
         </li>
         <li>
           Gas Price:
           {gasPrice}
+        </li>
+        <li>
+          Hash rate:
+          {hashrate}
+        </li>
+        <li>
+          Mining:
+          {mining}
+        </li>
+        <li>
+          Date:
+          {timestamp}
         </li>
       </ul>
     </section>
