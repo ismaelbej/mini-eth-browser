@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hyperapp/router": "^0.7.1",
     "hyperapp": "^1.2.9",
     "unfetch": "^4.0.1"
   },
