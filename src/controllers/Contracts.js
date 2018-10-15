@@ -106,14 +106,14 @@ export function decodeFunction(data) {
       params: params.map((param, idx) => {
         let value = param;
         if (
-          abiEntry.inputs[idx].type.startsWith('bytes') ||
-          abiEntry.inputs[idx].type.startsWith('address') ||
-          abiEntry.inputs[idx].type.startsWith('string')
+          abiEntry.inputs[idx].type.startsWith('bytes')
+          || abiEntry.inputs[idx].type.startsWith('address')
+          || abiEntry.inputs[idx].type.startsWith('string')
         ) {
           value = `0x${param.toString('hex')}`;
         } else if (
-          abiEntry.inputs[idx].type.startsWith('uint') ||
-          abiEntry.inputs[idx].type.startsWith('int')
+          abiEntry.inputs[idx].type.startsWith('uint')
+          || abiEntry.inputs[idx].type.startsWith('int')
         ) {
           value = new BN(param).toString(10);
         }
@@ -153,9 +153,9 @@ export function decodeLogs(data) {
         }
         let value = rawValue;
         if (
-          input.type.startsWith('bytes') ||
-          input.type.startsWith('address') ||
-          input.type.startsWith('string')
+          input.type.startsWith('bytes')
+          || input.type.startsWith('address')
+          || input.type.startsWith('string')
         ) {
           value = `0x${rawValue.toString('hex')}`;
         } else if (input.type.startsWith('uint') || input.type.startsWith('int')) {

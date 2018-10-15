@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { getBlock, getCode, getTransaction, getTransactionReceipt } from '../lib/ethereum';
+import {
+  getBlock, getCode, getTransaction, getTransactionReceipt,
+} from '../lib/ethereum';
 import { decodeLogs, decodeFunction } from './Contracts';
 
 function formatTransaction(transaction, receipt, block, code) {

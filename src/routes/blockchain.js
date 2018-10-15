@@ -1,5 +1,7 @@
 import express from 'express';
-import { getBlock, getGasPrice, getCoinbase, getHashrate, getMining } from '../lib/ethereum';
+import {
+  getBlock, getGasPrice, getCoinbase, getHashrate, getMining,
+} from '../lib/ethereum';
 
 const router = express.Router();
 
