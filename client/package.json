@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hyperapp": "^1.2.9"
+    "hyperapp": "^1.2.9",
+    "unfetch": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
