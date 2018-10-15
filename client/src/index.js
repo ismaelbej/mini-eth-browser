@@ -1,7 +1,9 @@
 import { app, h } from 'hyperapp';
+import { location, Route } from '@hyperapp/router';
 import { getBlockchainInfo } from './lib/api';
 
 const actions = {
+  location: location.actions,
   updateBlockchain: () => async (_, { refreshStatus }) => {
     const { blockchain } = await getBlockchainInfo();
     refreshStatus({ blockchain });
@@ -12,6 +14,7 @@ const actions = {
 };
 
 const state = {
+  location: location.state,
   blockchain: {
     block: {
       hash: '0x',
@@ -26,7 +29,7 @@ const state = {
   },
 };
 
-const view = ({
+const HomeView = () => ({
   blockchain: {
     block: {
       hash,
@@ -38,10 +41,8 @@ const view = ({
     hashrate,
     mining,
   },
-}, { updateBlockchain }) => (
-  <div
-    oncreate={() => updateBlockchain()}
-  >
+}) => (
+  <div>
     <section>
       <ul>
         <li>
@@ -74,6 +75,14 @@ const view = ({
         </li>
       </ul>
     </section>
+  </div>
+);
+
+const view = (_, { updateBlockchain }) => (
+  <div
+    oncreate={() => updateBlockchain()}
+  >
+    <Route path="/" render={HomeView} />
   </div>
 );
 
