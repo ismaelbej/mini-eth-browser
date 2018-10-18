@@ -2,6 +2,8 @@ import { app, h } from 'hyperapp';
 import { location, Route } from '@hyperapp/router';
 import { getBlockchainInfo } from './lib/api';
 
+import 'bulma/css/bulma.css';
+
 const actions = {
   location: location.actions,
   updateBlockchain: () => async (_, { refreshStatus }) => {
