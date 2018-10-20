@@ -2,6 +2,7 @@
   "plugins": [
     ["@babel/plugin-transform-react-jsx", {
       "pragma": "h"
-    }]
+    }],
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }
