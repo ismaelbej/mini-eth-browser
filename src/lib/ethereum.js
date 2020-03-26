@@ -22,7 +22,7 @@ export function getPendingTransactions() {
 }
 
 function makeCachedQuery(query, numItems = 50, getKey = k => k) {
-  const cache = LRU(numItems);
+  const cache = new LRU(numItems);
   return async (key) => {
     if (cache.has(key)) {
       return cache.get(key);

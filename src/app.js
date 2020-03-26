@@ -2,12 +2,9 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
-import Promise from 'bluebird';
 import api from './routes/api';
 import { initialize as initializeContracts } from './controllers/Contracts';
 import { initialize as initializeEthereum } from './lib/ethereum';
-
-global.Promise = Promise;
 
 export function createApp() {
   const app = express();

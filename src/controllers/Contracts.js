@@ -72,7 +72,7 @@ function parseFromDirectory(path) {
       if (err) {
         reject(err);
       } else {
-        await Promise.all(Promise.map(files, file => parseFile(join(path, file))));
+        await Promise.all(files.map(file => parseFile(join(path, file))));
         resolve();
       }
     });

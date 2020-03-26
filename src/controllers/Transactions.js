@@ -28,7 +28,7 @@ export async function getTransactionInfo(txid) {
 
 async function listBlockTransactions(blockId) {
   const block = await getBlock(blockId);
-  return Promise.map(block.transactions, async (txid) => {
+  return Promise.all(block.transactions.map(async txid => {
     const transaction = await getTransaction(txid);
     if (transaction) {
       const receipt = await getTransactionReceipt(transaction.hash);
@@ -36,12 +36,12 @@ async function listBlockTransactions(blockId) {
       return formatTransaction(transaction, receipt, block, code);
     }
     return undefined;
-  });
+  }));
 }
 
 export async function listTransactions(start, count) {
   const range = _.range(start, _.max([-1, start - count]), -1);
-  const blockTransactions = await Promise.map(range, listBlockTransactions);
+  const blockTransactions = await Promise.all(range.map(listBlockTransactions));
   return _.filter(_.flatten(blockTransactions), tx => typeof tx !== 'undefined');
 }
 

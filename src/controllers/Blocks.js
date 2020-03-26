@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import _ from 'lodash';
 import { getBlock } from '../lib/ethereum';
 import { getTransactionInfo } from './Transactions';
@@ -12,9 +11,9 @@ export async function getBlockInfo(hash) {
 }
 
 export async function listBlocks(start, count) {
-  const blocks = await Promise.map(
-    _.range(start, _.max([-1, start - count]), -1),
-    blk => getBlockInfo(blk),
+  const end = _.max([-1, start - count]);
+  const blocks = Promise.all(
+    _.range(start, end, -1).map(getBlockInfo),
   );
   return blocks;
 }
@@ -22,7 +21,7 @@ export async function listBlocks(start, count) {
 export async function listBlockTransactions(hash, start, count) {
   const block = await getBlockInfo(hash);
   const txids = block.transactions.slice(start, start + count);
-  const txs = await Promise.map(txids, txid => getTransactionInfo(txid));
+  const txs = Promise.all(txids.map(getTransactionInfo));
   return txs;
 }
 
