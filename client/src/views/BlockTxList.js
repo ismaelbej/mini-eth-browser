@@ -47,12 +47,13 @@ class BlockTxList extends React.Component {
     this.loadData(hash, start, count);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { hash, start, count } = parseParams(nextProps);
-    if (this.state.hash !== hash ||
-        this.state.start !== start ||
-        this.state.count !== count) {
-      this.loadData(hash, start, count);
+  componentDidUpdate(prevProps) {
+    const { hash: prevHash, start: prevStart, count: prevCount } = parseParams(prevProps);
+    const { hash, start, count } = parseParams(this.props);
+    if (prevHash !== hash
+      || prevStart !== start
+      || prevCount !== count) {
+        this.loadData(hash, start, count);
     }
   }
 

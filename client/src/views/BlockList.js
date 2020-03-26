@@ -79,11 +79,12 @@ class BlockList extends React.Component {
     setTimeout(this.refreshEvents, BLOCKLIST_REFRESH_TIMEOUT * 1000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { start, count } = parseParams(nextProps);
-    if (!this.state.data || this.state.data.start !== start ||
-        this.state.data.count !== count) {
-      this.loadData(start, count);
+  componentDidUpdate(prevProps) {
+    const { start: prevStart, count: prevCount } = parseParams(prevProps);
+    const { start, count } = parseParams(this.props);
+    if (prevStart !== start
+      || prevCount !== count) {
+        this.loadData(start, count);
     }
   }
 

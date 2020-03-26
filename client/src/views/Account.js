@@ -19,9 +19,10 @@ class Account extends React.Component {
     this.loadData(address);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { address } = nextProps.match.params;
-    if (address !== this.state.address) {
+  componentDidUpdate(prevProps) {
+    const { address: prevAddress } = prevProps.match.params;
+    const { address } = this.props.match.params;
+    if (prevAddress !== address) {
       this.loadData(address);
     }
   }

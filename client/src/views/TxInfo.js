@@ -22,9 +22,10 @@ class TxInfo extends React.Component {
     this.loadData(hash);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { hash } = nextProps.match.params;
-    if (hash !== this.state.hash) {
+  componentDidUpdate(prevProps) {
+    const { hash: prevHash } = prevProps.match.params;
+    const { hash } = this.props.match.params;
+    if (prevHash !== hash) {
       this.loadData(hash);
     }
   }
