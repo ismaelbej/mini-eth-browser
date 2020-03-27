@@ -19,10 +19,17 @@ import TxList from './views/TxList';
 import Account from './views/Account';
 import Contract from './views/Contract';
 
+const menu = [
+  { path: "/", icon: "home", label: "Home" },
+  { path: "/block", icon: "cubes", label: "Blocks" },
+  { path: "/tx", icon: "content", label: "Transactions" },
+  { path: "/contract", icon: "signup", label: "Contracts" },
+];
+
 const App = () => (
   <Router>
     <Container>
-      <Navbar />
+      <Navbar menu={menu} />
       <BlockchainInfo />
       <Container style={{ marginTop: '1em' }}>
         <Switch>

@@ -6,13 +6,12 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
-const Navbar = () => (
+const Navbar = ({ menu }) => (
   <Container>
     <Menu icon="labeled">
-      <Menu.Item as={Link} to="/"><Icon name="home" color="orange" />Home</Menu.Item>
-      <Menu.Item as={Link} to="/block"><Icon name="cubes" color="orange" />Blocks</Menu.Item>
-      <Menu.Item as={Link} to="/tx"><Icon name="content" color="orange" />Transactions</Menu.Item>
-      <Menu.Item as={Link} to="/contract"><Icon name="signup" color="orange" />Contracts</Menu.Item>
+      {menu.map(({ path, icon, label }) => (
+        <Menu.Item key={label} as={Link} to={path}><Icon name={icon} color="orange" />{label}</Menu.Item>
+      ))}
     </Menu>
   </Container>
 );
