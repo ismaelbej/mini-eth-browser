@@ -1,23 +1,32 @@
 import React from 'react';
 import Blockchain from '../components/BlockchainInfo';
-import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
+  subscribe,
 } from '../lib/api';
 
-const BLOCKCHAININFO_TIMEOUT = 10;
-
-const BlockchainInfoView = AutoRefresh(Blockchain, BLOCKCHAININFO_TIMEOUT * 1000);
 
 class BlockchainInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.refreshView = this.refreshView.bind(this);
+    this.state = {
+      data: {
+        blockchain: {
+          block: {
+            number: 0,
+            timestamp: 0,
+          },
+          gasPrice: 0,
+        }
+      }
+    };
   }
 
   componentDidMount() {
     this.loadData();
+    subscribe('newBlock', () => {
+      this.loadData();
+    });
   }
 
   async loadData() {
@@ -33,27 +42,15 @@ class BlockchainInfo extends React.Component {
     }
   }
 
-  refreshView() {
-    this.loadData();
-  }
-
   render() {
     const {
       loading,
       data: {
         blockchain,
-      } = {
-        blockchain: {
-          block: {
-            number: 0,
-            timestamp: 0,
-          },
-          gasPrice: 0,
-        },
       },
     } = this.state;
     return (
-      <BlockchainInfoView refreshView={this.refreshView} blockchain={blockchain} />
+      <Blockchain blockchain={blockchain} />
     );
   }
 }

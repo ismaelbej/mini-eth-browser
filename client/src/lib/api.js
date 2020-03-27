@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import socketIOClient from "socket.io-client";
 import { writeUrl } from '../utils/urlParams';
 import config from '../config';
 
@@ -33,6 +34,32 @@ export function getTransactionInfo(txid) {
 
 export function getTransactionList(start, count) {
   return fetchJson(`${config.rpcpath}/api/v1/tx/`, { start, count });
+}
+
+class SimpleEvent {
+  constructor() {
+    this.callbacks = [];
+    this.socket = socketIOClient(config.rpcpath);
+    this.socket.on('newBlock', (block => {
+      this.emit('newBlock', block);
+    }));
+  }
+
+  on(name, callback) {
+    this.callbacks.push(callback);
+  }
+
+  emit(name, block) {
+    this.callbacks.forEach(callback => {
+      callback(block);
+    });
+  }
+};
+
+const newBlock = new SimpleEvent();
+
+export function subscribe(name, callback) {
+  newBlock.on(name, callback);
 }
 
 export default {

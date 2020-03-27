@@ -11,6 +11,7 @@ import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
+  subscribe,
 } from '../lib/api';
 
 const HOME_BLOCK_COUNT = 15;
@@ -51,6 +52,9 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.loadData();
+    subscribe('newBlock', () => {
+      this.loadData();
+    });
   }
 
   async loadData() {
@@ -60,7 +64,6 @@ class Home extends React.Component {
       const { blocks } = (blockchain.blockNumber >= 0) ?
         await getBlockList(blockchain.blockNumber, HOME_BLOCK_COUNT) : {};
       const data = {
-        // blockchain,
         blocks,
       };
       this.setState({ loading: false, error: false, data });
@@ -70,7 +73,7 @@ class Home extends React.Component {
   }
 
   refreshView() {
-    this.loadData();
+    this.forceUpdate();
   }
 
   render() {

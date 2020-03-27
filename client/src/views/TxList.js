@@ -11,6 +11,7 @@ import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getTransactionList,
+  subscribe,
 } from '../lib/api';
 
 const BLOCK_COUNT = 20;
@@ -76,6 +77,10 @@ class TxList extends React.Component {
   componentDidMount() {
     const { start, count } = parseParams(this.props);
     this.loadData(start, count);
+    subscribe('newBlock', () => {
+      const { start, count } = parseParams(this.props);
+      this.loadData(start, count);
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -108,11 +113,7 @@ class TxList extends React.Component {
   }
 
   refreshView() {
-    const { start, count } = parseParams(this.props);
-    if (!this.state.data || this.state.data.start !== start ||
-        this.state.data.count !== count) {
-      this.loadData(start, count);
-    }
+    this.forceUpdate();
   }
 
   render() {

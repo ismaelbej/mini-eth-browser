@@ -11,6 +11,7 @@ import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
+  subscribe,
 } from '../lib/api';
 
 const BLOCK_COUNT = 20;
@@ -76,7 +77,10 @@ class BlockList extends React.Component {
   componentDidMount() {
     const { start, count } = parseParams(this.props);
     this.loadData(start, count);
-    setTimeout(this.refreshEvents, BLOCKLIST_REFRESH_TIMEOUT * 1000);
+    subscribe('newBlock', () => {
+      const { start, count } = parseParams(this.props);
+      this.loadData(start, count);
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -111,11 +115,7 @@ class BlockList extends React.Component {
   }
 
   refreshView() {
-    const { start, count } = parseParams(this.props);
-    if (!this.state.data || this.state.data.start !== start ||
-        this.state.data.count !== count) {
-      this.loadData(start, count);
-    }
+    this.forceUpdate();
   }
 
   render() {
