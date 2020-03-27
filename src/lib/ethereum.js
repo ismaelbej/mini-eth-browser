@@ -1,5 +1,8 @@
+import EventEmitter from 'events';
 import Web3 from 'web3';
 import LRU from 'lru-cache';
+
+class EthereumEmitter extends EventEmitter {}
 
 const web3 = new Web3();
 
@@ -37,8 +40,15 @@ export function initialize(config) {
   if (typeof config.web3provider !== 'undefined') {
     web3.setProvider(config.web3provider);
   } else {
-    web3.setProvider(new Web3.providers.HttpProvider(config.rpcnode || 'http://localhost:8545'));
+    web3.setProvider(new Web3.providers.WebsocketProvider(config.rpcnode || 'ws://localhost:8545'));
   }
+  const eventEmitter = new EthereumEmitter();
+  web3.eth.subscribe('newBlockHeaders', (err, result) => {
+    if (!err) {
+      eventEmitter.emit('newBlock', result);
+    }
+  });
+  return eventEmitter;
 }
 
 // Can query by number or hash, but only cache by hash

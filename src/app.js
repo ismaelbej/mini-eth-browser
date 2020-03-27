@@ -2,9 +2,10 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
+import socketIo from 'socket.io';
 import api from './routes/api';
-import { initialize as initializeContracts } from './controllers/Contracts';
-import { initialize as initializeEthereum } from './lib/ethereum';
+import contracts from './controllers/Contracts';
+import ethereum from './lib/ethereum';
 
 export function createApp() {
   const app = express();
@@ -37,9 +38,19 @@ export function createApp() {
 }
 
 export async function createServer(app, config) {
-  await initializeContracts(config);
-  await initializeEthereum(config);
+  await contracts.initialize(config);
+  const eventEmitter = await ethereum.initialize(config);
   const server = http.createServer(app);
+  const io = socketIo(server);
+  io.on('connect', (socket) => {
+    console.log('New client', socket.id);
+    eventEmitter.on('newBlock', (block) => {
+      socket.emit('newBlock', block.number);
+    });
+    socket.on('disconnect', () => {
+      console.log('Client disconnected', socket.id);
+    });
+  });
   server.listen(config.port || 5000);
   return server;
 }
