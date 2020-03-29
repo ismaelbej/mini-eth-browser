@@ -5,6 +5,9 @@ import {
 import { decodeLogs, decodeFunction } from './Contracts';
 
 function formatTransaction(transaction, receipt, block, code) {
+  if (!transaction) {
+    return {};
+  }
   return {
     ...transaction,
     block,
@@ -14,14 +17,14 @@ function formatTransaction(transaction, receipt, block, code) {
         logsDecoded: decodeLogs(receipt.logs),
       }
       : undefined,
-    code,
+    code: typeof code !== 'undefined' ? true : false,
     inputDecoded: decodeFunction(transaction.input),
   };
 }
 
 export async function getTransactionInfo(txid) {
   const [tx, receipt] = await Promise.all([getTransaction(txid), getTransactionReceipt(txid)]);
-  const block = receipt ? await getBlock(tx.blockHash) : undefined;
+  const block = receipt ? await getBlock(receipt.blockHash) : undefined;
   const code = tx && tx.to ? await getCode(tx.to) : undefined;
   return formatTransaction(tx, receipt, block, code);
 }
