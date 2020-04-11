@@ -8,20 +8,37 @@ import {
   getAccountInfo,
 } from '../lib/api';
 
+
+const AccountInfo = ({ account }) => (
+  <AccountComponent
+    address={account ? account.address : '0x'}
+    balance={account ? account.balance : 0}
+    transactionCount={account ? account.transactionCount : 0}
+    isContract={account ? account.isContract : false}
+  />
+);
+
+
 class Account extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+      error: false,
+      data: {
+        account: undefined,
+      },
+    };
   }
 
   componentDidMount() {
-    const { address } = this.props.match.params;
+    const { match: { params: { address } } } = this.props;
     this.loadData(address);
   }
 
   componentDidUpdate(prevProps) {
-    const { address: prevAddress } = prevProps.match.params;
-    const { address } = this.props.match.params;
+    const { match: { params: { address: prevAddress } } } = prevProps;
+    const { match: { params: { address } } } = this.props;
     if (prevAddress !== address) {
       this.loadData(address);
     }
@@ -42,7 +59,7 @@ class Account extends React.Component {
     const {
       data: {
         account,
-      } = {},
+      },
     } = this.state;
     return (
       <Grid>
@@ -53,7 +70,7 @@ class Account extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <AccountComponent account={account} />
+            <AccountInfo account={account} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
