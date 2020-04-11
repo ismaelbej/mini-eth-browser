@@ -6,11 +6,12 @@ export async function getAccountInfo(address) {
     getTransactionCount(address),
     getCode(address),
   ]);
+
   return {
     address,
     balance,
     transactionCount,
-    code,
+    isContract: typeof code !== 'undefined' && code !== '0x',
   };
 }
 
