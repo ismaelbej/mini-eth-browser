@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "bn.js": "^5.1.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "query-string": "^6.11.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
