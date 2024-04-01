@@ -1,35 +1,22 @@
 import express from 'express';
-import {
-  getBlock, getGasPrice, getCoinbase, getHashrate, getMining,
-} from '../lib/ethereum';
+import blockchain from '../controllers/blockchain.js';
 
-const router = express.Router();
+export default (web3) => {
+  const router = express.Router();
 
-router.get('/', async (req, res) => {
-  try {
-    const [block, coinbase, gasPrice, hashrate, mining] = await Promise.all([
-      getBlock('latest'),
-      getCoinbase(),
-      getGasPrice(),
-      getHashrate(),
-      getMining(),
-    ]);
-    res.json({
-      blockchain: {
-        blockNumber: block.number,
-        block,
-        coinbase,
-        gasPrice,
-        hashrate,
-        mining,
-      },
-    });
-  } catch (err) {
-    res.status(err.status || 500);
-    res.json({
-      errors: [err.message],
-    });
-  }
-});
+  const { getBlockchainInfo } = blockchain(web3);
 
-export default router;
+  router.get('/', async (req, res) => {
+    try {
+      const blockchainInfo = await getBlockchainInfo();
+      res.json(JSON.stringify(blockchainInfo, (key, value) => typeof value === "bigint" ? value.toString() : value));
+    } catch (err) {
+      res.status(err.status || 500);
+      res.json({
+        errors: [err.message],
+      });
+    }
+  });
+  
+  return router;
+}

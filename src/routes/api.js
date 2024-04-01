@@ -1,16 +1,10 @@
 import express from 'express';
-import block from './block';
-import blockchain from './blockchain';
-import tx from './tx';
-import account from './account';
-import contract from './contract';
+import blockchain from './blockchain.js';
 
-const router = express.Router();
+export default (web3) => { 
+  const router = express.Router();
 
-router.use('/block', block);
-router.use('/blockchain', blockchain);
-router.use('/tx', tx);
-router.use('/account', account);
-router.use('/contract', contract);
-
-export default router;
+  router.use('/blockchain', blockchain(web3));
+  
+  return router;
+}

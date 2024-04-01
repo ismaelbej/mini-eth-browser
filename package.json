@@ -1,56 +1,18 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
+  "name": "mini-eth-browser-backend",
+  "version": "0.2.0",
   "private": true,
-  "files": [
-    "dist"
-  ],
+  "type": "module",
   "scripts": {
-    "start": "run-p start:*",
-    "dev": "run-p dev:*",
-    "build": "babel src --out-dir dist",
-    "postinstall": "run-s pi:*",
-    "test": "tape -r \"@babel/register\" \"test/**/*.js\" | tspec",
-    "pi:backend": "npm run build",
-    "pi:client": "cd client && npm install",
-    "start:backend": "cross-env node ./dist",
-    "start:client": "cd client && npm start",
-    "dev:backend": "cross-env nodemon --watch ./src --exec babel-node ./src",
-    "dev:client": "cd client && npm start"
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "tape -r \"@babel/register\" \"test/**/*.js\" | tspec"
   },
   "dependencies": {
-    "bn.js": "^5.1.1",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
-    "ethereumjs-abi": "^0.6.8",
-    "express": "^4.17.1",
-    "lodash": "^4.17.19",
-    "lru-cache": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "morgan": "^1.10.0",
-    "socket.io": "^2.3.0",
-    "web3": "^1.2.6",
-    "websocket": "^1.0.26"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.7",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
-    "@babel/plugin-transform-destructuring": "^7.8.8",
-    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0",
-    "ganache-core": "^2.10.2",
-    "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.2",
-    "npm-run-all": "^4.1.5",
-    "tap-spec": "^5.0.0",
-    "tape": "^4.13.2"
+    "web3": "^4.7.0"
   }
 }
