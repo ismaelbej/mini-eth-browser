@@ -1,5 +1,4 @@
 const getBlockchainInfo = ({
-  getBlock,
   getGasPrice,
   getBlockNumber,
   getChainId,
@@ -10,7 +9,6 @@ const getBlockchainInfo = ({
     blockNumber,
     chainId,
   ] = await Promise.all([
-    getBlock('latest'),
     getGasPrice(),
     getBlockNumber(),
     getChainId(),
@@ -18,7 +16,6 @@ const getBlockchainInfo = ({
   return {
     blockchain: {
       blockNumber,
-      block,
       gasPrice,
       chainId,
     },

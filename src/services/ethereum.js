@@ -8,5 +8,10 @@ export default ({ rpcnode }) => {
     getGasPrice: () => web3.eth.getGasPrice(),
     getBlockNumber: () => web3.eth.getBlockNumber(),
     getChainId: () => web3.eth.getChainId(),
+    getTransaction: (txid) => web3.eth.getTransaction(txid),
+    getTransactionReceipt: (txid) => web3.eth.getTransactionReceipt(txid),
+    getCode: (address) => web3.eth.getCode(address),
+    getBalance: (address) => web3.eth.getBalance(address),
+    getTransactionCount: (address) => web3.eth.getTransactionCount(address),
   };
 }
