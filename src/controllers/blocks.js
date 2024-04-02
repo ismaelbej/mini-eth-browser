@@ -12,7 +12,7 @@ const listBlocks = ({ getBlockInfo }) => async (start, count) => {
   const blocks = await Promise.all(
     range(start, start + count - 1, 1).map(getBlockInfo),
   );
-  return blocks;
+  return blocks.filter((block) => block != null);
 }
 
 export default (web3) => ({

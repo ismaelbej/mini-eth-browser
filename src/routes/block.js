@@ -48,7 +48,13 @@ const getBlocks = ({ listBlocks, getBlockNumber }) => async (req, res) => {
     const params = await parseBlockParams(req.query);
     ({ start, count } = params);
     if (start < 0) {
-      start = Number(await getBlockNumber()) - count + 1;
+      const end = Number(await getBlockNumber());
+      if (end >= count) {
+        start = end - count + 1
+      } else {
+        start = 0;
+        count = end + 1;
+      }
     }
     if (start >= 0) {
       const blocks = await listBlocks(start, count);

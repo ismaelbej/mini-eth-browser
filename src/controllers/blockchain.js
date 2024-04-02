@@ -1,17 +1,16 @@
 const getBlockchainInfo = ({
-  getGasPrice,
   getBlockNumber,
   getChainId,
+  getGasPrice,
 }) => async () => {
-  const [
-    block,
-    gasPrice,
+    const [
     blockNumber,
     chainId,
+    gasPrice,
   ] = await Promise.all([
-    getGasPrice(),
     getBlockNumber(),
     getChainId(),
+    getGasPrice(),
   ]);
   return {
     blockchain: {
@@ -23,5 +22,5 @@ const getBlockchainInfo = ({
 }
 
 export default (web3) => ({
-  getBlockchainInfo: getBlockchainInfo(web3),
-});
+    getBlockchainInfo: getBlockchainInfo(web3),
+  });
