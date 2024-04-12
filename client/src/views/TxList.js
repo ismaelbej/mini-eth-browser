@@ -7,7 +7,7 @@ import {
 import queryString from 'query-string';
 import TxListComponent from '../components/TxList';
 import PrevNext from '../components/PrevNext';
-import AutoRefresh from '../components/AutoRefresh';
+// import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getTransactionList,
@@ -47,7 +47,7 @@ const TxListView = ({
   </Grid>
 );
 
-const TxListViewRefresh = AutoRefresh(TxListView, TXLIST_REFRESH_TIMEOUT * 1000);
+// const TxListViewRefresh = AutoRefresh(TxListView, TXLIST_REFRESH_TIMEOUT * 1000);
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -117,7 +117,8 @@ class TxList extends React.Component {
   }
 
   render() {
-    return <TxListViewRefresh {...this.state} refreshView={this.refreshView} />;
+    // return <TxListViewRefresh {...this.state} refreshView={this.refreshView} />;
+    return <TxListView {...this.state}/>;
   }
 }
 

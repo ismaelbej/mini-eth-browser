@@ -1,5 +1,5 @@
 import fetch from 'unfetch';
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 import { writeUrl } from '../utils/urlParams';
 import config from '../config';
 
@@ -39,10 +39,10 @@ export function getTransactionList(start, count) {
 class SimpleEvent {
   constructor() {
     this.callbacks = [];
-    this.socket = socketIOClient(config.rpcpath);
-    this.socket.on('newBlock', (block => {
-      this.emit('newBlock', block);
-    }));
+    // this.socket = socketIOClient(config.rpcpath);
+    // this.socket.on('newBlock', (block => {
+    //   this.emit('newBlock', block);
+    // }));
   }
 
   on(name, callback) {

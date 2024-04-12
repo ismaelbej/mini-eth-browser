@@ -7,7 +7,7 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
-import AutoRefresh from '../components/AutoRefresh';
+// import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -41,7 +41,7 @@ const HomeView = ({ loading, data: { blocks = [] } = {} }) => (
   </Grid>
 );
 
-const HomeViewRefresh = AutoRefresh(HomeView, HOME_REFRESH_TIMEOUT * 1000);
+// const HomeViewRefresh = AutoRefresh(HomeView, HOME_REFRESH_TIMEOUT * 1000);
 
 class Home extends React.Component {
   constructor(props) {
@@ -77,7 +77,8 @@ class Home extends React.Component {
   }
 
   render() {
-    return <HomeViewRefresh {...this.state} refreshView={this.refreshView} />;
+    // return <HomeViewRefresh {...this.state} refreshView={this.refreshView} />;
+    return <HomeView {...this.state} />;
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Blockchain from '../components/BlockchainInfo';
 import {
+  getBlockInfo,
   getBlockchainInfo,
   subscribe,
 } from '../lib/api';
@@ -33,8 +34,12 @@ class BlockchainInfo extends React.Component {
     try {
       this.setState({ loading: true, error: false });
       const { blockchain } = await getBlockchainInfo();
+      const { block } = await getBlockInfo(blockchain.blockNumber);
       const data = {
-        blockchain,
+        blockchain:  {
+          ...blockchain,
+          block,
+        },
       };
       this.setState({ loading: false, error: false, data });
     } catch (ex) {

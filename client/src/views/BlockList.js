@@ -7,7 +7,7 @@ import {
 import queryString from 'query-string';
 import BlockListComponent from '../components/BlockList';
 import PrevNext from '../components/PrevNext';
-import AutoRefresh from '../components/AutoRefresh';
+// import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
@@ -47,7 +47,7 @@ const BlockListView = ({
   </Grid>
 );
 
-const BlockListViewRefresh = AutoRefresh(BlockListView, BLOCKLIST_REFRESH_TIMEOUT * 1000);
+// const BlockListViewRefresh = AutoRefresh(BlockListView, BLOCKLIST_REFRESH_TIMEOUT * 1000);
 
 function parseParams(props) {
   let { start, count } = queryString.parse(props.location.search);
@@ -119,7 +119,8 @@ class BlockList extends React.Component {
   }
 
   render() {
-    return <BlockListViewRefresh {...this.state} refreshView={this.refreshView} />;
+    // return <BlockListViewRefresh {...this.state} refreshView={this.refreshView} />;
+    return <BlockListView {...this.state} />;
   }
 }
 

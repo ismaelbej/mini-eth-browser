@@ -1,9 +1,29 @@
 version: '3'
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client
+    command: /bin/sh -c "cd /web && yarn install && yarn start"
+    volumes:
+      - ./client:/web
+      - node_modules_web:/web/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - API_PATH=http://app:${API_PORT}
+      - WDS_SOCKET_HOST=127.0.0.1 
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true 
+    depends_on:
+      - app
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      target: back
     command: /bin/sh -c "cd /app && yarn install && ./node_modules/.bin/nodemon --watch src src/index.js"
     volumes:
       - .:/app
@@ -15,3 +35,5 @@ services:
 
 volumes:
   node_modules:
+  node_modules_web:
+  
