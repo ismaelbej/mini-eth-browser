@@ -23,7 +23,7 @@ RUN yarn install
 COPY client/src/ ./src/
 COPY client/public/ ./public/
 
-# RUN yarn build
+RUN yarn build
 
 EXPOSE "3000"
 
