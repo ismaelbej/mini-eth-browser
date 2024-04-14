@@ -2,18 +2,15 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
-import socketIo from 'socket.io';
-import api from './routes/api';
-import contracts from './controllers/Contracts';
-import ethereum from './lib/ethereum';
+import api from './routes/api.js';
 
-export function createApp() {
+export function createApp(web3) {
   const app = express();
 
   app.use(logger('dev'));
   app.use(cors());
 
-  app.use('/api/v1', api);
+  app.use('/api/v1', api(web3));
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
@@ -23,7 +20,6 @@ export function createApp() {
   });
 
   // error handler
-  // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
@@ -37,20 +33,8 @@ export function createApp() {
   return app;
 }
 
-export async function createServer(app, config) {
-  await contracts.initialize(config);
-  const eventEmitter = await ethereum.initialize(config);
+export async function createServer(app, port) {
   const server = http.createServer(app);
-  const io = socketIo(server);
-  io.on('connect', (socket) => {
-    console.log('New client', socket.id);
-    eventEmitter.on('newBlock', (block) => {
-      socket.emit('newBlock', block.number);
-    });
-    socket.on('disconnect', () => {
-      console.log('Client disconnected', socket.id);
-    });
-  });
-  server.listen(config.port || 5000);
+  server.listen(port);
   return server;
 }

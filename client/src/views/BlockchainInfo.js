@@ -1,58 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Blockchain from '../components/BlockchainInfo';
 import {
+  getBlockInfo,
   getBlockchainInfo,
   subscribe,
 } from '../lib/api';
 
 
-class BlockchainInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-        blockchain: {
-          block: {
-            number: 0,
-            timestamp: 0,
-          },
-          gasPrice: 0,
-        }
+function BlockchainInfo () {
+  const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
+  const [ blockchain, setBlockchain ] = useState({
+    block: {
+      number: 0,
+      timestamp: 0,
+    },
+    gasPrice: 0,
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { blockchain } = await getBlockchainInfo();
+        const { block } = await getBlockInfo(blockchain.blockNumber);
+    
+        setBlockchain({
+          ...blockchain,
+          block,
+        });
+        setLoading(false);
+      } catch (ex) {
+        setLoading(false);
+        setError(ex);
       }
-    };
-  }
-
-  componentDidMount() {
-    this.loadData();
-    subscribe('newBlock', () => {
-      this.loadData();
-    });
-  }
-
-  async loadData() {
-    try {
-      this.setState({ loading: true, error: false });
-      const { blockchain } = await getBlockchainInfo();
-      const data = {
-        blockchain,
-      };
-      this.setState({ loading: false, error: false, data });
-    } catch (ex) {
-      this.setState({ loading: false, error: true });
     }
-  }
 
-  render() {
-    const {
-      loading,
-      data: {
-        blockchain,
-      },
-    } = this.state;
-    return (
-      <Blockchain blockchain={blockchain} />
-    );
-  }
+    fetchData();
+  }, []);
+
+  return (
+    <Blockchain blockchain={blockchain} />
+  );
 }
 
 export default BlockchainInfo;

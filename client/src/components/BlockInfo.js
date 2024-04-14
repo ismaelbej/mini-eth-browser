@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Table,
+  TextArea,
 } from 'semantic-ui-react';
 import {
   formatText,
@@ -75,7 +76,9 @@ const BlockInfo = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Extra data:</Table.Cell>
-          <Table.Cell>{`${block.extraData}${block.extraData !== '0x0' ? ` (${formatText(block.extraData)})` : ''}`}</Table.Cell>
+          <Table.Cell>
+            <TextArea rows={6} value={block.extraData} style={{ minWidth: '450px' }} />
+          </Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
