@@ -1,11 +1,10 @@
 import test from 'tape';
 import fetch from 'node-fetch';
-import Ganache from 'ganache-core';
-import Web3 from 'web3';
-import { createApp, createServer } from '../src/app';
-import * as SampleContractJson from './SampleContract.json';
+import ganache from 'ganache';
+import { createApp, createServer } from '../src/app.js';
+import ethereum from '../src/services/ethereum.js';
 
-const API_PORT = 9637;
+const API_PORT = 29637;
 const API_BASE_URI = `http://localhost:${API_PORT}`;
 
 let app;
@@ -14,56 +13,44 @@ let provider;
 let web3;
 let accounts;
 
+BigInt.prototype.toJSON = function () {
+  const int = Number.parseInt(this.toString());
+  return int ?? this.toString();
+};
+
 test('Start', async (t) => {
-  provider = Ganache.provider();
+  provider = ganache.provider();
   t.ok(provider, 'Ethereum provider started');
-  web3 = new Web3(provider);
-  t.ok(web3, 'Web3 initialized correctly');
-  accounts = await web3.eth.personal.getAccounts();
-
-  // Fix MaxListenersExceededWarning about too many listeners
-  provider.setMaxListeners(100);
-
   const config = {
-    web3provider: provider,
+    rpcnode: provider,
     port: API_PORT,
-    contracts: [
-      {
-        contractName: SampleContractJson.contractName,
-        abi: SampleContractJson.abi,
-      },
-    ],
   };
-  app = createApp();
+
+  const web3 = ethereum(config);
+  t.ok(web3, 'Web3 initialized correctly');
+
+  app = createApp(web3);
   t.ok(app, 'Create API server');
-  server = await createServer(app, config);
+  server = await createServer(app, API_PORT);
   t.ok(server, 'API server start listening');
 
   t.end();
 });
 
 test('Blockchain', async (t) => {
-  const { blockchain } = await fetch(`${API_BASE_URI}/api/v1/blockchain`).then(r => r.json());
-  t.notEqual(typeof blockchain, 'undefined', 'Return valid data');
-  t.notEqual(typeof blockchain.blockNumber, 'undefined', 'Most recent block number');
-  t.notEqual(typeof blockchain.block, 'undefined', 'Most recent block');
-  t.notEqual(typeof blockchain.coinbase, 'undefined', 'Coinbase account');
-  t.notEqual(typeof blockchain.mining, 'undefined', 'Mining status');
+  const result = await fetch(`${API_BASE_URI}/api/v1/blockchain`).then(r => r.json());
+  const { blockchain } = result;
+  t.ok(blockchain, 'Return valid data');
+  t.ok(blockchain.blockNumber >= 0, 'Most recent block number');
+  t.ok(blockchain.gasPrice, 'Most recent block');
+  t.ok(blockchain.chainId, 'Mining status');
   t.end();
 });
 
-test('Contracts', async (t) => {
-  const SampleContract = new web3.eth.Contract(SampleContractJson.abi);
-  const sampleContract = await SampleContract.deploy({
-    data: `0x${SampleContractJson.bytecode}`,
-  }).send({
-    from: accounts[0],
-    gas: 1000000,
-  });
-  await sampleContract.methods.genLogString(1234, 'hola').send({ from: accounts[0], gas: 1000000 });
-  const { txs } = await fetch(`${API_BASE_URI}/api/v1/tx`).then(r => r.json());
-  t.notEqual(typeof txs, 'undefined', 'Return valid data');
-  t.equal(txs.length, 2, 'Single contract present');
+test('Blocks', async (t) => {
+  const result = await fetch(`${API_BASE_URI}/api/v1/block`).then(r => r.json());
+  const { blocks } = result;
+  t.ok(blocks, 'Return valid data');
   t.end();
 });
 

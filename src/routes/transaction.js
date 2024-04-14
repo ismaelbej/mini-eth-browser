@@ -1,13 +1,12 @@
 import express from 'express';
-import { getTransactionInfo, listTransactions } from '../controllers/Transactions';
-import { getBlockNumber } from '../lib/ethereum';
-import { parseQueryParams } from '../lib/utils';
+import transactions from '../controllers/transactions.js';
 
 const TX_COUNT = 10;
 
-const router = express.Router();
-
-router.get('/', async (req, res) => {
+const getTransactions = ({
+  listTransactions,
+  getBlockNumber,
+}) => async (req, res) => {
   try {
     let { start, count } = parseQueryParams(req.query);
     if (typeof start === 'undefined') {
@@ -28,11 +27,12 @@ router.get('/', async (req, res) => {
       errors: [err.message],
     });
   }
-});
+};
 
-router.get('/:txid', async (req, res) => {
+const getTransaction = ({ getTransactionInfo }) => async (req, res) => {
   try {
-    const tx = await getTransactionInfo(req.params.txid);
+    const { txid } = req.params;
+    const tx = await getTransactionInfo(txid);
     res.json({
       tx,
     });
@@ -42,6 +42,14 @@ router.get('/:txid', async (req, res) => {
       errors: [err.message],
     });
   }
-});
+};
 
-export default router;
+export default (web3) => {
+  const router = express.Router();
+
+  const { getTransactionInfo } = transactions(web3);
+
+  router.get('/:txid', getTransaction({ getTransactionInfo }));
+
+  return router;
+};

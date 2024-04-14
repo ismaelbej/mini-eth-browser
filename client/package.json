@@ -1,38 +1,42 @@
 {
-  "name": "client",
-  "version": "0.1.0",
+  "name": "mini-eth-browser-client",
+  "version": "0.2.0",
   "private": true,
-  "dependencies": {
-    "bn.js": "^5.1.1",
-    "moment": "^2.24.0",
-    "query-string": "^6.11.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
-    "socket.io-client": "^2.3.0",
-    "unfetch": "^4.1.0"
-  },
+  "main": "src/index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0"
+  "dependencies": {
+    "bn.js": "^5.2.1",
+    "moment": "^2.30.1",
+    "query-string": "^9.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "^5.0.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
+    "unfetch": "^4.2.0"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

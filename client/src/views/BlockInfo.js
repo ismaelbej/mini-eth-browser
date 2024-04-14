@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Header,
   Loader,
 } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
 import BlockInfoComponent from '../components/BlockInfo';
 import PrevNext from '../components/PrevNext';
 import {
@@ -11,77 +12,63 @@ import {
   getBlockInfo,
 } from '../lib/api';
 
-class BlockInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+function BlockInfo () {
+  const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
+  const [ data, setData ] = useState({
+    block: null,
+    hash: null,
+    nextBlock: -1,
+    prevBlock: -1,
+ });
+ const { hash } = useParams();
 
-  componentDidMount() {
-    const { hash } = this.props.match.params;
-    this.loadData(hash);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { hash: prevHash } = prevProps.match.params;
-    const { hash } = this.props.match.params;
-    if (prevHash !== hash) {
-      this.loadData(hash);
-    }
-  }
-
-  async loadData(hash) {
+ useEffect(() => {
+  async function fetchData(hash) {
     try {
-      this.setState({ loading: true, error: false });
       const [{ block }, { blockchain }] = await Promise.all([
         getBlockInfo(hash),
         getBlockchainInfo(),
       ]);
       const nextBlock = block.number > 0 ? block.number - 1 : -1;
       const prevBlock = block.number < blockchain.blockNumber ? block.number + 1 : -1;
-      const data = {
+      setData({
         hash,
         block,
         nextBlock,
         prevBlock,
-      };
-      this.setState({ loading: false, error: false, data });
+      });
+      setLoading(false);
     } catch (ex) {
-      this.setState({ loading: false, error: true });
+      setError(ex);
+      setLoading(false);
     }
   }
 
-  render() {
-    const {
-      loading,
-      data: {
-        block,
-        nextBlock = -1,
-        prevBlock = -1,
-      } = {},
-    } = this.state;
-    return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h1">Block</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            {loading && <Loader active inline size="tiny" />}
-            <PrevNext
-              hasPrev={prevBlock >= 0}
-              prev={`/block/${prevBlock}`}
-              hasNext={nextBlock >= 0}
-              next={`/block/${nextBlock}`}
-            />
-            <BlockInfoComponent block={block} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
-  }
+  fetchData(hash);
+ }, [hash]);
+
+  return (
+    <Grid>
+      <Grid.Row>
+        <Grid.Column>
+          <Header as="h1">Block</Header>
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          {loading && <Loader active inline size="tiny" />}
+          <PrevNext
+            hasPrev={data.prevBlock >= 0}
+            prev={`/block/${data.prevBlock}`}
+            hasNext={data.nextBlock >= 0}
+            next={`/block/${data.nextBlock}`}
+          />
+          <BlockInfoComponent block={data.block} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
 
 export default BlockInfo;

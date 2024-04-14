@@ -1,4 +1,4 @@
 export default {
-  port: 5000,
-  rpcnode: 'ws://localhost:8545',
+  port: process.env.API_PORT || 5000,
+  rpcnode: process.env.RPC_NODE || 'http://localhost:8545',
 };
