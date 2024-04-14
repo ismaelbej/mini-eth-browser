@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { setState, useEffect, useState } from 'react';
 import {
   Grid,
   Header,
 } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
 import AccountComponent from '../components/Account';
 import {
   getAccountInfo,
@@ -19,63 +20,42 @@ const AccountInfo = ({ account }) => (
 );
 
 
-class Account extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      error: false,
-      data: {
-        account: undefined,
-      },
-    };
-  }
+function Account() {
+  const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
+  const [ account, setAccount ] = useState(null);
 
-  componentDidMount() {
-    const { match: { params: { address } } } = this.props;
-    this.loadData(address);
-  }
+  const { address } = useParams();
 
-  componentDidUpdate(prevProps) {
-    const { match: { params: { address: prevAddress } } } = prevProps;
-    const { match: { params: { address } } } = this.props;
-    if (prevAddress !== address) {
-      this.loadData(address);
+  useEffect(() => {
+    async function fetchData(address) {
+      try {
+        const { account } = await getAccountInfo(address);
+        setAccount(account);
+        setLoading(false);
+      } catch (ex) {
+        setLoading(false);
+        setError(ex);
+      }
     }
-  }
 
-  async loadData(address) {
-    try {
-      this.setState({ loading: true, error: false });
-      const { account } = await getAccountInfo(address);
-      const data = { account };
-      this.setState({ loading: false, error: false, data });
-    } catch (err) {
-      this.setState({ loading: false, error: true });
-    }
-  }
+    fetchData(address);
+  }, [ address ]);
 
-  render() {
-    const {
-      data: {
-        account,
-      },
-    } = this.state;
-    return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h1">Account</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <AccountInfo account={account} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
-  }
+  return (
+    <Grid>
+      <Grid.Row>
+        <Grid.Column>
+          <Header as="h1">Account</Header>
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          <AccountInfo account={account} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
 
 export default Account;

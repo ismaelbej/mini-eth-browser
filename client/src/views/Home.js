@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -7,79 +7,69 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import BlockList from '../components/BlockList';
-// import AutoRefresh from '../components/AutoRefresh';
 import {
   getBlockchainInfo,
   getBlockList,
-  subscribe,
 } from '../lib/api';
 
 const HOME_BLOCK_COUNT = 15;
 const HOME_REFRESH_TIMEOUT = 10;
 
-const HomeView = ({ loading, data: { blocks = [] } = {} }) => (
-  <Grid>
-    <Grid.Row>
-      <Grid.Column>
-        <Header as="h1">Home</Header>
-      </Grid.Column>
-    </Grid.Row>
-    <Grid.Row>
-      <Grid.Column>
-        <Header as="h3">Recent blocks</Header>
-        {loading && <Loader active inline size="tiny" />}
-        <Button.Group floated="right">
-          <Button
-            content="More blocks.."
-            as={Link}
-            to="/block"
-          />
-        </Button.Group>
-        <BlockList blocks={blocks} />
-      </Grid.Column>
-    </Grid.Row>
-  </Grid>
-);
+function Home () {
+  const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
+  const [ data, setData ] = useState({
+    blocks: [],
+  });
 
-// const HomeViewRefresh = AutoRefresh(HomeView, HOME_REFRESH_TIMEOUT * 1000);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { blockchain } = await getBlockchainInfo();
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.refreshView = this.refreshView.bind(this);
-  }
+        const start = blockchain.blockNumber >= HOME_BLOCK_COUNT
+          ? blockchain.blockNumber - HOME_BLOCK_COUNT + 1
+          : 0;
 
-  componentDidMount() {
-    this.loadData();
-    subscribe('newBlock', () => {
-      this.loadData();
-    });
-  }
-
-  async loadData() {
-    try {
-      this.setState({ loading: true, error: false });
-      const { blockchain } = await getBlockchainInfo();
-      const { blocks } = (blockchain.blockNumber >= 0) ?
-        await getBlockList(blockchain.blockNumber, HOME_BLOCK_COUNT) : {};
-      const data = {
-        blocks,
-      };
-      this.setState({ loading: false, error: false, data });
-    } catch (ex) {
-      this.setState({ loading: false, error: true });
+        const { blocks } = await getBlockList(start, HOME_BLOCK_COUNT);
+        setData({
+          blocks: blocks.reverse(),
+        });
+        setLoading(false);
+      } catch (ex) {
+        setLoading(false);
+        setError(ex);
+      }
     }
-  }
 
-  refreshView() {
-    this.forceUpdate();
-  }
+    fetchData();
+  }, []);
 
-  render() {
-    // return <HomeViewRefresh {...this.state} refreshView={this.refreshView} />;
-    return <HomeView {...this.state} />;
-  }
+  const { blocks } = data;
+
+  return (
+    <Grid>
+      <Grid.Row>
+        <Grid.Column>
+          <Header as="h1">Home</Header>
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          <Header as="h3">Recent blocks</Header>
+          {loading && <Loader active inline size="tiny" />}
+          <Button.Group floated="right">
+            <Button
+              content="More blocks.."
+              as={Link}
+              to="/block"
+            />
+          </Button.Group>
+          <BlockList blocks={blocks} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
 
 

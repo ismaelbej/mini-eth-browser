@@ -23,7 +23,7 @@ import Contract from './views/Contract';
 const menu = [
   { path: "/", icon: "home", label: "Home" },
   { path: "/block", icon: "cubes", label: "Blocks" },
-  { path: "/tx", icon: "content", label: "Transactions" },
+  // { path: "/tx", icon: "content", label: "Transactions" },
   { path: "/contract", icon: "signup", label: "Contracts" },
 ];
 
@@ -45,7 +45,7 @@ const App = () => (
         <Route exact path="/block" element={<BlockList />} />
         <Route exact path="/block/:hash" element={<BlockInfo />} />
         <Route exact path="/block/:hash/txs" element={<BlockTxList />} />
-        <Route exact path="/tx/" element={<TxList />} />
+        {/* <Route exact path="/tx/" element={<TxList />} /> */}
         <Route exact path="/tx/:hash" element={<TxInfo />} />
         <Route exact path="/account/:address" element={<Account />} />
         <Route path="/contract" element={<Contract />} />

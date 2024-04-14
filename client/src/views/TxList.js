@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Header,
@@ -67,59 +67,32 @@ function parseParams(props) {
   };
 }
 
-class TxList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.refreshView = this.refreshView.bind(this);
-  }
+function TxList () {
 
-  componentDidMount() {
-    const { start, count } = parseParams(this.props);
-    this.loadData(start, count);
-    subscribe('newBlock', () => {
-      const { start, count } = parseParams(this.props);
-      this.loadData(start, count);
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { start: prevStart, count: prevCount } = parseParams(prevProps);
-    const { start, count } = parseParams(this.props);
-    if (prevStart !== start
-      || prevCount !== count) {
-        this.loadData(start, count);
+  useEffect(() => {
+    async function fetchData(reqstart = undefined, reqcount = BLOCK_COUNT) {
+      try {
+        this.setState({ loading: true, error: false });
+        const [{ txs, start, count }, { blockchain }] = await Promise.all([
+          getTransactionList(reqstart, reqcount),
+          getBlockchainInfo(),
+        ]);
+        const data = {
+          start,
+          count,
+          txs,
+          nextBlock: start - count >= 0 ? start - count : -1,
+          prevBlock: start + count <= blockchain.block.number ? start + count : -1,
+        };
+        this.setState({ loading: false, error: false, data });
+      } catch (err) {
+        this.setState({ loading: false, error: true });
+      }
     }
-  }
+  }, []);
 
-  async loadData(reqstart = undefined, reqcount = BLOCK_COUNT) {
-    try {
-      this.setState({ loading: true, error: false });
-      const [{ txs, start, count }, { blockchain }] = await Promise.all([
-        getTransactionList(reqstart, reqcount),
-        getBlockchainInfo(),
-      ]);
-      const data = {
-        start,
-        count,
-        txs,
-        nextBlock: start - count >= 0 ? start - count : -1,
-        prevBlock: start + count <= blockchain.block.number ? start + count : -1,
-      };
-      this.setState({ loading: false, error: false, data });
-    } catch (err) {
-      this.setState({ loading: false, error: true });
-    }
-  }
-
-  refreshView() {
-    this.forceUpdate();
-  }
-
-  render() {
-    // return <TxListViewRefresh {...this.state} refreshView={this.refreshView} />;
-    return <TxListView {...this.state}/>;
-  }
+  // return <TxListViewRefresh {...this.state} refreshView={this.refreshView} />;
+  return <TxListView {...this.state}/>;
 }
 
 export default TxList;

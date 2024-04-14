@@ -4,7 +4,7 @@ import {
   Table,
 } from 'semantic-ui-react';
 import {
-  formatAddress,
+  formatAmount,
   formatHash,
   formatElapsed,
 } from '../utils/formatters';
@@ -19,7 +19,7 @@ const BlockList = (props) => {
           <Table.HeaderCell>Block</Table.HeaderCell>
           <Table.HeaderCell># Trans.</Table.HeaderCell>
           <Table.HeaderCell>Date</Table.HeaderCell>
-          <Table.HeaderCell>Miner</Table.HeaderCell>
+          <Table.HeaderCell>Base fee</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -29,7 +29,7 @@ const BlockList = (props) => {
             <Table.Cell><Link to={`/block/${block.hash}`}>{block.number}</Link></Table.Cell>
             <Table.Cell><Link to={`/block/${block.hash}/txs`}>{block.transactions.length}</Link></Table.Cell>
             <Table.Cell>{formatElapsed(block.timestamp)}</Table.Cell>
-            <Table.Cell><Link to={`/account/${block.miner}`}>{formatAddress(block.miner)}</Link></Table.Cell>
+            <Table.Cell>{formatAmount(block.baseFeePerGas)}</Table.Cell>
           </Table.Row>
         ))}
         {blocks.length === 0 && <Table.Row>

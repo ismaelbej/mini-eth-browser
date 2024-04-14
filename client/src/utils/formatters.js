@@ -18,7 +18,7 @@ export function formatHash(hash, length = HASH_LENGTH) {
 export const formatAddress = formatHash;
 
 export function formatAmount(amountParam) {
-  const amount = new BN(amountParam);
+  const amount = new BN(amountParam.toString());
   const units = [
     'wei',
     'Kwei',
@@ -45,10 +45,11 @@ export function formatText(data, enc = 'utf8') {
   if (data === '0x0' || data === '0x') {
     return '';
   }
-  if (data.startsWith('0x')) {
-    return Buffer.from(data.slice(2), 'hex').toString(enc);
-  }
-  return Buffer.from(data).toString(enc);
+  // if (data.startsWith('0x')) {
+  //   return Buffer.from(data.slice(2), 'hex').toString(enc);
+  // }
+  // return Buffer.from(data).toString(enc);
+  return data;
 }
 
 export default {
