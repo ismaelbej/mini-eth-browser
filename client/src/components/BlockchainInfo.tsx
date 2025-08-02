@@ -10,12 +10,12 @@ import {
   formatElapsed,
   formatAmount,
 } from '../utils/formatters';
-import { useBlockchainData } from '../hooks/useBlockchainData';
+import { useBlockchainQuery } from '../hooks/useBlockchainQuery';
 
-const BlockchainInfo = () => {
-  const { data, loading, error } = useBlockchainData();
+const BlockchainInfo: React.FC = () => {
+  const { data, isLoading, error } = useBlockchainQuery();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Container style={{ marginTop: '1em' }}>
         <Loader active inline size="tiny" />
@@ -60,4 +60,4 @@ const BlockchainInfo = () => {
   );
 };
 
-export default BlockchainInfo;
+export default BlockchainInfo; 

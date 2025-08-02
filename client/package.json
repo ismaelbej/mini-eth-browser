@@ -19,9 +19,16 @@
     "react-scripts": "^5.0.1",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
-    "unfetch": "^4.2.0"
+    "unfetch": "^4.2.0",
+    "@tanstack/react-query": "^5.17.9",
+    "@tanstack/react-query-devtools": "^5.17.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/node": "^20.10.5",
+    "typescript": "^4.9.5"
+  },
   "eslintConfig": {
     "extends": [
       "react-app"
