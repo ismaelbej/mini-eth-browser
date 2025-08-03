@@ -1,0 +1,5 @@
+[33m38c07b6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Node v22 upgrade (#65)
+[33m6d89868[m Feature/update node react dockerize (#58)
+[33ma66cd64[m[33m ([m[1;31morigin/prev-main[m[33m)[m Bump node-fetch from 2.6.0 to 2.6.1
+[33maf1f539[m Bump http-proxy from 1.18.0 to 1.18.1 in /client
+[33m79d6f8f[m Bump decompress from 4.2.0 to 4.2.1

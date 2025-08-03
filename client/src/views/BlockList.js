@@ -8,7 +8,7 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import BlockListComponent from '../components/BlockList';
 import PrevNext from '../components/PrevNext';
-import { useBlockList } from '../hooks/useBlockList';
+import { useBlockListQuery } from '../hooks/useBlockListQuery';
 
 const BlockListView = ({
   prevBlock = -1,
@@ -48,7 +48,7 @@ function BlockList() {
   const [searchParams] = useSearchParams();
   const { start, count } = parseParams(searchParams.get('start'), searchParams.get('count'));
   
-  const { data, loading, error } = useBlockList(start, count);
+  const { data, isLoading: loading, error } = useBlockListQuery(start, count);
 
   if (error) {
     return (
