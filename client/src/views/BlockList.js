@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Grid,
   Header,
   Loader,
+  Icon,
 } from 'semantic-ui-react';
-import { useSearchParams } from 'react-router-dom'
-import queryString from 'query-string';
+import { useSearchParams } from 'react-router-dom';
 import BlockListComponent from '../components/BlockList';
 import PrevNext from '../components/PrevNext';
-// import AutoRefresh from '../components/AutoRefresh';
-import {
-  getBlockchainInfo,
-  getBlockList,
-  subscribe,
-} from '../lib/api';
-
-const BLOCK_COUNT = 20;
-const BLOCKLIST_REFRESH_TIMEOUT = 10;
+import { useBlockList } from '../hooks/useBlockList';
 
 const BlockListView = ({
   prevBlock = -1,
   nextBlock = -1,
-  count = BLOCK_COUNT,
+  count = 20,
   blocks = [],
 }) => (
   <>
@@ -34,8 +26,6 @@ const BlockListView = ({
     <BlockListComponent blocks={blocks} />
   </>
 );
-
-// const BlockListViewRefresh = AutoRefresh(BlockListView, BLOCKLIST_REFRESH_TIMEOUT * 1000);
 
 function parseParams(start, count) {
   if (typeof start === 'string' && start.length > 0) {
@@ -54,71 +44,40 @@ function parseParams(start, count) {
   };
 }
 
-function BlockList () {
-  const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState(null);
-  const [ data, setData ] = useState({
-    prevBlock: -1,
-    nextBlock: -1,
-    count: BLOCK_COUNT,
-    blocks: [],
-  });
-  const [ searchParams, setSearchParams ] = useSearchParams();
+function BlockList() {
+  const [searchParams] = useSearchParams();
+  const { start, count } = parseParams(searchParams.get('start'), searchParams.get('count'));
+  
+  const { data, loading, error } = useBlockList(start, count);
 
-  useEffect(() => {
-    async function fetchData(start, count) {
-      try {
-        const { blockchain } = await getBlockchainInfo();
-
-        if (typeof count != "number") {
-          count = BLOCK_COUNT;
-        }
-
-        if (typeof start != "number") {
-          start = blockchain.blockNumber - count + 1;
-        }
-        if (start < 0) {
-          start = 0;
-        }
-
-        const { blocks } = await getBlockList(start, count);
-
-        const prevBlock = blocks.length > 0 && blocks[0].number >= BLOCK_COUNT ?
-            blocks[0].number - BLOCK_COUNT : -1;
-        const nextBlock = blocks.length > 0 && blocks[blocks.length - 1].number + 1 <= blockchain.blockNumber ?
-            blocks[blocks.length - 1].number + 1 : -1;
-
-        setData({
-          prevBlock,
-          nextBlock,
-          start,
-          count,
-          blocks: blocks.reverse(),
-        });        
-        setLoading(false);
-      } catch (ex) {
-        setLoading(false);
-        setError(ex);
-      }
-    }
-
-    const { start, count } = parseParams(searchParams.get('start'), searchParams.get('count'));
-
-    fetchData(start, count);
-  }, [searchParams]);
+  if (error) {
+    return (
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Header as="h1">Blocks</Header>
+            <div>Error loading blocks: {error.message}</div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    );
+  }
 
   return (
     <Grid>
       <Grid.Row>
         <Grid.Column>
-          <Header as="h1">Blocks</Header>
+          <Header as="h1">
+            <Icon name="cubes" />
+            Blocks
+          </Header>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
           {loading 
             ? <Loader active inline size="tiny" />
-            : <BlockListView {...data}/>}
+            : <BlockListView {...data} />}
         </Grid.Column>
       </Grid.Row>
     </Grid>

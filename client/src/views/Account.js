@@ -1,60 +1,58 @@
-import React, { setState, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Grid,
+  Container,
   Header,
+  Table,
+  Loader,
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
-import AccountComponent from '../components/Account';
 import {
-  getAccountInfo,
-} from '../lib/api';
-
-
-const AccountInfo = ({ account }) => (
-  <AccountComponent
-    address={account ? account.address : '0x'}
-    balance={account ? account.balance : 0}
-    transactionCount={account ? account.transactionCount : 0}
-    isContract={account ? account.isContract : false}
-  />
-);
-
+  formatHash,
+  formatAmount,
+} from '../utils/formatters';
+import { getAccountInfo } from '../lib/api';
 
 function Account() {
-  const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState(null);
-  const [ account, setAccount ] = useState(null);
-
+  const [account, setAccount] = useState(null);
   const { address } = useParams();
 
   useEffect(() => {
-    async function fetchData(address) {
+    async function fetchData() {
       try {
-        const { account } = await getAccountInfo(address);
-        setAccount(account);
-        setLoading(false);
+        const data = await getAccountInfo(address);
+        setAccount(data);
       } catch (ex) {
-        setLoading(false);
-        setError(ex);
+        console.error('Error fetching account:', ex);
       }
     }
 
-    fetchData(address);
-  }, [ address ]);
+    fetchData();
+  }, [address]);
+
+  if (!account) {
+    return (
+      <Container>
+        <Loader active inline size="tiny" />
+      </Container>
+    );
+  }
 
   return (
-    <Grid>
-      <Grid.Row>
-        <Grid.Column>
-          <Header as="h1">Account</Header>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column>
-          <AccountInfo account={account} />
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <Container>
+      <Header as="h2">Account: {formatHash(account.address)}</Header>
+      <Table>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Balance</Table.Cell>
+            <Table.Cell>{formatAmount(account.balance)}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Nonce</Table.Cell>
+            <Table.Cell>{account.nonce}</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </Container>
   );
 }
 

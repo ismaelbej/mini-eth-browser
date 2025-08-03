@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: client
-    command: /bin/sh -c "cd /web && yarn install && yarn start"
+    command: /bin/sh -c "cd /web && npm install && npm start"
     volumes:
       - ./client:/web
       - node_modules_web:/web/node_modules
@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: back
-    command: /bin/sh -c "cd /app && yarn install && ./node_modules/.bin/nodemon --watch src src/index.js"
+    command: /bin/sh -c "cd /app && npm ci && ./node_modules/.bin/nodemon --watch src src/index.js"
     volumes:
       - .:/app
       - node_modules:/app/node_modules

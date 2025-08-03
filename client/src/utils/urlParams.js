@@ -13,7 +13,9 @@ export function writeUrl(url, params = {}) {
   return `${url}${result.length > 0 ? `?${result}` : ''}`;
 }
 
-export default {
+const urlParams = {
   writeParams,
   writeUrl,
 };
+
+export default urlParams;

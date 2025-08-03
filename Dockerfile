@@ -1,10 +1,10 @@
-FROM node:20-alpine as back
+FROM node:22-alpine AS back
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install
+RUN npm ci
 
 COPY src/ ./
 
@@ -12,19 +12,19 @@ EXPOSE "${API_PORT}"
 
 CMD ["node", "src/index.js"]
 
-FROM node:20-alpine as client
+FROM node:22-alpine AS client
 
 WORKDIR /web
 
-COPY client/package.json client/yarn.lock ./
+COPY client/package.json client/package-lock.json ./
 
-RUN yarn install
+RUN npm ci
 
 COPY client/src/ ./src/
 COPY client/public/ ./public/
 
-RUN yarn build
+RUN npm run build
 
 EXPOSE "3000"
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]

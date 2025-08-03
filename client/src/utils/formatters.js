@@ -52,10 +52,12 @@ export function formatText(data, enc = 'utf8') {
   return data;
 }
 
-export default {
+const formatters = {
   formatAddress,
   formatAmount,
   formatHash,
   formatText,
   formatTimestamp,
 };
+
+export default formatters;

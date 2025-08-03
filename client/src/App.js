@@ -9,14 +9,15 @@ import {
   Container,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import { QueryProvider } from './providers/QueryProvider';
+import { BlockchainProvider } from './context/BlockchainContext';
 import Navbar from './components/Navbar';
-import BlockchainInfo from './views/BlockchainInfo';
+import BlockchainInfo from './components/BlockchainInfo';
 import Home from './views/Home';
 import BlockList from './views/BlockList';
 import BlockInfo from './views/BlockInfo';
 import BlockTxList from './views/BlockTxList';
 import TxInfo from './views/TxInfo';
-import TxList from './views/TxList';
 import Account from './views/Account';
 import Contract from './views/Contract';
 
@@ -38,20 +39,24 @@ const Layout = () => (
 );
 
 const App = () => (
-  <Router>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/block" element={<BlockList />} />
-        <Route exact path="/block/:hash" element={<BlockInfo />} />
-        <Route exact path="/block/:hash/txs" element={<BlockTxList />} />
-        {/* <Route exact path="/tx/" element={<TxList />} /> */}
-        <Route exact path="/tx/:hash" element={<TxInfo />} />
-        <Route exact path="/account/:address" element={<Account />} />
-        <Route path="/contract" element={<Contract />} />
-      </Route>
-    </Routes>
-  </Router>
+  <QueryProvider>
+    <BlockchainProvider>
+      <Router>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/block" element={<BlockList />} />
+            <Route path="/block/:hash" element={<BlockInfo />} />
+            <Route path="/block/:hash/txs" element={<BlockTxList />} />
+            {/* <Route path="/tx/" element={<TxList />} /> */}
+            <Route path="/tx/:hash" element={<TxInfo />} />
+            <Route path="/account/:address" element={<Account />} />
+            <Route path="/contract" element={<Contract />} />
+          </Route>
+        </Routes>
+      </Router>
+    </BlockchainProvider>
+  </QueryProvider>
 );
 
-export default App;
+export default App; 
