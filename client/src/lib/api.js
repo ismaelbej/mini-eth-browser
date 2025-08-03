@@ -62,10 +62,12 @@ export function subscribe(name, callback) {
   newBlock.on(name, callback);
 }
 
-export default {
+const api = {
   getBlockchainInfo,
   getBlockInfo,
   getBlockList,
   getTransactionInfo,
   getTransactionList,
 };
+
+export default api;

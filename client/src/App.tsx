@@ -18,7 +18,6 @@ import BlockList from './views/BlockList';
 import BlockInfo from './views/BlockInfo';
 import BlockTxList from './views/BlockTxList';
 import TxInfo from './views/TxInfo';
-import TxList from './views/TxList';
 import Account from './views/Account';
 import Contract from './views/Contract';
 

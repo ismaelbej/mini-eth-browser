@@ -5,7 +5,6 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 import {
-  formatText,
   formatTimestamp,
 } from '../utils/formatters';
 
