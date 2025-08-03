@@ -12,7 +12,7 @@ import {
 } from '../utils/formatters';
 import { useBlockchainQuery } from '../hooks/useBlockchainQuery';
 
-const BlockchainInfo: React.FC = () => {
+const BlockchainInfo = () => {
   const { data, isLoading, error } = useBlockchainQuery();
 
   if (isLoading) {

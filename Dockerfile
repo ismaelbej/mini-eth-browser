@@ -1,4 +1,4 @@
-FROM node:20-alpine as back
+FROM node:22-alpine AS back
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ EXPOSE "${API_PORT}"
 
 CMD ["node", "src/index.js"]
 
-FROM node:20-alpine as client
+FROM node:22-alpine AS client
 
 WORKDIR /web
 
