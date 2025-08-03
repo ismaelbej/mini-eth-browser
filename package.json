@@ -14,13 +14,14 @@
     "express": "^4.19.2",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.0",
+    "swagger-ui-express": "^5.0.1",
     "web3": "^4.7.0"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "ganache": "^7.9.2",
     "node-fetch": "^3.3.2",
     "tap-spec": "^5.0.0",
-    "tape": "^5.7.5",
-    "@types/node": "^22.0.0"
+    "tape": "^5.7.5"
   }
 }

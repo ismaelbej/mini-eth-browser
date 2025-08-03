@@ -2,13 +2,18 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import http from 'http';
+import swaggerUi from 'swagger-ui-express';
 import api from './routes/api.js';
+import { swaggerDocument } from './swagger.js';
 
 export function createApp(web3) {
   const app = express();
 
   app.use(logger('dev'));
   app.use(cors());
+
+  // Swagger UI
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use('/api/v1', api(web3));
 
